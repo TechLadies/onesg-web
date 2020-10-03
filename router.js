@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
-const Dashboard = () => import('./src/components/pages/Dashboard')
-const SignIn = () => import('./src/components/pages/SignIn')
+const Dashboard = () => import('/src/pages/Dashboard.vue')
+const SignIn = () => import('/src/pages/SignIn.vue')
 
 const router = createRouter({
   history: createWebHistory(),
