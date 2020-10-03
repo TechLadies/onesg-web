@@ -1,17 +1,13 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createWebHistory, createRouter } from 'vue-router'
 
-Vue.use(VueRouter)
+const Dashboard = () => import('./src/components/pages/Dashboard')
+const SignIn = () => import('./src/components/pages/SignIn')
 
-const Dashboard = () => import('./components/pages/Dashboard')
-const SignIn = () => import('./components/pages/SignIn')
-
-const router = new VueRouter({
-  mode: 'history',
-  hash: 'hash',
+const router = createRouter({
+  history: createWebHistory(),
   routes: [
-    { path: '/dashboard', component: Dashboard },
-    { path: '/signin', component: SignIn },
+    { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+    { path: '/signin', name: 'SignIn', component: SignIn },
   ],
 })
 

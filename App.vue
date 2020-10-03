@@ -1,5 +1,10 @@
 <template>
-  <HelloWorld msg="onesg-web" />
+  <div>
+    <HelloWorld msg="onesg-web" />
+    <router-link to="/dashboard">Dashboard</router-link>
+    <router-link to="/signin">Sign In</router-link>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
