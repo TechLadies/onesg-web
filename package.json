@@ -1,15 +1,24 @@
 {
-  "name": "aaa",
+  "name": "onesg-web",
   "version": "0.0.0",
   "scripts": {
+    "lint": "eslint . --ext .js,.vue",
     "dev": "vite",
     "build": "vite build"
   },
   "dependencies": {
-    "vue": "^3.0.0-rc.1"
+    "vue": "^3.0.0-rc.1",
+    "vue-router": "^3.4.5",
+    "vuejs": "^3.0.1",
+    "vuex": "^4.0.0-beta.4"
   },
   "devDependencies": {
-    "vite": "^1.0.0-rc.1",
-    "@vue/compiler-sfc": "^3.0.0-rc.1"
+    "@vue/compiler-sfc": "^3.0.0-rc.1",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-vue": "^7.0.0",
+    "prettier": "^2.1.2",
+    "vite": "^1.0.0-rc.1"
   }
 }
