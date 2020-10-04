@@ -1,9 +1,17 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 
-Vue.use(Vuex).store({
-  state: {},
-  actions: {},
-  mutations: {},
-  getters: {},
+const mutations = {
+  login(state, payload) {
+    console.log('login', payload)
+    state.user = payload
+  },
+}
+
+const store = createStore({
+  state: {
+    user: null,
+  },
+  mutations,
 })
+
+export default store
