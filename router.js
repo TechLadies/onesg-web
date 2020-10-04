@@ -8,6 +8,7 @@ const router = createRouter({
   routes: [
     { path: '/dashboard', name: 'Dashboard', component: Dashboard },
     { path: '/signin', name: 'SignIn', component: SignIn },
+    { path: '/:catchAll(.*)', name: 'catchAll', redirect: { name: 'SignIn' } },
   ],
 })
 
