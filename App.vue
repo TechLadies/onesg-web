@@ -29,7 +29,7 @@ export default {
     const storeUser = computed(() => store.state.user)
     onMounted(() => {
       console.log('signIn mounted')
-      store.commit('login', 'defg')
+      // store.commit('login', 'defg')
     })
     return {
       storeUser,

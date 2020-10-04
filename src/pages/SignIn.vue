@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="button is-success" @click="login">Log In</button>
+    <button class="button is-success" @click="login">Log In 1</button>
   </div>
 </template>
 
@@ -10,9 +10,9 @@ export default {
   name: 'SignIn',
   setup() {
     const store = useStore()
-    const login = () => {
-      // console.log(e)
-      store.commit('login', 'zzzz')
+    const login = (e) => {
+      console.log(e)
+      store.dispatch('doLogin', 'zzzz')
     }
     return {
       login,
