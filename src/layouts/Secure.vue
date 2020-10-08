@@ -6,8 +6,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-
-    <h1>Secure</h1>
     <div class="sidebar">
       <a href="#home"
         ><i class="fa fa-fw fa-home"></i><br />
@@ -44,6 +42,41 @@
         Log Out</a
       >
     </div>
+
+    <div class="main">
+      <div class="title">New Case</div>
+
+      <!-- insert tracker -->
+      <br />
+      <br />
+      <div class="instructions">
+        <p>Select or create a new reference.</p>
+        <p>Changes to an existing reference's details will be updated.</p>
+      </div>
+      <br />
+      <div class="form">
+        <div class="inputTitle">Reference Name</div>
+        <input type="text" placeholder="Search or add a reference" />
+
+        <br />
+        <br />
+        <div class="inputTitle">Reference Organisation</div>
+        <input type="text" placeholder="Optional" />
+        <br />
+        <br />
+        <div class="inputTitle">Reference Contact Number</div>
+        <input type="text" placeholder="Optional" />
+        <br />
+        <br />
+        <div class="inputTitle">Reference Email Address</div>
+        <input type="text" placeholder="Optional" />
+        <br />
+        <br />
+        <br />
+        <br />
+      </div>
+    </div>
+
     <router-view></router-view>
   </div>
 </template>
@@ -79,11 +112,6 @@
   background-color: #4caf50; /* Add an active/current color */
 }
 
-.main {
-  margin-left: 100px;
-  padding: 0px 10px;
-}
-
 @media screen and (max-height: 450px) {
   .sidebar {
     padding-top: 15px;
@@ -91,5 +119,32 @@
   .sidebar a {
     font-size: 18px;
   }
+}
+
+.main {
+  text-align: left;
+  padding: 0px 150px 0px;
+}
+
+.title {
+  font-size: 10;
+  font-weight: 600;
+}
+
+p {
+  text-align: center;
+  font-weight: 400;
+  color: black;
+}
+
+.form {
+  margin-left: 300px;
+  font-size: 12;
+}
+
+.inputTitle {
+  text-align: left;
+  font-weight: 400;
+  color: black;
 }
 </style>
