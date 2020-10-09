@@ -7,73 +7,37 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <div class="sidebar">
-      <a href="#home"
-        ><i class="fa fa-fw fa-home"></i><br />
-        Home</a
-      >
-      <br />
-      <a href="#cases"
-        ><i class="fa fa-id-card-o"></i> <br />
-        Cases</a
-      >
-      <a href="#requests"
-        ><i class="fa fa-check"></i> <br />
-        Requests</a
-      >
-      <a href="#new"><i class="fa fa-plus-square"></i> <br />New Case</a>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+      <a href="#home"><i class="fa fa-fw fa-home"></i> Home</a>
+      <a href="#cases"><i class="fa fa-id-card-o"></i> Cases</a>
+      <a href="#requests"><i class="fa fa-check"></i> Requests</a>
+      <a href="#new"><i class="fa fa-plus-square"></i> New Case</a>
 
-      <a href="#accounts"
-        ><i class="fa-user-circle-o"></i> <br />
-        Accounts</a
-      >
-      <a href="#logOut"
-        ><i class="fa fa-sign-out"></i> <br />
-        Log Out</a
-      >
+      <a href="#accounts"><i class="fa-user-circle-o"></i> Accounts</a>
+      <a href="#logOut"><i class="fa fa-sign-out"></i> Log Out</a>
     </div>
 
     <div class="main">
       <div class="title">New Case</div>
 
       <!-- insert tracker -->
-      <br />
-      <br />
+
       <div class="instructions">
         <p>Select or create a new reference.</p>
         <p>Changes to an existing reference's details will be updated.</p>
       </div>
-      <br />
+
       <div class="form">
         <div class="inputTitle">Reference Name</div>
         <input type="text" placeholder="Search or add a reference" />
 
-        <br />
-        <br />
         <div class="inputTitle">Reference Organisation</div>
         <input type="text" placeholder="Optional" />
-        <br />
-        <br />
+
         <div class="inputTitle">Reference Contact Number</div>
         <input type="text" placeholder="Optional" />
-        <br />
-        <br />
+
         <div class="inputTitle">Reference Email Address</div>
         <input type="text" placeholder="Optional" />
-        <br />
-        <br />
-        <br />
-        <br />
       </div>
     </div>
 
@@ -84,13 +48,13 @@
 <style>
 .sidebar {
   height: 100%;
-  width: 95 px;
+  width: 10%;
   position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
   background-color: #08134b;
-  overflow-x: hidden;
+  overflow-x: scroll;
   padding-top: 16px;
 }
 
@@ -127,6 +91,9 @@
 }
 
 .title {
+  padding-left: 10px;
+  padding-bottom: 20px;
+  position: relative;
   font-size: 10;
   font-weight: 600;
 }
@@ -138,12 +105,14 @@ p {
 }
 
 .form {
-  margin-left: 300px;
+  text-align: center;
+
   font-size: 12;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .inputTitle {
-  text-align: left;
   font-weight: 400;
   color: black;
 }
