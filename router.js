@@ -9,6 +9,10 @@ const authGuard = (to, from, next) => {
   } else if (!loggedIn && requiresAuth) {
     next('/signin')
   } else if (loggedIn && !requiresAuth) {
+    //renu
+    next('/login')
+  } else if (loggedIn && requiresAuth) {
+    //renu ! removed
     next('/dashboard')
   } else {
     // should not get here
@@ -32,6 +36,13 @@ const router = createRouter({
       component: () => import('/src/pages/SignIn.vue'),
       beforeEnter: authGuard,
       meta: { requiresAuth: false, layout: 'layout-public' },
+    },
+    {
+      path: '/login',
+      name: 'LogIn',
+      component: () => import('/src/pages/LogIn.vue'),
+      beforeEnter: authGuard,
+      meta: { requiresAuth: false, layout: 'layout-public' }, // renu
     },
     { path: '/:catchAll(.*)', name: 'catchAll', redirect: { name: 'SignIn' } },
   ],
