@@ -7,45 +7,38 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <div class="sidebar">
-      <a href="#home"><i class="fa fa-fw fa-home"></i> Home</a>
-      <a href="#cases"><i class="fa fa-id-card-o"></i> Cases</a>
-      <a href="#requests"><i class="fa fa-check"></i> Requests</a>
-      <a href="#new"><i class="fa fa-plus-square"></i> New Case</a>
+      <a href="#home"
+        ><i class="fa fa-fw fa-home"></i>
+        <div>Home</div></a
+      >
+      <a href="#cases"
+        ><i class="fa fa-id-card-o"></i>
+        <div>Cases</div></a
+      >
+      <a href="#requests"
+        ><i class="fa fa-check"></i>
+        <div>Requests</div></a
+      >
+      <a href="#new"
+        ><i class="fa fa-plus-square"></i>
+        <div>New Case</div></a
+      >
 
-      <a href="#accounts"><i class="fa-user-circle-o"></i> Accounts</a>
-      <a href="#logOut"><i class="fa fa-sign-out"></i> Log Out</a>
-    </div>
-
-    <div class="main">
-      <div class="title">New Case</div>
-
-      <!-- insert tracker -->
-
-      <div class="instructions">
-        <p>Select or create a new reference.</p>
-        <p>Changes to an existing reference's details will be updated.</p>
-      </div>
-
-      <div class="form">
-        <div class="inputTitle">Reference Name</div>
-        <input type="text" placeholder="Search or add a reference" />
-
-        <div class="inputTitle">Reference Organisation</div>
-        <input type="text" placeholder="Optional" />
-
-        <div class="inputTitle">Reference Contact Number</div>
-        <input type="text" placeholder="Optional" />
-
-        <div class="inputTitle">Reference Email Address</div>
-        <input type="text" placeholder="Optional" />
-      </div>
+      <a href="#accounts"
+        ><i class="fa-user-circle-o"></i>
+        <div>Accounts</div></a
+      >
+      <a href="#logOut"
+        ><i class="fa fa-sign-out"></i>
+        <div>Log Out</div></a
+      >
     </div>
 
     <router-view></router-view>
   </div>
 </template>
 
-<style>
+<style scoped>
 .sidebar {
   height: 100%;
   width: 10%;
@@ -86,12 +79,13 @@
 }
 
 .main {
+  margin-left: 10%;
+  margin-right: 10%;
   text-align: left;
-  padding: 0px 150px 0px;
+  padding: 0px 0px 0px 20px;
 }
 
 .title {
-  padding-left: 10px;
   padding-bottom: 20px;
   position: relative;
   font-size: 10;
@@ -104,9 +98,13 @@ p {
   color: black;
 }
 
-.form {
+.center {
+  width: 50%;
   text-align: center;
+}
 
+.form {
+  text-align: left;
   font-size: 12;
   padding-top: 30px;
   padding-bottom: 30px;

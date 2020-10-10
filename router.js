@@ -9,7 +9,7 @@ const authGuard = (to, from, next) => {
   } else if (!loggedIn && requiresAuth) {
     next('/signin')
   } else if (loggedIn && !requiresAuth) {
-    next('/dashboard')
+    next('/case')
   } else {
     // should not get here
     console.log(loggedIn, requiresAuth)
@@ -20,9 +20,9 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/dashboard',
-      name: 'Dashboard',
-      component: () => import('/src/pages/Dashboard.vue'),
+      path: '/case',
+      name: 'Case',
+      component: () => import('/src/pages/Case.vue'),
       beforeEnter: authGuard,
       meta: { requiresAuth: true, layout: 'layout-secure' },
     },
