@@ -1,52 +1,89 @@
-<template>  
-  <div id="login" class="container"> 
-    <h1>Email ID</h1>
-    <p>
-      <input
-        type="text"
-        name="emailId"
-        v-model="input.emailId"
-        placeholder="Email id"
-      />
-    </p>
-    <h1>Password</h1>
-    <p>
-      <input
-        type="password"
-        name="password"
-        v-model="input.password"
-        placeholder="Password"
-      />
-    </p>    
-    <button class="button is-link" v-on:click="login()">Login</button>
+<template>
+  <div class="container">
+    <div class="sidebar"></div>
+    <div class="image">
+      <img src="../images/welcome.jpg" />
+    </div>
+    <div class="form">
+      <div class="inputField">
+        <div class="inputTitle">Email ID</div>
+        <input class="input is-success" type="text" placeholder="Email ID" />
+      </div>
+
+      <div class="inputField">
+        <div class="inputTitle">Password</div>
+        <input class="input is-success" type="text" placeholder="Password" />
+      </div>
+
+      <div class="inputButton">
+        <button class="button is-block is-link is-focused is-fullwidth">
+          Login
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
-
 <script>
+import { useStore } from 'vuex'
 export default {
-  name: 'Login',
-  data() {
-    return {
-      input: {
-        username: '',
-        password: '',
-      },
+  name: 'login',
+  setup() {
+    const store = useStore()
+    const login = (e) => {
+      console.log(e)
+      store.dispatch('doLogin', 'zzzz')
     }
-  },
-  methods: {
-    login() {},
+    return {
+      login,
+    }
   },
 }
 </script>
 
 <style scoped>
-#login {
-  width: 500px;
-  border: 1px solid #cccccc;
-  background-color: #ffffff;
-  margin: auto;
-  margin-top: 200px;
-  padding: 20px;
+.form {
+  text-align: left;
+  font-size: 12;
+  padding-top: 300px;
+  padding-bottom: 150px;
+}
+
+.inputField {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.inputTitle {
+  font-weight: 400;
+  color: black;
+}
+
+.inputButton {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  padding-top: 100px;
+  width: 270px;
+  height: 300px;
+  margin: right;
+}
+
+.sidebar {
+  height: 100%;
+  width: 100px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #08134b;
+  padding-top: 16px;
 }
 </style>
