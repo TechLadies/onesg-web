@@ -6,8 +6,8 @@
 
         <div v-if="stage === 0">
           <div class="col-xs-12 col-md-8 offset-md-2 block border">
-            <div class="wrapper-progressBar">
-              <ul class="progressBar">
+            <div class="wrapper-progress-bar">
+              <ul class="progress-bar">
                 <li class="active">Beneficiary</li>
                 <li class="before">Reference</li>
                 <li>Case Details</li>
@@ -99,7 +99,7 @@
 
         <div class="row" v-if="stage === 1">
           <div class="col-xs-12 col-md-8 offset-md-2 block border">
-            <div class="wrapper-progressBar">
+            <div class="wrapper-progress-bar">
               <ul class="progress-bar">
                 <li class="active">Beneficiary</li>
                 <li class="active">Reference</li>
@@ -168,8 +168,8 @@
 
         <div v-if="stage === 2">
           <div class="col-xs-12 col-md-8 offset-md-2 block border">
-            <div class="wrapper-progressBar">
-              <ul class="progressBar">
+            <div class="wrapper-progress-bar">
+              <ul class="progress-bar">
                 <li class="active">Beneficiary</li>
                 <li class="active">Reference</li>
                 <li class="active">Case Details</li>
@@ -447,7 +447,7 @@ export default {
   font-weight: 600;
 }
 
-.wrapper-progressBar {
+.wrapper-progress-bar {
   width: 100%;
 }
 
@@ -488,7 +488,7 @@ export default {
   z-index: -1;
 }
 
-.progressBar li:first-child:after {
+.progress-bar li:first-child:after {
   content: none;
 }
 
