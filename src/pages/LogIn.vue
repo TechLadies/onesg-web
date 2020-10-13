@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="sidebar"></div>
+    <!-- <div class="sidebar"></div> -->
     <div class="image">
       <img src="../images/welcome.jpg" />
     </div>
@@ -76,7 +76,7 @@ export default {
   margin: right;
 }
 
-.sidebar {
+/* .sidebar {
   height: 100%;
   width: 100px;
   position: fixed;
@@ -85,5 +85,5 @@ export default {
   left: 0;
   background-color: #08134b;
   padding-top: 16px;
-}
+} */
 </style>
