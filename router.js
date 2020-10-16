@@ -33,6 +33,13 @@ const router = createRouter({
       beforeEnter: authGuard,
       meta: { requiresAuth: false, layout: 'layout-public' },
     },
+    {
+      path: '/requestsAll',
+      name: 'RequestsAll',
+      component: () => import('/src/pages/Requests(All).vue'),
+      beforeEnter: authGuard,
+      meta: { requiresAuth: false, layout: 'layout-secure' },
+    },
     { path: '/:catchAll(.*)', name: 'catchAll', redirect: { name: 'SignIn' } },
   ],
 })
