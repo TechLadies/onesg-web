@@ -2,7 +2,7 @@
   <div class="container">
     <!-- <div class="sidebar"></div> -->
     <div class="image">
-      <img src="../images/welcome.jpg" />
+      <img src="../images/Group_116.png" />
     </div>
     <div class="form">
       <div class="inputField">
@@ -70,9 +70,9 @@ export default {
 }
 
 .image {
-  padding-top: 100px;
-  width: 270px;
-  height: 300px;
+  padding-top: 50px;
+  width: 240px;
+  height: 180px;
   margin: right;
 }
 
