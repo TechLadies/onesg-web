@@ -6,6 +6,8 @@
 
 <script>
 import { useStore } from 'vuex'
+import { onMounted } from 'vue'
+
 export default {
   name: 'SignIn',
   setup() {
@@ -14,6 +16,9 @@ export default {
       console.log(e)
       store.dispatch('doLogin', 'zzzz')
     }
+    onMounted(() => {
+      console.log('Signin is mounted!')
+    })
     return {
       login,
     }

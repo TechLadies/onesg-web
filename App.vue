@@ -1,13 +1,5 @@
 <template>
   <component :is="$route.meta.layout || 'layout-public'"></component>
-  <!-- 
-  <div>
-    <HelloWorld msg="onesg-web" />
-    <router-link to="/dashboard">Dashboard {{ storeUser }} </router-link>
-    <router-link to="/signin">Sign In</router-link>
-    <router-view></router-view>
-  </div>
-  -->
 </template>
 
 <script>

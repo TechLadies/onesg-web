@@ -7,9 +7,9 @@ const authGuard = (to, from, next) => {
   if (loggedIn === requiresAuth) {
     next()
   } else if (!loggedIn && requiresAuth) {
-    next('/signin')
+    next('/login')
   } else if (loggedIn && !requiresAuth) {
-    next('/dashboard')
+    next('/case')
   } else {
     // should not get here
     console.log(loggedIn, requiresAuth)
@@ -20,9 +20,9 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/dashboard',
-      name: 'Dashboard',
-      component: () => import('/src/pages/Dashboard.vue'),
+      path: '/case',
+      name: 'Case',
+      component: () => import('/src/pages/Case.vue'),
       beforeEnter: authGuard,
       meta: { requiresAuth: true, layout: 'layout-secure' },
     },
@@ -33,7 +33,14 @@ const router = createRouter({
       beforeEnter: authGuard,
       meta: { requiresAuth: false, layout: 'layout-public' },
     },
-    { path: '/:catchAll(.*)', name: 'catchAll', redirect: { name: 'SignIn' } },
+    {
+      path: '/login',
+      name: 'LogIn',
+      component: () => import('/src/pages/LogIn.vue'),
+      beforeEnter: authGuard,
+      meta: { requiresAuth: false, layout: 'layout-public' }, // renu
+    },
+    { path: '/:catchAll(.*)', name: 'catchAll', redirect: { name: 'LogIn' } },
   ],
 })
 
