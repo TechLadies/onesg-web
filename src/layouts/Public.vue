@@ -4,7 +4,6 @@
     <div class="sidebar">
       <div class="one">ONE</div>
       <div class="singapore">SINGAPORE</div>
-      
     </div>
     <router-view></router-view>
   </div>
@@ -30,7 +29,7 @@
   letter-spacing: -0.04em;
 
   /* White */
-  color: #FFFFFF;
+  color: #ffffff;
 }
 .singapore {
   position: absolute;
@@ -52,7 +51,7 @@
 
   /* White */
 
-  color: #FFFFFF;
+  color: #ffffff;
 }
 .sidebar {
   height: 100%;
@@ -63,5 +62,5 @@
   left: 0;
   background-color: #08134b;
   padding-top: 16px;
-} 
+}
 </style>

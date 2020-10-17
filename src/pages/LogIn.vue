@@ -26,6 +26,7 @@
 
 <script>
 import { useStore } from 'vuex'
+
 export default {
   name: 'login',
   setup() {
