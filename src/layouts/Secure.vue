@@ -28,7 +28,7 @@
         ><i class="fa fa-user-circle-o"></i>
         <div>Accounts</div></a
       >
-      <a href="#logOut"
+      <a href="#" @click="logout"
         ><i class="fa fa-sign-out"></i>
         <div>Log Out</div></a
       >
@@ -37,6 +37,30 @@
     <router-view></router-view>
   </div>
 </template>
+<script>
+import { useStore } from 'vuex'
+import { onMounted } from 'vue'
+
+export default {
+  name: 'Secure',
+  setup() {
+    const store = useStore()
+    const logout = (e) => {
+      console.log(e)
+      store.dispatch('doLogin', null)
+    }
+    onMounted(async () => {
+      const res = await fetch('https://randomuser.me/api/')
+      const data = await res.json()
+      console.log(data)
+      console.log('Secure is mounted!')
+    })
+    return {
+      logout,
+    }
+  },
+}
+</script>
 
 <style scoped>
 .sidebar {
