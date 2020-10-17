@@ -25,7 +25,7 @@
       >
 
       <a href="#accounts"
-        ><i class="fa-user-circle-o"></i>
+        ><i class="fa fa-user-circle-o"></i>
         <div>Accounts</div></a
       >
       <a href="#logOut"

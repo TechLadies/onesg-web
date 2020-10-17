@@ -16,7 +16,10 @@
       </div>
 
       <div class="inputButton">
-        <button class="button is-block is-link is-focused is-fullwidth">
+        <button
+          @click="login"
+          class="button is-block is-link is-focused is-fullwidth"
+        >
           Login
         </button>
       </div>

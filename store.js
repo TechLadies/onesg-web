@@ -13,11 +13,10 @@ const actions = {
     console.log(payload)
     if (payload) {
       commit('login', payload)
-      // await router.push('/dashboard')  // renu
-      await router.push('/login') // renu
+      await router.push('/case')
     } else {
       commit('login', null)
-      await router.push('/signin')
+      await router.push('/login')
     }
   },
 }
