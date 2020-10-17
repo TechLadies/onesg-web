@@ -16,7 +16,7 @@ const actions = {
       await router.push('/case')
     } else {
       commit('login', null)
-      await router.push('/signin')
+      await router.push('/login')
     }
   },
 }
