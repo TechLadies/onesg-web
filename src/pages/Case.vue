@@ -25,10 +25,34 @@
               <div class="input-field">
                 <div class="input-title">Name</div>
                 <input
-                  class="input is-success"
+                  class="input-autocomplete is-success"
+                  v-click-outside="onClickOutside"
                   type="text"
                   placeholder="Search or add a beneficiary"
+                  v-model="search"
+                  @input="onChange"
+                  @keydown.down="onArrowDown"
+                  @keydown.up="onArrowUp"
+                  @keydown.enter="onEnter"
                 />
+                <ul
+                  v-show="isOpen"
+                  class="autocomplete-beneficiaries"
+                  id="autocomplete-beneficiaries"
+                >
+                  <li class="loading" v-if="isLoading">Loading results...</li>
+
+                  <li
+                    v-else
+                    v-for="(beneficiary, i) in beneficiaries"
+                    :key="i"
+                    @click="setBeneficiary(beneficiary)"
+                    class="autocomplete-beneficiary"
+                    :class="{ 'is-active': i === arrowCounter }"
+                  >
+                    {{ beneficiary }}
+                  </li>
+                </ul>
               </div>
 
               <div class="input-field">
@@ -415,8 +439,106 @@
 <script>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import vClickOutside from 'v-click-outside'
+
 export default {
   name: 'Case',
+  directives: {
+    clickOutside: vClickOutside.directive,
+  },
+  data() {
+    return {
+      items: [
+        'Angular',
+        'Angular 2',
+        'Aurelia',
+        'Backbone',
+        'Ember',
+        'jQuery',
+        'Meteor',
+        'Node.js',
+        'Polymer',
+        'React',
+        'RxJS',
+        'Vue.js',
+      ],
+      search: '',
+      beneficiaries: [],
+      isOpen: false,
+      isLoading: false,
+      arrowCounter: -1,
+    }
+  },
+  props: {
+    data: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
+    isAsync: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  methods: {
+    onClickOutside(event) {
+      console.log('Clicked outside. Event: ', event)
+    },
+    onChange() {
+      this.$emit('input', this.search)
+      if (this.isAsync) {
+        this.isLoading = true
+      } else {
+        this.filterBeneficiaries()
+        this.isOpen = true
+      }
+    },
+    filterBeneficiaries() {
+      this.beneficiaries = this.items.filter(
+        (item) => item.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+      )
+    },
+    setBeneficiary(beneficiary) {
+      this.search = beneficiary
+      this.isOpen = false
+    },
+    onArrowDown() {
+      if (this.arrowCounter < this.beneficiaries.length) {
+        this.arrowCounter = this.arrowCounter + 1
+      }
+    },
+    onArrowUp() {
+      if (this.arrowCounter > 0) {
+        this.arrowCounter = this.arrowCounter - 1
+      }
+    },
+    onEnter() {
+      this.search = this.beneficiaries[this.arrowCounter]
+      this.isOpen = false
+      this.arrowCounter = -1
+    },
+    // close autocomplete
+    //    handleClickOutside(evt) {
+    //    if (!this.$el.contains(evt)) {
+    //    this.isOpen = false
+    //  this.arrowCounter = -1
+    // }
+    // },
+  },
+  watch: {
+    items: function (value, oldValue) {
+      if (this.isAsync) {
+        this.beneficiaries = value
+        this.isOpen = true
+        this.isLoading = false
+      }
+      if (value.length != oldValue.length) {
+        this.beneficiaries = value
+        this.isLoading = false
+      }
+    },
+  },
   setup() {
     const store = useStore()
     const login = (e) => {
@@ -429,6 +551,12 @@ export default {
       stage,
     }
   },
+  // mounted() {
+  // document.addEventListener('click', this.handleClickOutside)
+  // },
+  // destroyed() {
+  // document.removeEventListener('click', this.handleClickOutside)
+  //},
 }
 </script>
 
@@ -443,7 +571,7 @@ export default {
 .title {
   padding-bottom: 20px;
   position: relative;
-  font-size: 10;
+  font-size: 24px;
   font-weight: 600;
 }
 
@@ -510,6 +638,7 @@ export default {
 }
 
 p {
+  font-size: 14px;
   text-align: center;
   font-weight: 400;
   color: black;
@@ -559,5 +688,41 @@ p {
   margin: auto;
   padding-top: 30px;
   padding-bottom: 50px;
+}
+
+.input-autocomplete {
+  position: relative;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.autocomplete-beneficiaries {
+  padding: 0;
+  margin-left: 0;
+  border: 1px solid #08134b;
+  height: 120px;
+  overflow: auto;
+}
+
+.autocomplete-beneficiary {
+  padding-left: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  list-style: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.autocomplete-beneficiary:hover {
+  background-color: #08134b;
+  color: white;
+}
+.autocomplete-beneficiary.is-active,
+.autocomplete-beneficiary:hover {
+  background-color: #08134b;
+  color: white;
 }
 </style>

@@ -9,28 +9,28 @@
     <div class="sidebar">
       <a href="#home"
         ><i class="fa fa-fw fa-home"></i>
-        <div>Home</div></a
+        <span><div class="heading">Home</div></span></a
       >
       <a href="#cases"
         ><i class="fa fa-id-card-o"></i>
-        <div>Cases</div></a
+        <span><div class="heading">Cases</div></span></a
       >
       <a href="#requests"
         ><i class="fa fa-check"></i>
-        <div>Requests</div></a
+        <span><div class="heading">Requests</div></span></a
       >
       <a href="#new"
         ><i class="fa fa-plus-square"></i>
-        <div>New Case</div></a
+        <span><div class="heading">New Case</div></span></a
       >
 
       <a href="#accounts"
         ><i class="fa fa-user-circle-o"></i>
-        <div>Accounts</div></a
+        <span><div class="heading">Account</div></span></a
       >
       <a href="#" @click="logout"
         ><i class="fa fa-sign-out"></i>
-        <div>Log Out</div></a
+        <span><div class="heading">Log Out</div></span></a
       >
     </div>
 
@@ -65,7 +65,7 @@ export default {
 <style scoped>
 .sidebar {
   height: 100%;
-  width: 10%;
+  width: 7%;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -76,7 +76,7 @@ export default {
 }
 
 .sidebar a {
-  padding: 6px 8px 6px 16px;
+  padding: 8px 8px 8px 8px;
   text-decoration: none;
   font-size: 14 px;
   color: white;
@@ -91,6 +91,12 @@ export default {
 
 .active {
   background-color: #4caf50; /* Add an active/current color */
+}
+
+@media (max-width: 1000px) {
+  .heading {
+    display: none;
+  }
 }
 
 @media screen and (max-height: 450px) {
