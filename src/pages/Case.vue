@@ -26,7 +26,6 @@
                 <div class="input-title">Name</div>
                 <input
                   class="input-autocomplete is-success"
-                  v-click-outside="onClickOutside"
                   type="text"
                   placeholder="Search or add a beneficiary"
                   v-model="search"
@@ -439,13 +438,9 @@
 <script>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
-import vClickOutside from 'v-click-outside'
 
 export default {
   name: 'Case',
-  directives: {
-    clickOutside: vClickOutside.directive,
-  },
   data() {
     return {
       items: [
