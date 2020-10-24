@@ -1,27 +1,29 @@
 <template>
-  <div class="container">
-    <!-- <div class="sidebar"></div> -->
-    <div class="image">
-      <img src="../images/Group_116.png" />
-    </div>
-    <div class="form">
-      <div class="input-Field">
-        <div class="input-title">Email ID</div>
-        <input class="input is-success" type="text" placeholder="Email ID" />
+  <div>
+    <Autocomplete />
+    <div class="container">
+      <div class="image">
+        <img src="../images/Group_116.png" />
       </div>
+      <div class="form">
+        <div class="input-Field">
+          <div class="input-title">Email ID</div>
+          <input class="input is-success" type="text" placeholder="Email ID" />
+        </div>
 
-      <div class="input-field">
-        <div class="input-title">Password</div>
-        <input class="input is-success" type="text" placeholder="Password" />
-      </div>
+        <div class="input-field">
+          <div class="input-title">Password</div>
+          <input class="input is-success" type="text" placeholder="Password" />
+        </div>
 
-      <div class="input-button">
-        <button
-          @click="login"
-          class="button is-block is-link is-focused is-fullwidth"
-        >
-          Log In
-        </button>
+        <div class="input-button">
+          <button
+            @click="login"
+            class="button is-block is-link is-focused is-fullwidth"
+          >
+            Log In
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -1,3 +1,5 @@
+// stores your state e.g. user
+
 import { createStore } from 'vuex'
 import router from './router.js'
 

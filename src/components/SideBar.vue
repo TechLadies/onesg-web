@@ -1,31 +1,44 @@
 <template>
-  <div>
-    <side-bar />
-    <router-view></router-view>
+  <div class="sidebar">
+    <a href="#home"
+      ><i class="fa fa-fw fa-home"></i>
+      <span><div class="heading">Home</div></span></a
+    >
+    <a href="#cases"
+      ><i class="fa fa-id-card-o"></i>
+      <span><div class="heading">Cases</div></span></a
+    >
+    <a href="#requests"
+      ><i class="fa fa-check"></i>
+      <span><div class="heading">Requests</div></span></a
+    >
+    <a href="#new"
+      ><i class="fa fa-plus-square"></i>
+      <span><div class="heading">New Case</div></span></a
+    >
+
+    <a href="#accounts"
+      ><i class="fa fa-user-circle-o"></i>
+      <span><div class="heading">Account</div></span></a
+    >
+    <a href="#" @click="logout"
+      ><i class="fa fa-sign-out"></i>
+      <span><div class="heading">Log Out</div></span></a
+    >
   </div>
 </template>
+
 <script>
 import { useStore } from 'vuex'
-import { onMounted } from 'vue'
-import SideBar from '../components/SideBar.vue'
 
 export default {
-  name: 'Secure',
-  components: {
-    SideBar,
-  },
+  name: 'SideBar',
   setup() {
     const store = useStore()
     const logout = (e) => {
       console.log(e)
       store.dispatch('doLogin', null)
     }
-    onMounted(async () => {
-      const res = await fetch('https://randomuser.me/api/')
-      const data = await res.json()
-      console.log(data)
-      console.log('Secure is mounted!')
-    })
     return {
       logout,
     }

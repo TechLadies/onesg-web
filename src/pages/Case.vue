@@ -477,9 +477,6 @@ export default {
     },
   },
   methods: {
-    onClickOutside(event) {
-      console.log('Clicked outside. Event: ', event)
-    },
     onChange() {
       this.$emit('input', this.search)
       if (this.isAsync) {
@@ -513,13 +510,6 @@ export default {
       this.isOpen = false
       this.arrowCounter = -1
     },
-    // close autocomplete
-    //    handleClickOutside(evt) {
-    //    if (!this.$el.contains(evt)) {
-    //    this.isOpen = false
-    //  this.arrowCounter = -1
-    // }
-    // },
   },
   watch: {
     items: function (value, oldValue) {
@@ -546,12 +536,6 @@ export default {
       stage,
     }
   },
-  // mounted() {
-  // document.addEventListener('click', this.handleClickOutside)
-  // },
-  // destroyed() {
-  // document.removeEventListener('click', this.handleClickOutside)
-  //},
 }
 </script>
 
