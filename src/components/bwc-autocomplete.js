@@ -1,9 +1,14 @@
 /*
 Usage with (VueJS):
-- :items: list items, string, comma seperated
+- :items: list items, string, comma separated
 - @search: emitted event for parent to handle
 - v-model: text in box
-<bwc-autocomplete required :items="items" v-model="ac" @search="(e) => autoComplete(e)"></bwc-autocomplete>
+
+<bwc-autocomplete required 
+:items="items" 
+v-model="ac" 
+@search="(e) => autoComplete(e)">
+</bwc-autocomplete>
 const autoComplete = (e) => {
   const result = []
   for (let i = 0; i < e.detail.length + 10; i++) result.push('aa' + i)
@@ -12,7 +17,7 @@ const autoComplete = (e) => {
 */
 const template = document.createElement('template')
 template.innerHTML = `
-<input class="input" type="text" id="ajax" list="json-datalist" placeholder="e.g. datalist">
+<input class="input" type="text" id="ajax" list="json-datalist" placeholder="Search or add a beneficiary.">
 <datalist id="json-datalist"></datalist>
 `
 class AutoComplete extends HTMLElement {

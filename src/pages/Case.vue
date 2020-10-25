@@ -24,34 +24,13 @@
             <div class="form">
               <div class="input-field">
                 <div class="input-title">Name</div>
-                <input
-                  class="input-autocomplete is-success"
-                  type="text"
-                  placeholder="Search or add a beneficiary"
-                  v-model="search"
-                  @input="onChange"
-                  @keydown.down="onArrowDown"
-                  @keydown.up="onArrowUp"
-                  @keydown.enter="onEnter"
-                />
-                <ul
-                  v-show="isOpen"
-                  class="autocomplete-beneficiaries"
-                  id="autocomplete-beneficiaries"
+                <bwc-autocomplete
+                  required
+                  :items="items"
+                  v-model="ac"
+                  @search="(e) => autoComplete(e)"
                 >
-                  <li class="loading" v-if="isLoading">Loading results...</li>
-
-                  <li
-                    v-else
-                    v-for="(beneficiary, i) in beneficiaries"
-                    :key="i"
-                    @click="setBeneficiary(beneficiary)"
-                    class="autocomplete-beneficiary"
-                    :class="{ 'is-active': i === arrowCounter }"
-                  >
-                    {{ beneficiary }}
-                  </li>
-                </ul>
+                </bwc-autocomplete>
               </div>
 
               <div class="input-field">
@@ -457,74 +436,17 @@ export default {
         'RxJS',
         'Vue.js',
       ],
-      search: '',
-      beneficiaries: [],
-      isOpen: false,
-      isLoading: false,
-      arrowCounter: -1,
     }
   },
-  props: {
-    data: {
-      type: Array,
-      required: false,
-      default: () => [],
-    },
-    isAsync: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-  methods: {
-    onChange() {
-      this.$emit('input', this.search)
-      if (this.isAsync) {
-        this.isLoading = true
-      } else {
-        this.filterBeneficiaries()
-        this.isOpen = true
-      }
-    },
-    filterBeneficiaries() {
-      this.beneficiaries = this.items.filter(
-        (item) => item.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-      )
-    },
-    setBeneficiary(beneficiary) {
-      this.search = beneficiary
-      this.isOpen = false
-    },
-    onArrowDown() {
-      if (this.arrowCounter < this.beneficiaries.length) {
-        this.arrowCounter = this.arrowCounter + 1
-      }
-    },
-    onArrowUp() {
-      if (this.arrowCounter > 0) {
-        this.arrowCounter = this.arrowCounter - 1
-      }
-    },
-    onEnter() {
-      this.search = this.beneficiaries[this.arrowCounter]
-      this.isOpen = false
-      this.arrowCounter = -1
-    },
-  },
-  watch: {
-    items: function (value, oldValue) {
-      if (this.isAsync) {
-        this.beneficiaries = value
-        this.isOpen = true
-        this.isLoading = false
-      }
-      if (value.length != oldValue.length) {
-        this.beneficiaries = value
-        this.isLoading = false
-      }
-    },
-  },
   setup() {
+    const beneficiary = ref(0)
+    const items = ref([])
+
+    const autoComplete = (e) => {
+      const result = []
+      for (let i = 0; i < e.detail.length + 10; i++) result.push('aa' + i)
+      items.value = result.join(',')
+    }
     const store = useStore()
     const login = (e) => {
       console.log(e)
