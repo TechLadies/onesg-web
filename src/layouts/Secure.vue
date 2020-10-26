@@ -1,20 +1,55 @@
 <template>
   <div>
     <side-bar />
-    <router-view></router-view>
+    <div class="main">
+      <div class="title">New Case</div>
+      <div v-if="stage === 0">
+        <Beneficiary />
+      </div>
+      <div v-if="stage === 1">
+        <Reference />
+      </div>
+      <div v-if="stage === 2">
+        <CaseDetails />
+      </div>
+
+      <div class="arrow">
+        <button @click="stage--" class="button is-dark is-outlined">
+          <span class="icon is-small">
+            <i class="fa fa-arrow-left"></i>
+          </span>
+        </button>
+
+        <button @click="stage++" class="button is-dark is-outlined">
+          <span class="icon is-small">
+            <i class="fa fa-arrow-right"></i>
+          </span>
+        </button>
+      </div>
+
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 <script>
+import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { onMounted } from 'vue'
 import SideBar from '../components/SideBar.vue'
+import Beneficiary from '../components/Beneficiary.vue'
+import Reference from '../components/Reference.vue'
+import CaseDetails from '../components/CaseDetails.vue'
 
 export default {
   name: 'Secure',
   components: {
     SideBar,
+    Beneficiary,
+    Reference,
+    CaseDetails,
   },
   setup() {
+    const stage = ref(0)
     const store = useStore()
     const logout = (e) => {
       console.log(e)
@@ -28,57 +63,13 @@ export default {
     })
     return {
       logout,
+      stage,
     }
   },
 }
 </script>
 
 <style scoped>
-.sidebar {
-  height: 100%;
-  width: 7%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #08134b;
-  overflow-x: scroll;
-  padding-top: 16px;
-}
-
-.sidebar a {
-  padding: 8px 8px 8px 8px;
-  text-decoration: none;
-  font-size: 14 px;
-  color: white;
-  display: block;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.sidebar a:hover {
-  color: #f1f1f1;
-}
-
-.active {
-  background-color: #4caf50; /* Add an active/current color */
-}
-
-@media (max-width: 1000px) {
-  .heading {
-    display: none;
-  }
-}
-
-@media screen and (max-height: 450px) {
-  .sidebar {
-    padding-top: 15px;
-  }
-  .sidebar a {
-    font-size: 18px;
-  }
-}
-
 .main {
   margin-left: 10%;
   margin-right: 10%;
@@ -89,30 +80,15 @@ export default {
 .title {
   padding-bottom: 20px;
   position: relative;
-  font-size: 10;
+  font-size: 24px;
   font-weight: 600;
 }
 
-p {
-  text-align: center;
-  font-weight: 400;
-  color: black;
-}
-
-.center {
-  width: 50%;
-  text-align: center;
-}
-
-.form {
-  text-align: left;
-  font-size: 12;
+.arrow {
+  justify-content: center;
+  align-items: center;
+  display: block;
   padding-top: 30px;
-  padding-bottom: 30px;
-}
-
-.inputTitle {
-  font-weight: 400;
-  color: black;
+  padding-bottom: 50px;
 }
 </style>

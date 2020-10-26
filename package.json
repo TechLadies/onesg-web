@@ -7,8 +7,6 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@oruga-ui/oruga-next": "^0.2.2",
-    "v-click-outside": "^3.1.2",
     "vue": "^3.0.0-rc.1",
     "vue-router": "^4.0.0-beta.13",
     "vuex": "^4.0.0-beta.4"

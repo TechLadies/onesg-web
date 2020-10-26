@@ -9,6 +9,7 @@ Usage with (VueJS):
 v-model="ac" 
 @search="(e) => autoComplete(e)">
 </bwc-autocomplete>
+
 const autoComplete = (e) => {
   const result = []
   for (let i = 0; i < e.detail.length + 10; i++) result.push('aa' + i)
