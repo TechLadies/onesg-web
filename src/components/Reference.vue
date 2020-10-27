@@ -56,13 +56,16 @@ export default {
   setup() {
     const reference = ref(0)
     const references = ref([])
-    const autoComplete = (e) => {
-      const result = []
-      // async, await, link to random user API
-      // read first name, and collect all the info and pass into beneficiaries
-      // delete previous random user data?
-      for (let i = 0; i < e.detail.length + 10; i++) result.push('aa' + i)
-      references.value = result.join(',')
+    const autoComplete = async (e) => {
+      console.log(e.detail)
+      // add debounce
+      const res = await fetch(
+        'https://swapi.dev/api/people/?search=' + e.detail
+      )
+      const data = await res.json()
+      references.value = data.results.map((item) => {
+        return item.name
+      })
     }
     const store = useStore()
     const login = (e) => {

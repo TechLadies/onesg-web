@@ -79,29 +79,52 @@
 <script>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import { onMounted } from 'vue'
 
 export default {
   name: 'Beneficiary',
   setup() {
     const beneficiary = ref(0)
     const beneficiaries = ref([])
-    const autoComplete = (e) => {
-      const result = []
-      // split case into small components
-      // async, await, link to random user API
-      // read first name, and collect all the info and pass into beneficiaries
-      // delete previous random user data?
-      for (let i = 0; i < e.detail.length + 10; i++) result.push('aa' + i)
-      beneficiaries.value = result.join(',')
+
+    function debounce() {
+      let timeout
+      return function () {
+        clearTimeout(timeout)
+        setTimeout(() => {
+          autoComplete()
+        }, 500)
+      }
     }
+
+    const autoComplete = async (e) => {
+      console.log(e.detail)
+
+      const res = await fetch(
+        'https://swapi.dev/api/people/?search=' + e.detail
+      )
+      const data = await res.json()
+      beneficiaries.value = data.results.map((item) => {
+        return item.name
+      })
+      console.log(data)
+    }
+
     const store = useStore()
     const login = (e) => {
       console.log(e)
       store.dispatch('doLogin', 'zzzz')
     }
     const stage = ref(0)
+
+    onMounted(async () => {
+      //   const res = await fetch('https://randomuser.me/api/?results=100')
+      //  const data = await res.json()
+      //  console.log(data)
+    })
     return {
       autoComplete,
+      debounce,
       login,
       beneficiary,
       beneficiaries,
