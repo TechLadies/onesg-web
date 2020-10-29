@@ -57,9 +57,18 @@ export default {
   setup() {
     const reference = ref()
     const references = ref([])
-    const autoComplete = async (e) => {
+    const debounce = (callback, delay) => {
+      let timeout = null
+      return (...args) => {
+        const next = () => callback(...args)
+        clearTimeout(timeout)
+        timeout = setTimeout(next, delay)
+      }
+    }
+
+    const autoComplete = debounce(async (e, col, _showForm) => {
+      console.log('search', e.detail, col, _showForm)
       console.log(e.detail)
-      // add debounce
       const res = await fetch(
         'https://swapi.dev/api/people/?search=' + e.detail
       )
@@ -67,7 +76,9 @@ export default {
       references.value = data.results.map((item) => {
         return item.name
       })
-    }
+      console.log(data)
+    }, 500)
+
     const store = useStore()
     const login = (e) => {
       console.log(e)
