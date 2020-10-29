@@ -108,7 +108,7 @@ export default {
         return item.name
       })
       console.log(data)
-    })
+    }, 500)
 
     const store = useStore()
     const login = (e) => {
