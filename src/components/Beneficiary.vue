@@ -24,6 +24,7 @@
             :items="beneficiaries"
             v-model="beneficiary"
             @search="(e) => autoComplete(e)"
+            placeholder="Search or add a beneficiary."
           >
           </bwc-autocomplete>
         </div>
@@ -84,22 +85,21 @@ import { onMounted } from 'vue'
 export default {
   name: 'Beneficiary',
   setup() {
-    const beneficiary = ref(0)
+    const beneficiary = ref()
     const beneficiaries = ref([])
 
-    function debounce() {
-      let timeout
-      return function () {
+    const debounce = (callback, delay) => {
+      let timeout = null
+      return (...args) => {
+        const next = () => callback(...args)
         clearTimeout(timeout)
-        setTimeout(() => {
-          autoComplete()
-        }, 500)
+        timeout = setTimeout(next, delay)
       }
     }
 
-    const autoComplete = async (e) => {
+    const autoComplete = debounce(async (e, col, _showForm) => {
+      console.log('search', e.detail, col, _showForm)
       console.log(e.detail)
-
       const res = await fetch(
         'https://swapi.dev/api/people/?search=' + e.detail
       )
@@ -108,7 +108,7 @@ export default {
         return item.name
       })
       console.log(data)
-    }
+    })
 
     const store = useStore()
     const login = (e) => {
@@ -124,7 +124,6 @@ export default {
     })
     return {
       autoComplete,
-      debounce,
       login,
       beneficiary,
       beneficiaries,

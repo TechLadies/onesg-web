@@ -24,6 +24,7 @@
             :items="references"
             v-model="reference"
             @search="(e) => autoComplete(e)"
+            placeholder="Search or add a reference."
           >
           </bwc-autocomplete>
         </div>
@@ -54,7 +55,7 @@ import { useStore } from 'vuex'
 export default {
   name: 'Reference',
   setup() {
-    const reference = ref(0)
+    const reference = ref()
     const references = ref([])
     const autoComplete = async (e) => {
       console.log(e.detail)

@@ -18,7 +18,7 @@ const autoComplete = (e) => {
 */
 const template = document.createElement('template')
 template.innerHTML = `
-<input class="input" type="text" id="ajax" list="json-datalist" placeholder="Search or add a beneficiary.">
+<input class="input" type="text" id="ajax" list="json-datalist" placeholder="Search or add">
 <datalist id="json-datalist"></datalist>
 `
 class AutoComplete extends HTMLElement {
