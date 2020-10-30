@@ -1,49 +1,73 @@
 <template>
   <div>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <side-bar />
+    <div class="main">
+      <div class="title">New Case</div>
+      <div v-if="stage === 0">
+        <Beneficiary />
+      </div>
+      <div v-if="stage === 1">
+        <Reference />
+      </div>
+      <div v-if="stage === 2">
+        <CaseDetails />
+      </div>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <div class="sidebar">
-      <a href="#home"
-        ><i class="fa fa-fw fa-home"></i>
-        <div>Home</div></a
-      >
-      <a href="#cases"
-        ><i class="fa fa-id-card-o"></i>
-        <div>Cases</div></a
-      >
-      <a href="#requests"
-        ><i class="fa fa-check"></i>
-        <div>Requests</div></a
-      >
-      <a href="#new"
-        ><i class="fa fa-plus-square"></i>
-        <div>New Case</div></a
-      >
+      <div class="arrow">
+        <button v-if="stage === 0" class="button" disabled></button>
+        <button v-else @click="stage--" class="button is-dark is-outlined">
+          <span class="icon is-small">
+            <i class="fa fa-arrow-left"></i>
+          </span>
+        </button>
 
-      <a href="#accounts"
-        ><i class="fa fa-user-circle-o"></i>
-        <div>Accounts</div></a
-      >
-      <a href="#" @click="logout"
-        ><i class="fa fa-sign-out"></i>
-        <div>Log Out</div></a
-      >
+        <button class="clear"></button>
+
+        <button
+          v-if="stage === 2"
+          @click="log"
+          class="button is-dark is-outlined"
+        >
+          Create New
+        </button>
+
+        <button v-if="stage === 2" class="button" disabled></button>
+        <button v-else @click="stage++" class="button is-dark is-outlined">
+          <span class="icon is-small">
+            <i class="fa fa-arrow-right"></i>
+          </span>
+        </button>
+      </div>
+
+      <router-view></router-view>
     </div>
-
-    <router-view></router-view>
   </div>
 </template>
+
 <script>
+import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { onMounted } from 'vue'
+import SideBar from '../components/SideBar.vue'
+import Beneficiary from '../components/Beneficiary.vue'
+import Reference from '../components/Reference.vue'
+import CaseDetails from '../components/CaseDetails.vue'
 
 export default {
   name: 'Secure',
+  components: {
+    SideBar,
+    Beneficiary,
+    Reference,
+    CaseDetails,
+  },
+  methods: {
+    log: function () {
+      console.log('hello')
+    },
+  },
   setup() {
+    const stage = ref(0)
     const store = useStore()
     const logout = (e) => {
       console.log(e)
@@ -57,51 +81,13 @@ export default {
     })
     return {
       logout,
+      stage,
     }
   },
 }
 </script>
 
 <style scoped>
-.sidebar {
-  height: 100%;
-  width: 10%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #08134b;
-  overflow-x: scroll;
-  padding-top: 16px;
-}
-
-.sidebar a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 14 px;
-  color: white;
-  display: block;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.sidebar a:hover {
-  color: #f1f1f1;
-}
-
-.active {
-  background-color: #4caf50; /* Add an active/current color */
-}
-
-@media screen and (max-height: 450px) {
-  .sidebar {
-    padding-top: 15px;
-  }
-  .sidebar a {
-    font-size: 18px;
-  }
-}
-
 .main {
   margin-left: 10%;
   margin-right: 10%;
@@ -112,30 +98,19 @@ export default {
 .title {
   padding-bottom: 20px;
   position: relative;
-  font-size: 10;
+  font-size: 24px;
   font-weight: 600;
 }
 
-p {
-  text-align: center;
-  font-weight: 400;
-  color: black;
-}
-
-.center {
-  width: 50%;
-  text-align: center;
-}
-
-.form {
-  text-align: left;
-  font-size: 12;
+.arrow {
+  justify-content: center;
+  align-items: center;
+  margin: auto;
   padding-top: 30px;
-  padding-bottom: 30px;
+  padding-bottom: 50px;
 }
 
-.inputTitle {
-  font-weight: 400;
-  color: black;
+.clear {
+  visibility: hidden;
 }
 </style>
