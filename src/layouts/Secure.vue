@@ -14,13 +14,25 @@
       </div>
 
       <div class="arrow">
-        <button @click="stage--" class="button is-dark is-outlined">
+        <button v-if="stage === 0" class="button" disabled></button>
+        <button v-else @click="stage--" class="button is-dark is-outlined">
           <span class="icon is-small">
             <i class="fa fa-arrow-left"></i>
           </span>
         </button>
 
-        <button @click="stage++" class="button is-dark is-outlined">
+        <button class="clear"></button>
+
+        <button
+          v-if="stage === 2"
+          @click="log"
+          class="button is-dark is-outlined"
+        >
+          Create New
+        </button>
+
+        <button v-if="stage === 2" class="button" disabled></button>
+        <button v-else @click="stage++" class="button is-dark is-outlined">
           <span class="icon is-small">
             <i class="fa fa-arrow-right"></i>
           </span>
@@ -48,6 +60,11 @@ export default {
     Beneficiary,
     Reference,
     CaseDetails,
+  },
+  methods: {
+    log: function () {
+      console.log('hello')
+    },
   },
   setup() {
     const stage = ref(0)
@@ -88,8 +105,12 @@ export default {
 .arrow {
   justify-content: center;
   align-items: center;
-  display: block;
+  margin: auto;
   padding-top: 30px;
   padding-bottom: 50px;
+}
+
+.clear {
+  visibility: hidden;
 }
 </style>
