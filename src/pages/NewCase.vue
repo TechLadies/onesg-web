@@ -84,7 +84,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .main {
   margin-left: 10%;
   margin-right: 10%;

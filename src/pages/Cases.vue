@@ -1,5 +1,22 @@
 <template>
-  <div class="page-flex">
+  <div class="main">
+    <div class="title">Cases</div>
+    <div class="navigation_buttons">
+      Status
+      <button @click="all" class="button is-dark is-outlined">All</button>
+      <button @click="new_cases" class="button is-dark is-outlined">New</button>
+      <button @click="pending" class="button is-dark is-outlined">
+        Pending
+      </button>
+      <button @click="referred" class="button is-dark is-outlined">
+        Referred to EFC
+      </button>
+      <button @click="processing" class="button is-dark is-outlined">
+        Processing
+      </button>
+      <button @click="closed" class="button is-dark is-outlined">Closed</button>
+    </div>
+    <br />
     <o-table
       :mobileCards="false"
       :data="datax"
@@ -22,7 +39,7 @@
     >
       <o-table-column
         field="id"
-        label="ID"
+        label="#"
         width="40"
         sortable
         numeric
@@ -31,28 +48,47 @@
         {{ props.row.id }}
       </o-table-column>
       <o-table-column
-        field="first_name"
-        label="First Name"
+        field="beneficiary_name"
+        label="Beneficiary Name"
         v-slot="props"
         sortable
       >
-        {{ props.row.first_name }}
+        {{ props.row.beneficiary_name }}
       </o-table-column>
-      <o-table-column field="last_name" label="Last Name" v-slot="props">
-        {{ props.row.last_name }}
+      <o-table-column field="case_number" label="Case Number" v-slot="props">
+        {{ props.row.case_number }}
       </o-table-column>
-      <o-table-column field="date" label="Date" centered v-slot="props">
+      <o-table-column
+        field="date"
+        label="Application Date"
+        centered
+        v-slot="props"
+      >
         {{ new Date(props.row.date).toLocaleDateString() }}
       </o-table-column>
-      <o-table-column label="Gender" v-slot="props">
+      <o-table-column label="P.O.C" v-slot="props">
         <span>
-          <o-icon
-            pack="fas"
-            :icon="props.row.gender === 'Male' ? 'mars' : 'venus'"
-          >
-          </o-icon>
-          {{ props.row.gender }}
+          {{ props.row.poc }}
         </span>
+      </o-table-column>
+      <o-table-column
+        field="reference_name"
+        label="Reference Name"
+        v-slot="props"
+        sortable
+      >
+        {{ props.row.reference_name }}
+      </o-table-column>
+      <o-table-column
+        field="reference_org"
+        label="Reference Organisation"
+        v-slot="props"
+        sortable
+      >
+        {{ props.row.reference_org }}
+      </o-table-column>
+      <o-table-column field="date" label="Last Update" centered v-slot="props">
+        {{ new Date(props.row.last_update).toLocaleDateString() }}
       </o-table-column>
     </o-table>
   </div>
@@ -87,79 +123,109 @@ export default {
     const currentPage = ref(1)
     const total = ref(50)
 
-    const sortField = ref('first_name')
+    const sortField = ref('beneficiary_name')
     const sortOrder = ref('asc')
 
     const datax = [
       {
         id: 1,
-        first_name: 'Jesse1',
-        last_name: 'Simmons',
+        beneficiary_name: 'Jesse1',
+        case_number: '123456',
         date: '2016/10/15 13:43:27',
-        gender: 'Male',
+        poc: 'Bryan',
+        reference_name: 'Rachel',
+        reference_org: 'abc',
+        last_update: '2016/10/15 13:43:27',
       },
       {
         id: 2,
-        first_name: 'John',
-        last_name: 'Jacobs',
+        beneficiary_name: 'John',
+        case_number: '123457',
         date: '2016/12/15 06:00:53',
-        gender: 'Male',
+        poc: 'Bryan',
+        reference_name: 'Rachel',
+        reference_org: 'abc',
+        last_update: '2016/10/15 13:43:27',
       },
       {
         id: 3,
-        first_name: 'Tina',
-        last_name: 'Gilbert',
+        beneficiary_name: 'Tina',
+        case_number: '123458',
         date: '2016/04/26 06:26:28',
-        gender: 'Female',
+        poc: 'Bryan',
+        reference_name: 'Rachel',
+        reference_org: 'abc',
+        last_update: '2016/10/15 13:43:27',
       },
       {
         id: 4,
-        first_name: 'Clarence',
-        last_name: 'Flores',
+        beneficiary_name: 'Clarence',
+        case_number: '123459',
         date: '2016/04/10 10:28:46',
-        gender: 'Male',
+        poc: 'Bryan',
+        reference_name: 'Rachel',
+        reference_org: 'abc',
+        last_update: '2016/10/15 13:43:27',
       },
       {
         id: 5,
-        first_name: 'Anne',
-        last_name: 'Lee',
+        beneficiary_name: 'Anne',
+        case_number: '123450',
         date: '2016/12/06 14:38:38',
-        gender: 'Female',
+        poc: 'Bryan',
+        reference_name: 'Rachel',
+        reference_org: 'abc',
+        last_update: '2016/10/15 13:43:27',
       },
       {
         id: 6,
-        first_name: 'Anne6',
-        last_name: 'Lee',
+        beneficiary_name: 'Anne6',
+        case_number: '111111',
         date: '2016/12/06 14:38:38',
-        gender: 'Female',
+        poc: 'Bryan',
+        reference_name: 'Rachel',
+        reference_org: 'abc',
+        last_update: '2016/10/15 13:43:27',
       },
       {
         id: 7,
-        first_name: 'Anne7',
-        last_name: 'Lee',
+        beneficiary_name: 'Anne7',
+        case_number: '111112',
         date: '2016/12/06 14:38:38',
-        gender: 'Female',
+        poc: 'Bryan',
+        reference_name: 'Rachel',
+        reference_org: 'abc',
+        last_update: '2016/10/15 13:43:27',
       },
       {
         id: 8,
-        first_name: 'Anne8',
-        last_name: 'Lee',
+        beneficiary_name: 'Anne8',
+        case_number: '111113',
         date: '2016/12/06 14:38:38',
-        gender: 'Female',
+        poc: 'Bryan',
+        reference_name: 'Rachel',
+        reference_org: 'abc',
+        last_update: '2016/10/15 13:43:27',
       },
       {
         id: 9,
-        first_name: 'Anne9',
-        last_name: 'Lee',
+        beneficiary_name: 'Anne9',
+        case_number: '111114',
         date: '2016/12/06 14:38:38',
-        gender: 'Female',
+        poc: 'Bryan',
+        reference_name: 'Rachel',
+        reference_org: 'abc',
+        last_update: '2016/10/15 13:43:27',
       },
       {
         id: 10,
-        first_name: 'Anne10',
-        last_name: 'Lee',
+        beneficiary_name: 'Anne10',
+        case_number: '111115',
         date: '2016/12/06 14:38:38',
-        gender: 'Female',
+        poc: 'Bryan',
+        reference_name: 'Rachel',
+        reference_org: 'abc',
+        last_update: '2016/10/15 13:43:27',
       },
     ]
 
@@ -194,6 +260,20 @@ export default {
 </script>
 
 <style scoped>
+.main {
+  margin-left: 10%;
+  margin-right: 10%;
+  text-align: left;
+  padding: 0px 0px 0px 20px;
+}
+
+.title {
+  padding-bottom: 20px;
+  position: relative;
+  font-size: 24px;
+  font-weight: 600;
+}
+
 .page-flex h1,
 .page-flex p {
   text-align: center;
@@ -205,5 +285,10 @@ export default {
   height: calc(100vh);
   justify-content: center;
   align-items: center;
+}
+
+.navigation_buttons {
+  justify-content: center;
+  top: 50%;
 }
 </style>
