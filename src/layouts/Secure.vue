@@ -43,30 +43,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.main {
-  margin-left: 10%;
-  margin-right: 10%;
-  text-align: left;
-  padding: 0px 0px 0px 20px;
-}
-
-.title {
-  padding-bottom: 20px;
-  position: relative;
-  font-size: 24px;
-  font-weight: 600;
-}
-
-.arrow {
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  padding-top: 30px;
-  padding-bottom: 50px;
-}
-
-.clear {
-  visibility: hidden;
-}
-</style>
+<style scoped></style>

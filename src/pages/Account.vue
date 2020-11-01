@@ -1,3 +1,5 @@
 <template>
-  <div>Account</div>
+  <div class="main">
+    <div class="title">Account</div>
+  </div>
 </template>
