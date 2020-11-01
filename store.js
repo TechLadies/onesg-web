@@ -15,7 +15,7 @@ const actions = {
     console.log(payload)
     if (payload) {
       commit('login', payload)
-      await router.push('/case')
+      await router.push('/home')
     } else {
       commit('login', null)
       await router.push('/login')

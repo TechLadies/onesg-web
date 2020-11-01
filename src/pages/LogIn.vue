@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Autocomplete />
     <div class="container">
       <div class="image">
         <img src="../images/Group_116.png" />

@@ -1,46 +1,8 @@
 <template>
   <div>
     <side-bar />
-    <div class="main">
-      <div class="title">New Case</div>
-      <div v-if="stage === 0">
-        <Beneficiary />
-      </div>
-      <div v-if="stage === 1">
-        <Reference />
-      </div>
-      <div v-if="stage === 2">
-        <CaseDetails />
-      </div>
 
-      <div class="arrow">
-        <button v-if="stage === 0" class="button" disabled></button>
-        <button v-else @click="stage--" class="button is-dark is-outlined">
-          <span class="icon is-small">
-            <i class="fa fa-arrow-left"></i>
-          </span>
-        </button>
-
-        <button class="clear"></button>
-
-        <button
-          v-if="stage === 2"
-          @click="log"
-          class="button is-dark is-outlined"
-        >
-          Create New
-        </button>
-
-        <button v-if="stage === 2" class="button" disabled></button>
-        <button v-else @click="stage++" class="button is-dark is-outlined">
-          <span class="icon is-small">
-            <i class="fa fa-arrow-right"></i>
-          </span>
-        </button>
-      </div>
-
-      <router-view></router-view>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -49,17 +11,11 @@ import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { onMounted } from 'vue'
 import SideBar from '../components/SideBar.vue'
-import Beneficiary from '../components/Beneficiary.vue'
-import Reference from '../components/Reference.vue'
-import CaseDetails from '../components/CaseDetails.vue'
 
 export default {
   name: 'Secure',
   components: {
     SideBar,
-    Beneficiary,
-    Reference,
-    CaseDetails,
   },
   methods: {
     log: function () {

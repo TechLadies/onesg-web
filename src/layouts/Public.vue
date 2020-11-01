@@ -20,7 +20,7 @@
   font-family: Teko;
   font-style: normal;
   font-weight: 500;
-  font-size: 33px;
+  font-size: 30px;
   line-height: 48px;
   /* identical to box height, or 109% */
 

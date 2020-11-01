@@ -1,25 +1,24 @@
 <template>
   <div class="sidebar">
-    <a href="#home"
+    <a @click="$router.push('/home')"
       ><i class="fa fa-fw fa-home"></i>
       <span><div class="heading">Home</div></span></a
     >
-    <a href="#cases"
+    <a @click="$router.push('/cases')"
       ><i class="fa fa-id-card-o"></i>
       <span><div class="heading">Cases</div></span></a
     >
-    <a href="#requests"
+    <a @click="$router.push('/requests')"
       ><i class="fa fa-check"></i>
       <span><div class="heading">Requests</div></span></a
     >
-    <a href="#new"
+    <a @click="$router.push('/newcase')"
       ><i class="fa fa-plus-square"></i>
-      <span><div class="heading">New Case</div></span></a
+      <span><div class="heanding">New Case</div></span></a
     >
-
-    <a href="#accounts"
+    <a @click="$router.push('/account')"
       ><i class="fa fa-user-circle-o"></i>
-      <span><div class="heading">Account</div></span></a
+      <span><div class="heanding">Account</div></span></a
     >
     <a href="#" @click="logout"
       ><i class="fa fa-sign-out"></i>
@@ -39,6 +38,7 @@ export default {
       console.log(e)
       store.dispatch('doLogin', null)
     }
+
     return {
       logout,
     }
