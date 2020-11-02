@@ -46,14 +46,18 @@
 
         <div class="input-field">
           <div class="field-body">
-            <div class="field">Household income</div>
-            <input class="input" type="text" placeholder="Optional" />
-            <div class="field">Household size</div>
-            <input
-              class="input is-success"
-              placeholder="Optional"
-              type="text"
-            />
+            <div class="field">
+              Household income
+              <input class="input" type="text" placeholder="Optional" />
+            </div>
+            <div class="field">
+              Household size
+              <input
+                class="input is-success"
+                placeholder="Optional"
+                type="text"
+              />
+            </div>
           </div>
         </div>
 
@@ -241,5 +245,8 @@ p {
 }
 .add {
   padding-top: 20px;
+}
+.field {
+  padding-right: 10px;
 }
 </style>

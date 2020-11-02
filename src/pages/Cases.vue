@@ -37,14 +37,7 @@
       @select="selectRow"
       @page-change="pageChange"
     >
-      <o-table-column
-        field="id"
-        label="#"
-        width="40"
-        sortable
-        numeric
-        v-slot="props"
-      >
+      <o-table-column label="#" width="40" sortable numeric v-slot="props">
         {{ props.row.id }}
       </o-table-column>
       <o-table-column
@@ -129,7 +122,7 @@ export default {
     const datax = [
       {
         id: 1,
-        beneficiary_name: 'Jesse1',
+        beneficiary_name: 'Jesse',
         case_number: '123456',
         date: '2016/10/15 13:43:27',
         poc: 'Bryan',

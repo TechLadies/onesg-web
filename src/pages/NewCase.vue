@@ -13,13 +13,24 @@
       </div>
 
       <div class="arrow">
-        <button v-if="stage === 0" class="button" disabled></button>
+        <button v-if="stage === 0" class="button" disabled>
+          <span class="icon is-small">
+            <i class="fa fa-arrow-left"></i>
+          </span>
+        </button>
         <button v-else @click="stage--" class="button is-dark is-outlined">
           <span class="icon is-small">
             <i class="fa fa-arrow-left"></i>
           </span>
         </button>
 
+        <button class="clear"></button>
+
+        <button v-if="stage === 2" class="button" disabled>
+          <span class="icon is-small">
+            <i class="fa fa-arrow-right"></i>
+          </span>
+        </button>
         <button class="clear"></button>
 
         <button
@@ -30,7 +41,6 @@
           Create New
         </button>
 
-        <button v-if="stage === 2" class="button" disabled></button>
         <button v-else @click="stage++" class="button is-dark is-outlined">
           <span class="icon is-small">
             <i class="fa fa-arrow-right"></i>
