@@ -6,7 +6,7 @@
         <Beneficiary />
       </div>
       <div v-if="stage === 1">
-        <Reference />
+        <Reference :reference="reference" />
       </div>
       <div v-if="stage === 2">
         <CaseDetails />
@@ -35,7 +35,7 @@
 
         <button
           v-if="stage === 2"
-          @click="log"
+          @click="createNew"
           class="button is-dark is-outlined"
         >
           Create New
@@ -47,14 +47,12 @@
           </span>
         </button>
       </div>
-
-      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { onMounted } from 'vue'
 import Beneficiary from '../components/Beneficiary.vue'
@@ -68,17 +66,24 @@ export default {
     Reference,
     CaseDetails,
   },
-  methods: {
-    log: function () {
-      console.log('hello')
-    },
-  },
   setup() {
     const stage = ref(0)
     const store = useStore()
+    const reference = reactive({
+      // all these properties should match with DB, check with backend team
+      id: '', // this is populated by aytocomplete, if null then it should be new reference
+      name: '',
+      organisation: '', // autocomplete strict... must have a match
+      contact: '',
+      email: '',
+    })
     const logout = (e) => {
       console.log(e)
       store.dispatch('doLogin', null)
+    }
+    const createNew = async () => {
+      alert(JSON.stringify(reference))
+      console.log('createNew')
     }
     onMounted(async () => {
       const res = await fetch('https://randomuser.me/api/')
@@ -89,6 +94,8 @@ export default {
     return {
       logout,
       stage,
+      createNew,
+      reference,
     }
   },
 }

@@ -22,7 +22,7 @@
           <bwc-autocomplete
             required
             :items="references"
-            v-model="reference"
+            v-model="referenceSearch"
             @search="(e) => autoComplete(e)"
             placeholder="Search or add a reference."
           >
@@ -31,17 +31,32 @@
 
         <div class="input-field">
           <div class="input-title">Reference Organisation</div>
-          <input class="input is-success" type="text" placeholder="Optional" />
+          <input
+            class="input is-success"
+            type="text"
+            placeholder="Optional"
+            v-model="reference.organisation"
+          />
         </div>
 
         <div class="input-field">
           <div class="input-title">Reference Contact Number</div>
-          <input class="input is-success" type="text" placeholder="Optional" />
+          <input
+            class="input is-success"
+            type="text"
+            placeholder="Optional"
+            v-model="reference.contact"
+          />
         </div>
 
         <div class="input-field">
           <div class="input-title">Reference Email Address</div>
-          <input class="input is-success" type="text" placeholder="Optional" />
+          <input
+            class="input is-success"
+            type="text"
+            placeholder="Optional"
+            v-model="reference.email"
+          />
         </div>
       </div>
     </div>
@@ -49,13 +64,15 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   name: 'Reference',
-  setup() {
-    const reference = ref()
+  setup(context, props) {
+    console.log('props', props, props.attrs.reference)
+    const referenceSearch = ref()
+    const reference = reactive(props.attrs.reference)
     const references = ref([])
     const debounce = (callback, delay) => {
       let timeout = null
@@ -87,6 +104,7 @@ export default {
     return {
       autoComplete,
       login,
+      referenceSearch,
       reference,
       references,
     }
