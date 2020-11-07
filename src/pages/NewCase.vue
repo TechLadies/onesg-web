@@ -9,7 +9,7 @@
         <Reference :reference="reference" />
       </div>
       <div v-if="stage === 2">
-        <CaseDetails :case-details="casedetails" />
+        <CaseDetails :caseDetail="caseDetail" />
       </div>
 
       <div class="arrow">
@@ -77,7 +77,7 @@ export default {
       email: '',
       occupation: '',
       householdIncome: '',
-      householdSize: '',
+      HouholeSize: '',
     })
     const reference = reactive({
       // all these properties should match with DB, check with backend team
@@ -87,20 +87,23 @@ export default {
       contact: '',
       email: '',
     })
-    const casedetails = reactive({
+    const caseDetail = reactive({
       // all these properties should match with DB, check with backend team
-      id: '', // this is populated by aytocomplete, if null then it should be new reference
-      name: '',
-      organisation: '', // autocomplete strict... must have a match
-      contact: '',
-      email: '',
+      amountRequested: '',
+      poc: '',
+      applicationDate: '',
+      description1: '',
+      description2: '',
+      description3: '',
+      title: '',
+      dropbox: '',
     })
     const logout = (e) => {
       console.log(e)
       store.dispatch('doLogin', null)
     }
     const createNew = async () => {
-      alert(JSON.stringify(beneficiary))
+      alert(JSON.stringify(caseDetail))
       console.log('createNew')
     }
     onMounted(async () => {
@@ -115,7 +118,7 @@ export default {
       createNew,
       beneficiary,
       reference,
-      casedetails,
+      caseDetail,
     }
   },
 }

@@ -14,11 +14,11 @@
       @rowClick="rowClick"
       @triggered="triggered"
       @cmd="cmd"
-      style="--bwc-table-height: calc(100vh - 360px);"
+      style="--bwc-table-height: calc(100vh - 360px)"
       class="sticky-header sticky-column"
     >
     </bwc-table>
-  </div>  
+  </div>
 </template>
 
 <script>
@@ -32,35 +32,35 @@ export default {
     const columns = reactive([
       {
         label: 'ID',
-        key: 'id'
-      },     
+        key: 'id',
+      },
       {
         label: 'Name',
         key: 'name',
-        filter: true
-      },     
+        filter: true,
+      },
       {
         label: 'Age',
         key: 'age',
-        filter: true
-      }
+        filter: true,
+      },
     ])
-    for (let i=1; i<=15; i++) {
+    for (let i = 1; i <= 15; i++) {
       columns.push({
         label: 'label' + i,
-        key: 'key' + i
+        key: 'key' + i,
       })
     }
 
     const items = reactive([])
-    for (let i=1; i<=80; i++) {
+    for (let i = 1; i <= 80; i++) {
       const data = {
         id: i,
         name: 'name' + i,
-        age: i
+        age: i,
       }
-      for (let j=1; j<=15; j++) {
-        data['key' + j] = 'val-'+i+'-'+j
+      for (let j = 1; j <= 15; j++) {
+        data['key' + j] = 'val-' + i + '-' + j
       }
       items.push(data)
     }
@@ -88,9 +88,9 @@ export default {
       total,
       rowClick,
       triggered,
-      cmd
+      cmd,
     }
-  }
+  },
 }
 </script>
 
