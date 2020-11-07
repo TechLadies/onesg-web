@@ -22,7 +22,7 @@
           <bwc-autocomplete
             required
             :items="beneficiaries"
-            v-model="beneficiary"
+            v-model="beneficiarySearch"
             @search="(e) => autoComplete(e)"
             placeholder="Search or add a beneficiary."
           >
@@ -31,24 +31,43 @@
 
         <div class="input-field">
           <div class="input-title">Contact Number</div>
-          <input class="input is-success" type="text" />
+          <input
+            class="input is-success"
+            type="text"
+            v-model="beneficiary.contact"
+          />
         </div>
 
         <div class="input-field">
           <div class="input-title">Email Address</div>
-          <input class="input is-success" type="text" placeholder="Optional" />
+          <input
+            class="input is-success"
+            type="text"
+            placeholder="Optional"
+            v-model="beneficiary.email"
+          />
         </div>
 
         <div class="input-field">
           <div class="input-title">Occupation</div>
-          <input class="input is-success" type="text" placeholder="Optional" />
+          <input
+            class="input is-success"
+            type="text"
+            placeholder="Optional"
+            v-model="beneficiary.occupation"
+          />
         </div>
 
         <div class="input-field">
           <div class="field-body">
             <div class="field">
               Household income
-              <input class="input" type="text" placeholder="Optional" />
+              <input
+                class="input"
+                type="text"
+                placeholder="Optional"
+                v-model="beneficiary.householdIncome"
+              />
             </div>
             <div class="field">
               Household size
@@ -56,6 +75,7 @@
                 class="input is-success"
                 placeholder="Optional"
                 type="text"
+                v-model="beneficiary.householdSize"
               />
             </div>
           </div>
@@ -82,16 +102,16 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
-import { onMounted } from 'vue'
 
 export default {
-  name: 'Beneficiary',
-  setup() {
-    const beneficiary = ref()
+  name: 'Beneficary',
+  setup(context, props) {
+    console.log('props', props, props.attrs.beneficiary)
+    const beneficiarySearch = ref()
+    const beneficiary = reactive(props.attrs.beneficiary)
     const beneficiaries = ref([])
-
     const debounce = (callback, delay) => {
       let timeout = null
       return (...args) => {
@@ -119,19 +139,12 @@ export default {
       console.log(e)
       store.dispatch('doLogin', 'zzzz')
     }
-    const stage = ref(0)
-
-    onMounted(async () => {
-      //   const res = await fetch('https://randomuser.me/api/?results=100')
-      //  const data = await res.json()
-      //  console.log(data)
-    })
     return {
       autoComplete,
       login,
+      beneficiarySearch,
       beneficiary,
       beneficiaries,
-      stage,
     }
   },
 }
