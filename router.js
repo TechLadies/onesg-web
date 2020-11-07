@@ -62,9 +62,9 @@ const router = createRouter({
       meta: { requiresAuth: true, layout: 'layout-secure' },
     },
     {
-      path: '/requestsAll',
-      name: 'RequestsAll',
-      component: () => import('/src/pages/Requests(All).vue'),
+      path: '/requests',
+      name: 'Requests',
+      component: () => import('/src/pages/Requests.vue'),
       beforeEnter: authGuard,
       meta: { requiresAuth: false, layout: 'layout-secure' },
     },
