@@ -3,13 +3,13 @@
     <div class="main">
       <div class="title">New Case</div>
       <div v-if="stage === 0">
-        <Beneficiary />
+        <Beneficiary :beneficiary="beneficiary" />
       </div>
       <div v-if="stage === 1">
         <Reference :reference="reference" />
       </div>
       <div v-if="stage === 2">
-        <CaseDetails />
+        <CaseDetails :case-details="casedetails" />
       </div>
 
       <div class="arrow">
@@ -69,7 +69,25 @@ export default {
   setup() {
     const stage = ref(0)
     const store = useStore()
+    const beneficiary = reactive({
+      // all these properties should match with DB, check with backend team
+      id: '', // this is populated by aytocomplete, if null then it should be new reference
+      name: '',
+      contact: '',
+      email: '',
+      occupation: '',
+      householdIncome: '',
+      householdSize: '',
+    })
     const reference = reactive({
+      // all these properties should match with DB, check with backend team
+      id: '', // this is populated by aytocomplete, if null then it should be new reference
+      name: '',
+      organisation: '', // autocomplete strict... must have a match
+      contact: '',
+      email: '',
+    })
+    const casedetails = reactive({
       // all these properties should match with DB, check with backend team
       id: '', // this is populated by aytocomplete, if null then it should be new reference
       name: '',
@@ -82,7 +100,7 @@ export default {
       store.dispatch('doLogin', null)
     }
     const createNew = async () => {
-      alert(JSON.stringify(reference))
+      alert(JSON.stringify(beneficiary))
       console.log('createNew')
     }
     onMounted(async () => {
@@ -95,7 +113,9 @@ export default {
       logout,
       stage,
       createNew,
+      beneficiary,
       reference,
+      casedetails,
     }
   },
 }
