@@ -9,7 +9,7 @@ const authGuard = (to, from, next) => {
   } else if (!loggedIn && requiresAuth) {
     next('/login')
   } else if (loggedIn && !requiresAuth) {
-    next('//home')
+    next('/home')
   } else {
     // should not get here
     console.log(loggedIn, requiresAuth)
@@ -41,13 +41,6 @@ const router = createRouter({
       meta: { requiresAuth: true, layout: 'layout-secure' },
     },
     {
-      path: '/requests',
-      name: 'Requests',
-      component: () => import('/src/pages/Requests.vue'),
-      beforeEnter: authGuard,
-      meta: { requiresAuth: true, layout: 'layout-secure' },
-    },
-    {
       path: '/newcase',
       name: 'New Case',
       component: () => import('/src/pages/NewCase.vue'),
@@ -66,7 +59,7 @@ const router = createRouter({
       name: 'Requests',
       component: () => import('/src/pages/Requests.vue'),
       beforeEnter: authGuard,
-      meta: { requiresAuth: false, layout: 'layout-secure' },
+      meta: { requiresAuth: true, layout: 'layout-secure' },
     },
     { path: '/:catchAll(.*)', name: 'catchAll', redirect: { name: 'LogIn' } },
   ],

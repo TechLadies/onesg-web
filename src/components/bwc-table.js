@@ -165,7 +165,10 @@ class Table extends HTMLElement {
   }
 
   _setHeights () {
-    console.log(this.#navbarHeight, this.#filterHeight)
+    // console.log(this.#navbarHeight, this.#filterHeight)
+    const el = document.querySelector('#filters')
+    if (!el) return
+    el.style.top = `${this.#navbarHeight}px`
     document.querySelector('#filters').style.top = `${this.#navbarHeight}px`
     const nodes = document.querySelectorAll('.sticky-header #table-wrapper th')
     for (let i = 0; i<nodes.length; i++) {
@@ -502,7 +505,7 @@ class Table extends HTMLElement {
     this._renderFilters()
   }
   _addFilter (index) {
-    this.#filters.splice(index, 0, { key: this.#filterCols[0].key, label: this.#filterCols[0].label, op: '=', val: '88', andOr: 'and' })
+    this.#filters.splice(index, 0, { key: this.#filterCols[0].key, label: this.#filterCols[0].label, op: '=', val: '', andOr: 'and' })
     this._renderFilters()
   }
   

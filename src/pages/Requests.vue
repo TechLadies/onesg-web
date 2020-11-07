@@ -22,10 +22,9 @@
 </template>
 
 <script>
-const { onMounted, ref, reactive } = Vue
+import { onMounted, ref, reactive } from 'vue'
 
 export default {
-  template,
   setup() {
     const page = ref(1)
     const pageSize = ref(10)
@@ -49,7 +48,7 @@ export default {
     for (let i=1; i<=15; i++) {
       columns.push({
         label: 'label' + i,
-        key: 'key' + 1
+        key: 'key' + i
       })
     }
 
@@ -57,7 +56,7 @@ export default {
     for (let i=1; i<=80; i++) {
       const data = {
         id: i,
-        name: 'name' + 1,
+        name: 'name' + i,
         age: i
       }
       for (let j=1; j<=15; j++) {
@@ -93,7 +92,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style scoped>
