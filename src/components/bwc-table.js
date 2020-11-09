@@ -10,21 +10,24 @@
 // row select
 // pagination (optional)
 // filters (optional)
-// sorters (optional)
+// sorter single column (optional)
 // checkbox (optional)
 // sticky header
 
 // NOT NEEDED
 // loading state and loading spinner
 
-// filters: JSON.stringify(keycol.value ? [...filters, { col: keycol.value, op: '=', val: keyval.value, andOr: 'and' }] : filters),
-// sorter: JSON.stringify(sorter)
-
 // STYLING...
-// --bwc-table-height
-// --bwc-table-overflow
+// --bwc-table-width: ?
+// --bwc-table-overflow: auto
+// --bwc-table-height: 100%
 
-// show hide filter, reload, add, delete, upload, download, goback (if parentKey != null), loading
+// EVENTS
+// rowclick { detail: { row, col, data }
+// triggered = sort / page / page-size / reload { detail: { name, sortKey, sortDir, page, pageSize, filters: [ { key, op, val, andOr } ] } }
+// cmd = show/hide filter, reload, add, delete, upload, download, goback (if parentKey != null)
+// checked TBD
+
 const template = document.createElement('template')
 template.innerHTML = `
 <style>
@@ -32,10 +35,15 @@ template.innerHTML = `
   overflow: var(--bwc-table-overflow, auto);
   height: var(--bwc-table-height, calc(100vh - 250px));
 }
+#table-wrapper table {
+  table-layout: initial;
+  width: var(--bwc-table-width, 100%);
+}
 #table-wrapper > nav {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
+  left: 0px;
   z-index: 2;
   background-color: lightgray !important;
 }
@@ -43,6 +51,7 @@ template.innerHTML = `
   position: -webkit-sticky;
   position: sticky;
   top: 56px;
+  left: 0px;
   z-index: 2;
   background-color: cyan;
 }
@@ -83,10 +92,10 @@ template.innerHTML = `
         <div id="commands" class="navbar-item">
           <a id="cmd-filter" class="button">o</a>
           <a id="cmd-reload" class="button">↻</a>
-          <a class="button">+</a>
-          <a class="button">-</a>
-          <a class="button">&uarr;</a>
-          <a class="button">&darr;</a>
+          <a id="cmd-add" class="button">+</a>
+          <a id="cmd-del" class="button">-</a>
+          <a id="cmd-import" class="button">&uarr;</a>
+          <a id="cmd-export" class="button">&darr;</a>
         </div>
       </div>
     
@@ -101,9 +110,6 @@ template.innerHTML = `
           <a>
             <span class="select">
               <select id="page-select">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
               </select>
             </span>
           </a>
@@ -121,7 +127,7 @@ class Table extends HTMLElement {
   #columns = []
   #items = []
 
-  // pagination
+  // enable pagination
   #pagination = true
   #page = 1 // one based index
   #pageSize = 10
@@ -129,7 +135,7 @@ class Table extends HTMLElement {
   #pages = 0 // computed Math.ceil(total / pageSize)
   #total = 0
 
-  // sorting
+  // enable sorting
   #sort = true
   #sortKey = ''
   #sortDir = '' // blank, asc, desc
@@ -143,8 +149,8 @@ class Table extends HTMLElement {
   #selectedNode = null
   #selectedItem = null
 
-  // commands menu
-  #commands = true
+  // enable commands menu
+  #commands = ''
 
   // filters
   #filters = []
@@ -156,22 +162,18 @@ class Table extends HTMLElement {
   #navbarHeight = 56 // #table-navbar
   #filterHeight = 0 // #filters
 
-  // events
-  // rowclicked, triggered = sort / page / pagesize / pageSizeList, cmd (reload), checked
-
   constructor() {
     super()
     // this.input = this.input.bind(this)
   }
 
-  _setHeights () {
+  _setHeights() {
     // console.log(this.#navbarHeight, this.#filterHeight)
     const el = document.querySelector('#filters')
     if (!el) return
     el.style.top = `${this.#navbarHeight}px`
-    document.querySelector('#filters').style.top = `${this.#navbarHeight}px`
     const nodes = document.querySelectorAll('.sticky-header #table-wrapper th')
-    for (let i = 0; i<nodes.length; i++) {
+    for (let i = 0; i < nodes.length; i++) {
       // console.log('nodes', nodes[i])
       nodes[i].style.top = `${this.#navbarHeight + this.#filterHeight}px`
     }
@@ -189,12 +191,18 @@ class Table extends HTMLElement {
     // Check for click events on the navbar burger icon
     document.querySelector('.navbar-burger').onclick = () => {
       // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-      document.querySelector('#table-navbar-burger').classList.toggle('is-active') // navbar-burger
+      document
+        .querySelector('#table-navbar-burger')
+        .classList.toggle('is-active') // navbar-burger
       document.querySelector('#table-navbar-menu').classList.toggle('is-active') // navbar-menu
     }
     document.querySelector('#page-input').onblur = (e) => {
       const page = e.target.value
-      if (page >= 1 && page <= this.#pages && Number(page) !== Number(this.page)) {
+      if (
+        page >= 1 &&
+        page <= this.#pages &&
+        Number(page) !== Number(this.page)
+      ) {
         this.page = page
         this._trigger('page')
       } else {
@@ -204,20 +212,31 @@ class Table extends HTMLElement {
 
     document.querySelector('#cmd-filter').onclick = () => {
       this.#filterShow = !this.#filterShow
-      document.querySelector('#filters').style.display = this.#filterShow ? 'block': 'none'
+      document.querySelector('#filters').style.display = this.#filterShow
+        ? 'block'
+        : 'none'
     }
 
-    new ResizeObserver(entries => {
+    new ResizeObserver((entries) => {
       this.#navbarHeight = entries[0].target.clientHeight
       this._setHeights()
     }).observe(document.querySelector('#table-navbar'))
 
-    new ResizeObserver(entries => {
+    new ResizeObserver((entries) => {
       this.#filterHeight = entries[0].target.clientHeight
       this._setHeights()
     }).observe(document.querySelector('#filters')) // start observing a DOM node
 
-    document.querySelector('#cmd-reload').onclick = () => this._trigger('reload') 
+    document.querySelector('#cmd-reload').onclick = () =>
+      this._trigger('reload')
+    document.querySelector('#cmd-add').onclick = () =>
+      this.dispatchEvent(new CustomEvent('cmd', { cmd: 'add' }))
+    document.querySelector('#cmd-del').onclick = () =>
+      this.dispatchEvent(new CustomEvent('cmd', { cmd: 'del', detail: [] }))
+    document.querySelector('#cmd-import').onclick = () =>
+      this.dispatchEvent(new CustomEvent('cmd', { cmd: 'import' }))
+    document.querySelector('#cmd-export').onclick = () =>
+      this.dispatchEvent(new CustomEvent('cmd', { cmd: 'export', detail: [] }))
     document.querySelector('#page-dec').onclick = (e) => {
       if (this.page > 1) {
         this.page -= 1
@@ -247,11 +266,35 @@ class Table extends HTMLElement {
     if (!this.#sortKey) this.#sortKey = ''
     if (!this.#sortDir) this.#sortDir = ''
 
-    document.querySelector('#filters').style.display = this.#filterShow ? 'block': 'none'
-    if (!this.#pagination) document.querySelector('.pagination').style.display = 'none'
-    if (!this.#commands) document.querySelector('#commands').style.display = 'none'
-    
-    this.render()
+    document.querySelector('#filters').style.display = this.#filterShow
+      ? 'block'
+      : 'none'
+    if (!this.#pagination)
+      document.querySelector('.pagination').style.display = 'none'
+    if (!this.#commands || typeof this.#commands !== 'string') {
+      document.querySelector('#commands').style.display = 'none'
+    } else {
+      document.querySelector(
+        '#cmd-reload'
+      ).style.display = this.#commands.includes('reload') ? 'block' : 'none'
+      document.querySelector(
+        '#cmd-filter'
+      ).style.display = this.#commands.includes('filter') ? 'block' : 'none'
+      document.querySelector(
+        '#cmd-add'
+      ).style.display = this.#commands.includes('add') ? 'block' : 'none'
+      document.querySelector(
+        '#cmd-del'
+      ).style.display = this.#commands.includes('del') ? 'block' : 'none'
+      document.querySelector(
+        '#cmd-import'
+      ).style.display = this.#commands.includes('import') ? 'block' : 'none'
+      document.querySelector(
+        '#cmd-export'
+      ).style.display = this.#commands.includes('export') ? 'block' : 'none'
+    }
+
+    this._render()
     this._renderPageSelect()
     this._renderPageInput()
     this._renderPages()
@@ -266,137 +309,103 @@ class Table extends HTMLElement {
 
   // attributeChangedCallback(name, oldVal, newVal) {
   //   switch (name) {
-  //     case 'page': {
-  //       // const event = new CustomEvent('input', { detail: newVal })
-  //       // this.dispatchEvent(event)
-  //       break
-  //     }
+  //     case 'page': { break }
   //   }
   // }
-
   // static get observedAttributes() {
-  //   return ['page', 'page-size', 'total']
+  //   return ['page']
   // }
 
-  get checkboxes () {
+  get checkboxes() {
     return this.#checkboxes
   }
-
-  set checkboxes (val) {
+  set checkboxes(val) {
     this.#checkboxes = val
   }
-
-  get pagination () {
+  get pagination() {
     return this.#pagination
   }
-
-  set pagination (val) {
+  set pagination(val) {
     this.#pagination = val
   }
-
-  get commands () {
+  get commands() {
     return this.#commands
   }
-
-  set commands (val) {
+  set commands(val) {
     this.#commands = val
   }
-
-  get sort () {
+  get sort() {
     return this.#sort
   }
-
-  set sort (val) {
+  set sort(val) {
     this.#sort = val
   }
 
-  get page () {
-    console.log('get page', this.#page)
+  get page() {
     return this.#page
   }
-
-  set page (val) {
-    console.log('set page')
+  set page(val) {
     this.#page = val
-    // DONE ELSEWHERE emit event
-  }
+  } // DONE ELSEWHERE emit event
 
-  get pageSize () {
-    console.log('get pageSize')
+  get pageSize() {
     return this.#pageSize
   }
-
-  set pageSize (val) {
-    console.log('set pageSize', this.total , this.pageSize)
+  set pageSize(val) {
+    console.log('set pageSize', this.total, this.pageSize)
     this.#pageSize = val
     this._renderPages()
-    // DONE ELSEWHERE emit event
-  }
+  } // DONE ELSEWHERE emit event
 
-  get pageSizeList () {
-    console.log('get pageSizeList')
+  get pageSizeList() {
     return this.#pageSizeList
   }
-
-  set pageSizeList (val) {
-    console.log('set pageSizeList')
+  set pageSizeList(val) {
     this.#pageSizeList = val
-    // TBD emit event
-  }
-
+  } // TBD emit event
   get items() {
     return this.#items
   }
-
   set items(val) {
-    console.log('set items 0', this.columns && this.columns.length)
     this.#items = val
-    console.log('set items 1')
-    // if columns do something
-  }
+    this._render()
+    this._renderPageSelect()
+    this._renderPageInput()
+    this._renderPages()
+  } // if columns do something
 
-  get total () {
-    console.log('get total')
+  get total() {
     return this.#total
   }
-
-  set total (val) {
-    console.log('set total xx', val, this.total , this.pageSize)
+  set total(val) {
     this.#total = val
-
     this._renderPages()
-    // emit event ?
-  }
+  } // emit event ?
 
-  get selectedItem () {
-    return this.#selectedItem    
+  get selectedItem() {
+    return this.#selectedItem
   }
-
-  set selectedItem (val) {
+  set selectedItem(val) {
     this.#selectedItem = val
   }
-
   get columns() {
     return this.#columns
   }
-
   set columns(val) {
-    console.log('set columns 0')
     this.#columns = val
-    console.log('set columns 1')
-    // do something
-  }
+  } // do something
 
-  _renderPages () {
+  _renderPages() {
     this.#pages = Math.ceil(this.total / this.pageSize)
     const el = document.querySelector('#pages-span')
     if (el) el.textContent = this.#pages
   }
 
-  _renderPageSelect () {
+  _renderPageSelect() {
     const el = document.querySelector('#page-select')
+    if (!el) return
     el.textContent = '' // remove all children
-    this.pageSizeList.forEach(item => {
+    this.pageSizeList.forEach((item) => {
       const option = document.createElement('option')
       option.value = item
       option.textContent = item
@@ -405,123 +414,189 @@ class Table extends HTMLElement {
     })
   }
 
-  _renderPageInput () {
+  _renderPageInput() {
     const el = document.querySelector('#page-input')
+    if (!el) return
     el.value = this.page
   }
 
-  _renderFilters () {
+  _createSelect(items, value) {
+    const p = document.createElement('p')
+    p.classList.add('control', 'm-0')
+    const span = document.createElement('span')
+    span.classList.add('select')
+    const select = document.createElement('select')
+    items.forEach((item) => {
+      const option = document.createElement('option')
+      if (item.key) {
+        option.textContent = item.label
+        option.value = item.key
+      } else {
+        option.textContent = item
+        option.value = item
+      }
+      select.appendChild(option)
+    })
+    select.value = value
+    span.appendChild(select)
+    p.appendChild(span)
+    return p
+  }
+
+  _renderFilters() {
     const el = document.querySelector('#filters')
     el.textContent = ''
     if (this.#filters.length) {
-      for (let i=0; i < this.#filters.length; i++) {
+      for (let i = 0; i < this.#filters.length; i++) {
         const filter = this.#filters[i]
         const div = document.createElement('div')
-        const filterCol = document.createElement('select')
-        this.#filterCols.forEach(item => {
-          const option = document.createElement('option')
-          option.textContent = item.label
-          option.value = item.key
-          filterCol.appendChild(option)
-        })
-        filterCol.value = filter.key
-        div.appendChild(filterCol)
+        div.classList.add('field', 'has-addons', 'm-0', 'p-1')
 
-        const filterOp = document.createElement('select')
-        this.#filterOps.forEach(item => {
-          const option = document.createElement('option')
-          option.textContent = item
-          option.value = item
-          filterOp.appendChild(option)
-        })
-        filterOp.value = filter.op
-        div.appendChild(filterOp)
+        div.appendChild(this._createSelect(this.#filterCols, filter.key))
+        div.appendChild(this._createSelect(this.#filterOps, filter.op))
 
+        const p = document.createElement('p')
+        p.classList.add('control', 'm-0')
         const filterInput = document.createElement('input')
+        filterInput.classList.add('input')
         filterInput.value = filter.val
-        div.appendChild(filterInput)
+        p.appendChild(filterInput)
+        div.appendChild(p)
 
+        const pf = document.createElement('p')
+        pf.classList.add('control', 'm-0')
+        pf.innerHTML = `<span class="select">
+        <select id="filter-and-or">
+          <option value="and">And</option>
+          <option value="or">Or</option>
+        </select>
+        </span>`
+        pf.querySelector('#filter-and-or').value = filter.andOr
+        div.appendChild(pf)
+
+        /*
         const filterAndOr = new DOMParser().parseFromString(
-          `<select id="filter-and-or">
+          `<p class="control m-0">
+          <span class="select">
+          <select id="filter-and-or">
             <option value="and">And</option>
             <option value="or">Or</option>
-          </select>`, "text/html")
+          </select>
+          </span>
+          </p>`, 'text/html')
         const filterAndOrNode = filterAndOr.body.childNodes[0]
         filterAndOrNode.value = filter.andOr
         div.appendChild(filterAndOrNode)
+        */
 
+        const p1 = document.createElement('p')
+        p1.classList.add('control', 'm-0')
         const delBtn = document.createElement('button')
+        delBtn.classList.add('button')
         delBtn.textContent = '-'
         delBtn.onclick = () => this._delFilter(i)
-        div.appendChild(delBtn)
+        p1.appendChild(delBtn)
+        div.appendChild(p1)
 
+        const p2 = document.createElement('p')
+        p2.classList.add('control', 'm-0')
         const addBtn = document.createElement('button')
+        addBtn.classList.add('button')
         addBtn.textContent = '+'
         addBtn.onclick = () => this._addFilter(i + 1)
-        div.appendChild(addBtn)
-  
-        el.appendChild(div)  
+        p2.appendChild(addBtn)
+        div.appendChild(p2)
+
+        el.appendChild(div)
       }
     } else {
+      const div = document.createElement('div')
+      div.classList.add('field', 'p-1')
+      const p = document.createElement('p')
+      p.classList.add('control')
       const btn = document.createElement('button')
+      btn.classList.add('button')
       btn.textContent = '+'
       btn.onclick = () => this._addFilter(0)
-      el.appendChild(btn)
+      p.appendChild(btn)
+      div.appendChild(p)
+      el.appendChild(div)
     }
   }
 
-  _trigger (name) {
+  _trigger(name) {
     const filters = []
     const el = document.querySelector('#filters')
-    console.log(el)
-    for (let i=0; i<el.children.length; i++) {
+    for (let i = 0; i < el.children.length; i++) {
       const div = el.children[i]
       if (div.children.length >= 4) {
         filters.push({
           key: div.children[0].value,
           op: div.children[1].value,
           val: div.children[2].value,
-          andOr: div.children[3].value
+          andOr: div.children[3].value,
         })
       }
     }
-    this.dispatchEvent(new CustomEvent('triggered', {
-      // get filter information
-      detail: {
-        name, // page, sort
-        sortKey: this.#sortKey,
-        sortDir: this.#sortDir,
-        page: this.page || 0,
-        pageSize: this.pageSize || 0,
-        filters
-      }
-    }))  
-    // console.log('sort', col, this.columns[col].key, this.#sortKey, this.#sortDir)
+    this.dispatchEvent(
+      new CustomEvent('triggered', {
+        // get filter information
+        detail: {
+          name, // page, sort
+          sortKey: this.#sortKey,
+          sortDir: this.#sortDir,
+          page: this.page || 0,
+          pageSize: this.pageSize || 0,
+          filters,
+        },
+      })
+    )
   }
 
   // filters
-  _delFilter (index) {
+  _delFilter(index) {
     this.#filters.splice(index, 1) // console.log('remove filter', index)
     this._renderFilters()
   }
-  _addFilter (index) {
-    this.#filters.splice(index, 0, { key: this.#filterCols[0].key, label: this.#filterCols[0].label, op: '=', val: '', andOr: 'and' })
+  _addFilter(index) {
+    this.#filters.splice(index, 0, {
+      key: this.#filterCols[0].key,
+      label: this.#filterCols[0].label,
+      op: '=',
+      val: '',
+      andOr: 'and',
+    })
     this._renderFilters()
   }
-  
-  render() {
+
+  _render() {
     try {
       const el = document.querySelector('#table-wrapper')
+      if (!el) return
       //<tfoot><tr><th><abbr title="Position">Pos</abbr></th>
 
-      if (typeof this.columns === 'object') {
+      let table = el.querySelector('table')
+      if (table) {
+        // const cNode = table.cloneNode(false)
+        // table.parentNode.replaceChild(cNode, table)
+        // table.innerHTML = ''
+        const parent = el.querySelector('table') // WORKS!
+        while (parent.firstChild) {
+          parent.firstChild.remove()
+        }
+        parent.remove()
+      }
+
+      if (typeof this.#columns === 'object') {
         console.log('render thead')
-        const table = document.createElement('table')
+        table = document.createElement('table')
+        table.setAttribute('id', 'table')
         el.appendChild(table)
         const thead = document.createElement('thead')
         thead.onclick = (e) => {
           let target = e.target
-          if (this.#checkboxes && !target.cellIndex) { // checkbox clicked - target.type === 'checkbox' // e.stopPropagation()?
+          if (this.#checkboxes && !target.cellIndex) {
+            // checkbox clicked - target.type === 'checkbox' // e.stopPropagation()?
             const tbody = document.querySelector('table tbody')
             for (let i = 0; i < tbody.children.length; i++) {
               const tr = tbody.children[i]
@@ -533,11 +608,12 @@ class Table extends HTMLElement {
                 }
               }
             }
-          } else { // sort
+          } else {
+            // sort
             if (!this.sort) return
             const offset = this.#checkboxes ? 1 : 0 //  column offset
             const col = target.cellIndex - offset // TD 0-index based column
-            const key = this.columns[col].key
+            const key = this.#columns[col].key
 
             if (key !== this.#sortKey) {
               this.#sortKey = key
@@ -555,9 +631,12 @@ class Table extends HTMLElement {
             const theadTr = document.querySelector('table thead tr')
             for (let i = offset; i < theadTr.children.length; i++) {
               const th = theadTr.children[i]
-              let label = this.columns[i - offset].label
-              if (this.columns[i - offset].key === this.#sortKey && this.#sortDir) {
-                label = label + (this.#sortDir === 'asc' ? '&and;': '&or;')
+              let label = this.#columns[i - offset].label
+              if (
+                this.#columns[i - offset].key === this.#sortKey &&
+                this.#sortDir
+              ) {
+                label = label + (this.#sortDir === 'asc' ? '&uarr;' : '&darr;')
               }
               th.innerHTML = label // cannot textContent (need to parse the HTML)
             }
@@ -570,7 +649,8 @@ class Table extends HTMLElement {
         table.classList.add('table')
         const tr = document.createElement('tr')
         thead.appendChild(tr)
-        if (this.#checkboxes) { // check all
+        if (this.#checkboxes) {
+          // check all
           const th = document.createElement('th')
           th.style.width = '50px' // TBD do not hardcode
           const checkbox = document.createElement('input')
@@ -579,9 +659,11 @@ class Table extends HTMLElement {
           th.appendChild(checkbox)
           tr.appendChild(th)
         }
-        for (const col of this.columns) {
+        for (const col of this.#columns) {
           const th = document.createElement('th')
-          const label = col.label + ((this.#sortKey) ? (this.#sortDir === 'asc' ? '&and;': '&or') : '') // &and; (up) & &or; (down)
+          const label =
+            col.label +
+            (this.#sortKey ? (this.#sortDir === 'asc' ? '&and;' : '&or') : '') // &and; (up) & &or; (down)
           if (col.width) th.style.width = `${col.width}px`
           if (col.sticky) th.setAttribute('scope', 'row')
 
@@ -589,63 +671,69 @@ class Table extends HTMLElement {
           tr.appendChild(th)
 
           // set filters...
-          if (col.filter) this.#filterCols.push({
-            key: col.key,
-            label: col.label
-          }) // process filters (col is key)
+          if (col.filter)
+            this.#filterCols.push({
+              key: col.key,
+              label: col.label,
+            }) // process filters (col is key)
         }
 
         // populate the data
-        if (typeof this.items === 'object' && this.items.length) {
+        if (typeof this.#items === 'object' && this.#items.length) {
           console.log('render tbody')
           const tbody = document.createElement('tbody')
           // TBD function to get checked rows...
           tbody.onclick = (e) => {
             let target = e.target
-            if (this.#checkboxes && !target.cellIndex) { // checkbox clicked - target.type === 'checkbox' // e.stopPropagation()?
-
+            if (this.#checkboxes && !target.cellIndex) {
+              // checkbox clicked - target.type === 'checkbox' // e.stopPropagation()?
             } else {
               const offset = this.#checkboxes ? 1 : 0 //  column offset
               const col = target.cellIndex - offset // TD 0-index based column
 
-              while (target && target.nodeName !== "TR") {
+              while (target && target.nodeName !== 'TR') {
                 target = target.parentNode
               }
               const row = target.rowIndex - 1 // TR 1-index based row
               let data = null
               if (target) {
-                if (this.#selectedNode) { // clear class is-selected
+                if (this.#selectedNode) {
+                  // clear class is-selected
                   this.#selectedNode.classList.remove('is-selected')
                 }
-                if (this.#selectedIndex === row && this.#selectedIndex !== -1) { // unselect
+                if (this.#selectedIndex === row && this.#selectedIndex !== -1) {
+                  // unselect
                   this.#selectedIndex = -1
                   this.selectedItem = null
                 } else {
-                  const cells = target.getElementsByTagName("td")
+                  const cells = target.getElementsByTagName('td')
                   data = {}
                   for (let i = offset; i < cells.length; i++) {
-                    const key = this.columns[i - offset].key
+                    const key = this.#columns[i - offset].key
                     data[key] = cells[i].textContent // no need innerHTML
-                  }  
+                  }
                   this.#selectedNode = target // set selected
                   this.#selectedIndex = row
                   this.selectedItem = { row, col, data }
-                  target.classList.add('is-selected')  
+                  target.classList.add('is-selected')
                 }
               }
-              this.dispatchEvent(new CustomEvent('rowclick', { detail: { row, col, data } }))
+              this.dispatchEvent(
+                new CustomEvent('rowclick', { detail: { row, col, data } })
+              )
             }
           }
- 
+
           table.appendChild(tbody)
-          for (const row of this.items) {
+          for (const row of this.#items) {
             const tr = document.createElement('tr')
             tbody.appendChild(tr)
 
-            if (this.#checkboxes) { // add checkbox
+            if (this.#checkboxes) {
+              // add checkbox
               const td = document.createElement('td')
               const checkbox = document.createElement('input')
-              checkbox.type = 'checkbox' // value 
+              checkbox.type = 'checkbox' // value
               td.setAttribute('scope', 'row')
               td.appendChild(checkbox)
               tr.appendChild(td)
@@ -654,12 +742,15 @@ class Table extends HTMLElement {
             let i = 0
             for (const col in row) {
               const td = document.createElement('td')
-              if (this.columns[i].sticky) td.setAttribute('scope', 'row')
+              if (this.#columns[i].sticky) td.setAttribute('scope', 'row')
+              if (this.#columns[i].width)
+                td.style.width = `${this.#columns[i].width}px`
+
               i++
               td.appendChild(document.createTextNode(row[col]))
               tr.appendChild(td)
-            }   
-          }      
+            }
+          }
         }
       }
     } catch (e) {
@@ -670,7 +761,7 @@ class Table extends HTMLElement {
 
 customElements.define('bwc-table', Table)
 
-/* FORM
+/* FORM - This should be a seperate component I think...
       <slot name="form" :tableCfg="tableCfg" :recordObj="recordObj" :showForm="showForm">
         <form class="form-box-flex">
           <p>{{ showForm !== 'add' ? 'Edit' : 'Add' }}</p>
@@ -725,5 +816,4 @@ customElements.define('bwc-table', Table)
           <mwc-button type="button" @click="doAddOrEdit" :disabled="loading">Confirm</mwc-button>
         </form>
       </slot>
-
 */
