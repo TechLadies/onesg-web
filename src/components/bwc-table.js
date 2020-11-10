@@ -1,9 +1,5 @@
 // TBD
-// make sticky header optional
-// sticky column (make optional)
-// custom render columns (inline edit?)
-// cmd buttons (add, delete, upload, download, goback)
-// checkbox events & collect checked items...
+// inline edit?
 
 // FEATURES
 // handle columns and items
@@ -12,28 +8,53 @@
 // filters (optional)
 // sorter single column (optional)
 // checkbox (optional)
-// sticky header
-
-// NOT NEEDED
-// loading state and loading spinner
+// sticky header (optional)
+// sticky coloumn (optional - currently only for 1st column)
+// checkbox & check all (optional)
+// custom render columns
 
 // STYLING...
-// --bwc-table-width: ?
+// --bwc-table-width: 100%
 // --bwc-table-overflow: auto
 // --bwc-table-height: 100%
+// --bwc-table-navbar-bgcolor: white
+// --bwc-table-filter-bgcolor: white
+// --bwc-table-filter-color: black
+// --bwc-table-th-bgcolor: white
+// --bwc-table-th-color: black
+// --bwc-table-td-bgcolor: transparent
+// --bwc-table-td-color: black
+// --bwc-table-td-select-bgcolor: black
+// --bwc-table-td-select-color: black
+
+// PROPERTIES
+// commands="reload,filter"
+// :pagination="true"
+// :sort="true"
+// :page="page"
+// :pageSize="pageSize"
+// :pageSizeList="pageSizeList"
+// :columns="columns"
+// :items="table.items"
+// :total="total"
+// style="--bwc-table-height: calc(100vh - 360px);--bwc-table-width: 200%;"
+// class="sticky-header sticky-column"
 
 // EVENTS
 // rowclick { detail: { row, col, data }
 // triggered = sort / page / page-size / reload { detail: { name, sortKey, sortDir, page, pageSize, filters: [ { key, op, val, andOr } ] } }
 // cmd = show/hide filter, reload, add, delete, upload, download, goback (if parentKey != null)
-// checked TBD
+// checked = [indexes checked...]
+
+// NOT NEEDED
+// loading state and loading spinner
 
 const template = document.createElement('template')
 template.innerHTML = `
 <style>
 #table-wrapper {
   overflow: var(--bwc-table-overflow, auto);
-  height: var(--bwc-table-height, calc(100vh - 250px));
+  height: var(--bwc-table-height, 100%);
 }
 #table-wrapper table {
   table-layout: initial;
@@ -45,7 +66,7 @@ template.innerHTML = `
   top: 0;
   left: 0px;
   z-index: 2;
-  background-color: lightgray !important;
+  background-color: var(--bwc-table-navbar-bgcolor, lightslategray) !important;
 }
 #table-wrapper #filters {
   position: -webkit-sticky;
@@ -53,14 +74,26 @@ template.innerHTML = `
   top: 56px;
   left: 0px;
   z-index: 2;
-  background-color: cyan;
+  background-color: var(--bwc-table-filter-bgcolor, white);
+  color: var(--bwc-table-filter-color, black);
+}
+#table-wrapper th {
+  background-color:  var(--bwc-table-th-bgcolor, white);
+  color: var(--bwc-table-th-color, black);
+}
+#table-wrapper tr td {
+  background-color:  var(--bwc-table-td-bgcolor, transparent);
+  color: var(--bwc-table-td-color, black);
+}
+#table-wrapper tr.is-selected td {
+  background-color:  var(--bwc-table-td-select-bgcolor, lightgrey);
+  color: var(--bwc-table-td-select-color, black);
 }
 .sticky-header #table-wrapper th {
   position: -webkit-sticky;
   position: sticky;
   top: 56px; /* nav height - TBD filter height*/
   z-index: 2;
-  background-color: red;
 }
 .sticky-column #table-wrapper th[scope=row] {
   position: -webkit-sticky;
@@ -75,7 +108,6 @@ template.innerHTML = `
   position: sticky;
   left: 0;
   z-index: 1;
-  background-color: yellow;
 }
 </style>
 <div id="table-wrapper">
@@ -169,10 +201,10 @@ class Table extends HTMLElement {
 
   _setHeights() {
     // console.log(this.#navbarHeight, this.#filterHeight)
-    const el = document.querySelector('#filters')
+    const el = this.querySelector('#filters')
     if (!el) return
     el.style.top = `${this.#navbarHeight}px`
-    const nodes = document.querySelectorAll('.sticky-header #table-wrapper th')
+    const nodes = this.querySelectorAll('.sticky-header #table-wrapper th')
     for (let i = 0; i < nodes.length; i++) {
       // console.log('nodes', nodes[i])
       nodes[i].style.top = `${this.#navbarHeight + this.#filterHeight}px`
@@ -189,14 +221,12 @@ class Table extends HTMLElement {
     // if (this.required !== null) el.setAttribute('required', '')
 
     // Check for click events on the navbar burger icon
-    document.querySelector('.navbar-burger').onclick = () => {
+    this.querySelector('.navbar-burger').onclick = () => {
       // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-      document
-        .querySelector('#table-navbar-burger')
-        .classList.toggle('is-active') // navbar-burger
-      document.querySelector('#table-navbar-menu').classList.toggle('is-active') // navbar-menu
+      this.querySelector('#table-navbar-burger').classList.toggle('is-active') // navbar-burger
+      this.querySelector('#table-navbar-menu').classList.toggle('is-active') // navbar-menu
     }
-    document.querySelector('#page-input').onblur = (e) => {
+    this.querySelector('#page-input').onblur = (e) => {
       const page = e.target.value
       if (
         page >= 1 &&
@@ -210,9 +240,9 @@ class Table extends HTMLElement {
       }
     }
 
-    document.querySelector('#cmd-filter').onclick = () => {
+    this.querySelector('#cmd-filter').onclick = () => {
       this.#filterShow = !this.#filterShow
-      document.querySelector('#filters').style.display = this.#filterShow
+      this.querySelector('#filters').style.display = this.#filterShow
         ? 'block'
         : 'none'
     }
@@ -220,31 +250,38 @@ class Table extends HTMLElement {
     new ResizeObserver((entries) => {
       this.#navbarHeight = entries[0].target.clientHeight
       this._setHeights()
-    }).observe(document.querySelector('#table-navbar'))
+    }).observe(this.querySelector('#table-navbar'))
 
     new ResizeObserver((entries) => {
       this.#filterHeight = entries[0].target.clientHeight
       this._setHeights()
-    }).observe(document.querySelector('#filters')) // start observing a DOM node
+    }).observe(this.querySelector('#filters')) // start observing a DOM node
 
-    document.querySelector('#cmd-reload').onclick = () =>
-      this._trigger('reload')
-    document.querySelector('#cmd-add').onclick = () =>
-      this.dispatchEvent(new CustomEvent('cmd', { cmd: 'add' }))
-    document.querySelector('#cmd-del').onclick = () =>
-      this.dispatchEvent(new CustomEvent('cmd', { cmd: 'del', detail: [] }))
-    document.querySelector('#cmd-import').onclick = () =>
-      this.dispatchEvent(new CustomEvent('cmd', { cmd: 'import' }))
-    document.querySelector('#cmd-export').onclick = () =>
-      this.dispatchEvent(new CustomEvent('cmd', { cmd: 'export', detail: [] }))
-    document.querySelector('#page-dec').onclick = (e) => {
+    this.querySelector('#cmd-reload').onclick = () => this._trigger('reload')
+    this.querySelector('#cmd-add').onclick = () =>
+      this.dispatchEvent(new CustomEvent('cmd', { detail: { cmd: 'add' } }))
+    this.querySelector('#cmd-del').onclick = () =>
+      this.dispatchEvent(
+        new CustomEvent('cmd', {
+          detail: { cmd: 'del', items: this.#checkedRows },
+        })
+      )
+    this.querySelector('#cmd-import').onclick = () =>
+      this.dispatchEvent(new CustomEvent('cmd', { detail: { cmd: 'import' } }))
+    this.querySelector('#cmd-export').onclick = () =>
+      this.dispatchEvent(
+        new CustomEvent('cmd', {
+          detail: { cmd: 'export', items: this.#checkedRows },
+        })
+      )
+    this.querySelector('#page-dec').onclick = (e) => {
       if (this.page > 1) {
         this.page -= 1
         this._renderPageInput()
         this._trigger('page')
       }
     }
-    document.querySelector('#page-inc').onclick = (e) => {
+    this.querySelector('#page-inc').onclick = (e) => {
       console.log('inc page', this.page, this.#pages)
       if (this.page < this.#pages) {
         this.page += 1
@@ -252,7 +289,7 @@ class Table extends HTMLElement {
         this._trigger('page')
       }
     }
-    document.querySelector('#page-select').onchange = (e) => {
+    this.querySelector('#page-select').onchange = (e) => {
       console.log('page select', e.target.value)
       // recompute #pages
       // reset page?
@@ -266,32 +303,44 @@ class Table extends HTMLElement {
     if (!this.#sortKey) this.#sortKey = ''
     if (!this.#sortDir) this.#sortDir = ''
 
-    document.querySelector('#filters').style.display = this.#filterShow
+    this.querySelector('#filters').style.display = this.#filterShow
       ? 'block'
       : 'none'
     if (!this.#pagination)
-      document.querySelector('.pagination').style.display = 'none'
+      this.querySelector('.pagination').style.display = 'none'
     if (!this.#commands || typeof this.#commands !== 'string') {
-      document.querySelector('#commands').style.display = 'none'
+      this.querySelector('#commands').style.display = 'none'
     } else {
-      document.querySelector(
-        '#cmd-reload'
-      ).style.display = this.#commands.includes('reload') ? 'block' : 'none'
-      document.querySelector(
-        '#cmd-filter'
-      ).style.display = this.#commands.includes('filter') ? 'block' : 'none'
-      document.querySelector(
-        '#cmd-add'
-      ).style.display = this.#commands.includes('add') ? 'block' : 'none'
-      document.querySelector(
-        '#cmd-del'
-      ).style.display = this.#commands.includes('del') ? 'block' : 'none'
-      document.querySelector(
-        '#cmd-import'
-      ).style.display = this.#commands.includes('import') ? 'block' : 'none'
-      document.querySelector(
-        '#cmd-export'
-      ).style.display = this.#commands.includes('export') ? 'block' : 'none'
+      this.querySelector('#cmd-reload').style.display = this.#commands.includes(
+        'reload'
+      )
+        ? 'block'
+        : 'none'
+      this.querySelector('#cmd-filter').style.display = this.#commands.includes(
+        'filter'
+      )
+        ? 'block'
+        : 'none'
+      this.querySelector('#cmd-add').style.display = this.#commands.includes(
+        'add'
+      )
+        ? 'block'
+        : 'none'
+      this.querySelector('#cmd-del').style.display = this.#commands.includes(
+        'del'
+      )
+        ? 'block'
+        : 'none'
+      this.querySelector('#cmd-import').style.display = this.#commands.includes(
+        'import'
+      )
+        ? 'block'
+        : 'none'
+      this.querySelector('#cmd-export').style.display = this.#commands.includes(
+        'export'
+      )
+        ? 'block'
+        : 'none'
     }
 
     this._render()
@@ -367,6 +416,7 @@ class Table extends HTMLElement {
     return this.#items
   }
   set items(val) {
+    console.log('set items')
     this.#items = val
     this._render()
     this._renderPageSelect()
@@ -397,12 +447,12 @@ class Table extends HTMLElement {
 
   _renderPages() {
     this.#pages = Math.ceil(this.total / this.pageSize)
-    const el = document.querySelector('#pages-span')
+    const el = this.querySelector('#pages-span')
     if (el) el.textContent = this.#pages
   }
 
   _renderPageSelect() {
-    const el = document.querySelector('#page-select')
+    const el = this.querySelector('#page-select')
     if (!el) return
     el.textContent = '' // remove all children
     this.pageSizeList.forEach((item) => {
@@ -415,7 +465,7 @@ class Table extends HTMLElement {
   }
 
   _renderPageInput() {
-    const el = document.querySelector('#page-input')
+    const el = this.querySelector('#page-input')
     if (!el) return
     el.value = this.page
   }
@@ -444,7 +494,7 @@ class Table extends HTMLElement {
   }
 
   _renderFilters() {
-    const el = document.querySelector('#filters')
+    const el = this.querySelector('#filters')
     el.textContent = ''
     if (this.#filters.length) {
       for (let i = 0; i < this.#filters.length; i++) {
@@ -526,7 +576,7 @@ class Table extends HTMLElement {
 
   _trigger(name) {
     const filters = []
-    const el = document.querySelector('#filters')
+    const el = this.querySelector('#filters')
     for (let i = 0; i < el.children.length; i++) {
       const div = el.children[i]
       if (div.children.length >= 4) {
@@ -571,7 +621,7 @@ class Table extends HTMLElement {
 
   _render() {
     try {
-      const el = document.querySelector('#table-wrapper')
+      const el = this.querySelector('#table-wrapper')
       if (!el) return
       //<tfoot><tr><th><abbr title="Position">Pos</abbr></th>
 
@@ -597,7 +647,8 @@ class Table extends HTMLElement {
           let target = e.target
           if (this.#checkboxes && !target.cellIndex) {
             // checkbox clicked - target.type === 'checkbox' // e.stopPropagation()?
-            const tbody = document.querySelector('table tbody')
+            this.#checkedRows = [] //  clear first
+            const tbody = this.querySelector('table tbody')
             for (let i = 0; i < tbody.children.length; i++) {
               const tr = tbody.children[i]
               const td = tr.firstChild
@@ -605,9 +656,13 @@ class Table extends HTMLElement {
                 const checkbox = td.firstChild
                 if (checkbox.type === 'checkbox') {
                   checkbox.checked = target.checked
+                  if (target.checked) this.#checkedRows.push(i)
                 }
               }
             }
+            this.dispatchEvent(
+              new CustomEvent('checked', { detail: this.#checkedRows })
+            )
           } else {
             // sort
             if (!this.sort) return
@@ -628,7 +683,7 @@ class Table extends HTMLElement {
             }
 
             // update header
-            const theadTr = document.querySelector('table thead tr')
+            const theadTr = this.querySelector('table thead tr')
             for (let i = offset; i < theadTr.children.length; i++) {
               const th = theadTr.children[i]
               let label = this.#columns[i - offset].label
@@ -640,7 +695,6 @@ class Table extends HTMLElement {
               }
               th.innerHTML = label // cannot textContent (need to parse the HTML)
             }
-
             this._trigger('sort')
           }
         }
@@ -687,6 +741,22 @@ class Table extends HTMLElement {
             let target = e.target
             if (this.#checkboxes && !target.cellIndex) {
               // checkbox clicked - target.type === 'checkbox' // e.stopPropagation()?
+              if (target.type === 'checkbox') {
+                this.#checkedRows = [] //  clear first
+                for (let i = 0; i < tbody.children.length; i++) {
+                  const tr = tbody.children[i]
+                  const td = tr.firstChild
+                  if (td) {
+                    const checkbox = td.firstChild
+                    if (checkbox.type === 'checkbox' && checkbox.checked) {
+                      this.#checkedRows.push(i)
+                    }
+                  }
+                }
+                this.dispatchEvent(
+                  new CustomEvent('checked', { detail: this.#checkedRows })
+                )
+              }
             } else {
               const offset = this.#checkboxes ? 1 : 0 //  column offset
               const col = target.cellIndex - offset // TD 0-index based column
@@ -706,12 +776,7 @@ class Table extends HTMLElement {
                   this.#selectedIndex = -1
                   this.selectedItem = null
                 } else {
-                  const cells = target.getElementsByTagName('td')
-                  data = {}
-                  for (let i = offset; i < cells.length; i++) {
-                    const key = this.#columns[i - offset].key
-                    data[key] = cells[i].textContent // no need innerHTML
-                  }
+                  data = { ...this.#items[row] }
                   this.#selectedNode = target // set selected
                   this.#selectedIndex = row
                   this.selectedItem = { row, col, data }
@@ -742,12 +807,16 @@ class Table extends HTMLElement {
             let i = 0
             for (const col in row) {
               const td = document.createElement('td')
-              if (this.#columns[i].sticky) td.setAttribute('scope', 'row')
-              if (this.#columns[i].width)
-                td.style.width = `${this.#columns[i].width}px`
-
+              const { sticky, width, render } = this.#columns[i]
+              if (sticky) td.setAttribute('scope', 'row')
+              if (width) td.style.width = `${this.#columns[i].width}px`
               i++
-              td.appendChild(document.createTextNode(row[col]))
+              // create the column content...
+              if (render) {
+                td.innerHTML = render(row[col])
+              } else {
+                td.appendChild(document.createTextNode(row[col]))
+              }
               tr.appendChild(td)
             }
           }

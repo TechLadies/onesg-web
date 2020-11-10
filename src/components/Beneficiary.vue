@@ -34,7 +34,7 @@
           <input
             class="input is-success"
             type="text"
-            v-model="beneficiary.contact"
+            v-model="beneficiary.phone"
           />
         </div>
 
@@ -125,7 +125,8 @@ export default {
       console.log('search', e.detail, col, _showForm)
       console.log(e.detail)
       const res = await fetch(
-        'https://swapi.dev/api/people/?search=' + e.detail
+        'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/referees' +
+          e.detail
       )
       const data = await res.json()
       beneficiaries.value = data.results.map((item) => {
