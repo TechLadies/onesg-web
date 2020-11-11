@@ -284,14 +284,8 @@ export default {
       console.log(data)
     }, 500)
 
-    const store = useStore()
-    const login = (e) => {
-      console.log(e)
-      store.dispatch('doLogin', 'zzzz')
-    }
     return {
       autoComplete,
-      login,
       caseDetailSearch,
       caseDetail,
       caseDetails,

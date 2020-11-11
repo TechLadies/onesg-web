@@ -4,7 +4,7 @@
       <div class="wrapper-progress-bar">
         <ul class="progress-bar">
           <li class="active">Beneficiary</li>
-          <li class="before">Reference</li>
+          <li class="before">Referee</li>
           <li>Case Details</li>
         </ul>
       </div>
@@ -135,14 +135,8 @@ export default {
       console.log(data)
     }, 500)
 
-    const store = useStore()
-    const login = (e) => {
-      console.log(e)
-      store.dispatch('doLogin', 'zzzz')
-    }
     return {
       autoComplete,
-      login,
       beneficiarySearch,
       beneficiary,
       beneficiaries,

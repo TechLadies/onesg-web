@@ -73,18 +73,18 @@ export default {
       // all these properties should match with DB, check with backend team
       id: '', // this is populated by aytocomplete, if null then it should be new reference
       name: '',
-      contact: '',
+      phone: '',
       email: '',
       occupation: '',
       householdIncome: '',
-      HouholeSize: '',
+      householeSize: '',
     })
     const reference = reactive({
       // all these properties should match with DB, check with backend team
       id: '', // this is populated by aytocomplete, if null then it should be new reference
       name: '',
       organisation: '', // autocomplete strict... must have a match
-      contact: '',
+      phone: '',
       email: '',
     })
     const caseDetail = reactive({
