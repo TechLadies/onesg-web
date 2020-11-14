@@ -2,7 +2,7 @@
   <div class="main">
     <div class="title">Cases</div>
     <bwc-table
-      :commands="true"
+      :commands="(reload, filter)"
       :pagination="true"
       :sort="true"
       :page="page"
@@ -14,7 +14,7 @@
       @rowClick="rowClick"
       @triggered="triggered"
       @cmd="cmd"
-      style="--bwc-table-height: calc(100vh - 360px)"
+      style="--bwc-table-height: calc(100vh - 360px); --bwc-table-width: 100%"
       class="sticky-header sticky-column"
     >
     </bwc-table>
@@ -68,18 +68,23 @@ export default {
     ])
 
     const items = reactive([])
-    for (let i = 1; i <= 80; i++) {
+    for (let i = 1; i <= 100; i++) {
       const data = {
         id: i,
-        name: 'name' + i,
-        age: i,
+        beneficiaryName: 'name' + i,
+        caseNumber: '1' + i,
+        applicationDate: '21 Aug 2020',
+        poc: 'Rachel',
+        referenceName: 'Kristen',
+        organisation: 'MCCY',
+        lastUpdate: '25 Dec 2020',
       }
       for (let j = 1; j <= 8; j++) {
         data['key' + j] = 'val-' + i + '-' + j
       }
       items.push(data)
     }
-    const total = ref(80)
+    const total = ref(10)
 
     const rowClick = (e) => {
       console.log('rowClick', e.detail)
