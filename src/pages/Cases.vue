@@ -1,6 +1,7 @@
 <template>
   <div class="main">
     <div class="title">Cases</div>
+    <!-- TODO: Temporarily replaced items prop to receive the data fetchedItems for example -->
     <bwc-table
       :commands="(reload, filter)"
       :pagination="true"
@@ -9,7 +10,7 @@
       :pageSize="pageSize"
       :pageSizeList="pageSizeList"
       :columns="columns"
-      :items="items"
+      :items="fetchedItems"
       :total="total"
       @rowClick="rowClick"
       @triggered="triggered"
@@ -23,7 +24,17 @@
 
 <script>
 import { onMounted, ref, reactive } from 'vue'
-
+import axios from 'axios'
+import _ from 'lodash'
+// TODO: Temporarily moved this function here because couldn't get js export import files working.
+// Should figure out and move api services to separate folder/file
+async function fetchRefereeData() {
+  return axios
+    .get(
+      'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/referees'
+    )
+    .then((res) => res.data.results)
+}
 export default {
   setup() {
     const page = ref(1)
@@ -66,7 +77,6 @@ export default {
         filter: true,
       },
     ])
-
     const items = reactive([])
     for (let i = 1; i <= 100; i++) {
       const data = {
@@ -85,7 +95,6 @@ export default {
       items.push(data)
     }
     const total = ref(10)
-
     const rowClick = (e) => {
       console.log('rowClick', e.detail)
     }
@@ -95,7 +104,6 @@ export default {
     const cmd = (e) => {
       console.log('cmd', e.detail)
     }
-
     onMounted(async () => {
       console.log('Dashboard mounted!')
     })
@@ -111,6 +119,39 @@ export default {
       cmd,
     }
   },
+  // fetch async data
+  // data transformation using lodash map.
+  // VueJs reference https://router.vuejs.org/guide/advanced/data-fetching.html#fetching-after-navigation
+  // Lodash _.map reference https://lodash.com/docs/4.17.15#map
+  data() {
+    return {
+      fetchedItems: [],
+    }
+  },
+  created() {
+    this.fetchData()
+  },
+  methods: {
+    async fetchData() {
+      const fetchedData = await fetchRefereeData()
+      console.log('fetchedData', fetchedData)
+      // For each data, transform it to the desired shape
+      const transformedData = _.map(fetchedData, (data, key) => {
+        return {
+          id: data.refereeId,
+          beneficiaryName: 'Rachel',
+          caseNumber: key,
+          applicationDate: _.get(data, 'applicationDate', '-'),
+          poc: 'Kristen',
+          referenceName: data.name,
+          organisation: data.organisation,
+          lastUpdate: data.refereeId,
+        }
+      })
+      // Assign it to Vue data
+      this.fetchedItems = transformedData
+    },
+  },
 }
 </script>
 
@@ -121,7 +162,6 @@ export default {
   text-align: left;
   padding: 0px 0px 0px 20px;
 }
-
 .title {
   padding-bottom: 20px;
   position: relative;
