@@ -1,23 +1,26 @@
 <template>
-  <div class="main">
+  <div>
     <div class="title">Requests</div>
-    <bwc-table
-      :commands="true"
-      :pagination="true"
-      :sort="true"
-      :page="page"
-      :pageSize="pageSize"
-      :pageSizeList="pageSizeList"
-      :columns="columns"
-      :items="items"
-      :total="total"
-      @rowClick="rowClick"
-      @triggered="triggered"
-      @cmd="cmd"
-      style="--bwc-table-height: calc(100vh - 360px)"
-      class="sticky-header sticky-column"
-    >
-    </bwc-table>
+
+    <div class="main">
+      <bwc-table
+        :commands="true"
+        :pagination="true"
+        :sort="true"
+        :page="page"
+        :pageSize="pageSize"
+        :pageSizeList="pageSizeList"
+        :columns="columns"
+        :items="items"
+        :total="total"
+        @rowClick="rowClick"
+        @triggered="triggered"
+        @cmd="cmd"
+        style="--bwc-table-height: calc(100vh - 360px)"
+        class="sticky-header sticky-column"
+      >
+      </bwc-table>
+    </div>
   </div>
 </template>
 
@@ -97,12 +100,15 @@ export default {
 <style scoped>
 .main {
   margin-left: 10%;
-  margin-right: 10%;
+  margin-right: 20%;
   text-align: left;
   padding: 0px 0px 0px 20px;
 }
 
 .title {
+  text-align: left;
+  margin-left: 10%;
+  margin-right: 10%;
   padding-bottom: 20px;
   position: relative;
   font-size: 24px;

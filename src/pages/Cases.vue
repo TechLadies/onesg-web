@@ -1,24 +1,26 @@
 <template>
-  <div class="main">
+  <div>
     <div class="title">Cases</div>
-    <!-- TODO: Temporarily replaced items prop to receive the data fetchedItems for example -->
-    <bwc-table
-      :commands="(reload, filter)"
-      :pagination="true"
-      :sort="true"
-      :page="page"
-      :pageSize="pageSize"
-      :pageSizeList="pageSizeList"
-      :columns="columns"
-      :items="fetchedItems"
-      :total="total"
-      @rowClick="rowClick"
-      @triggered="triggered"
-      @cmd="cmd"
-      style="--bwc-table-height: calc(100vh - 360px); --bwc-table-width: 100%"
-      class="sticky-header sticky-column"
-    >
-    </bwc-table>
+    <div class="main">
+      <!-- TODO: Temporarily replaced items prop to receive the data fetchedItems for example -->
+      <bwc-table
+        :commands="(reload, filter)"
+        :pagination="true"
+        :sort="true"
+        :page="page"
+        :pageSize="pageSize"
+        :pageSizeList="pageSizeList"
+        :columns="columns"
+        :items="fetchedItems"
+        :total="total"
+        @rowClick="rowClick"
+        @triggered="triggered"
+        @cmd="cmd"
+        style="--bwc-table-height: calc(100vh - 360px); --bwc-table-width: 100%"
+        class="sticky-header sticky-column"
+      >
+      </bwc-table>
+    </div>
   </div>
 </template>
 
@@ -28,10 +30,10 @@ import axios from 'axios'
 import _ from 'lodash'
 // TODO: Temporarily moved this function here because couldn't get js export import files working.
 // Should figure out and move api services to separate folder/file
-async function fetchRefereeData() {
+async function fetchData() {
   return axios
     .get(
-      'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/referees'
+      'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/cases?with_paging=true&page=1&per_page=5&sort=caseId:desc&include_entities=beneficiary,referee,staff,request'
     )
     .then((res) => res.data.results)
 }
@@ -78,22 +80,7 @@ export default {
       },
     ])
     const items = reactive([])
-    for (let i = 1; i <= 100; i++) {
-      const data = {
-        id: i,
-        beneficiaryName: 'name' + i,
-        caseNumber: '1' + i,
-        applicationDate: '21 Aug 2020',
-        poc: 'Rachel',
-        referenceName: 'Kristen',
-        organisation: 'MCCY',
-        lastUpdate: '25 Dec 2020',
-      }
-      for (let j = 1; j <= 8; j++) {
-        data['key' + j] = 'val-' + i + '-' + j
-      }
-      items.push(data)
-    }
+
     const total = ref(10)
     const rowClick = (e) => {
       console.log('rowClick', e.detail)
@@ -133,19 +120,19 @@ export default {
   },
   methods: {
     async fetchData() {
-      const fetchedData = await fetchRefereeData()
+      const fetchedData = await fetchData()
       console.log('fetchedData', fetchedData)
       // For each data, transform it to the desired shape
       const transformedData = _.map(fetchedData, (data, key) => {
         return {
-          id: data.refereeId,
-          beneficiaryName: 'Rachel',
+          id: data.caseId,
+          beneficiaryName: data.beneficiary.name,
           caseNumber: key,
-          applicationDate: _.get(data, 'applicationDate', '-'),
-          poc: 'Kristen',
-          referenceName: data.name,
+          applicationDate: _.get(data.appliedOn, 'applicationDate', '-'),
+          poc: data.pointOfContact,
+          referenceName: data.referee,
           organisation: data.organisation,
-          lastUpdate: data.refereeId,
+          lastUpdate: data.updatedAt,
         }
       })
       // Assign it to Vue data
@@ -158,11 +145,15 @@ export default {
 <style scoped>
 .main {
   margin-left: 10%;
-  margin-right: 10%;
+  margin-right: 20%;
   text-align: left;
   padding: 0px 0px 0px 20px;
 }
+
 .title {
+  text-align: left;
+  margin-left: 10%;
+  margin-right: 10%;
   padding-bottom: 20px;
   position: relative;
   font-size: 24px;

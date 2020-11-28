@@ -1,7 +1,7 @@
 <template>
   <div>
+    <div class="title">New Case</div>
     <div class="main">
-      <div class="title">New Case</div>
       <div v-if="stage === 0">
         <Beneficiary :beneficiary="beneficiary" />
       </div>
@@ -124,15 +124,18 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .main {
   margin-left: 10%;
-  margin-right: 10%;
+  margin-right: 20%;
   text-align: left;
   padding: 0px 0px 0px 20px;
 }
 
 .title {
+  text-align: left;
+  margin-left: 10%;
+  margin-right: 10%;
   padding-bottom: 20px;
   position: relative;
   font-size: 24px;

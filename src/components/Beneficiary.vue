@@ -4,7 +4,7 @@
       <div class="wrapper-progress-bar">
         <ul class="progress-bar">
           <li class="active">Beneficiary</li>
-          <li class="before">Referee</li>
+          <li class="before">Reference</li>
           <li>Case Details</li>
         </ul>
       </div>
@@ -34,7 +34,7 @@
           <input
             class="input is-success"
             type="text"
-            v-model="beneficiary.phone"
+            v-model="beneficiary.contact"
           />
         </div>
 
@@ -103,6 +103,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'Beneficary',
@@ -119,13 +120,11 @@ export default {
         timeout = setTimeout(next, delay)
       }
     }
-
     const autoComplete = debounce(async (e, col, _showForm) => {
       console.log('search', e.detail, col, _showForm)
       console.log(e.detail)
       const res = await fetch(
-        'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/referees' +
-          e.detail
+        'https://swapi.dev/api/people/?search=' + e.detail
       )
       const data = await res.json()
       beneficiaries.value = data.results.map((item) => {
@@ -134,8 +133,14 @@ export default {
       console.log(data)
     }, 500)
 
+    const store = useStore()
+    const login = (e) => {
+      console.log(e)
+      store.dispatch('doLogin', 'zzzz')
+    }
     return {
       autoComplete,
+      login,
       beneficiarySearch,
       beneficiary,
       beneficiaries,
@@ -148,12 +153,10 @@ export default {
 .wrapper-progress-bar {
   width: 100%;
 }
-
 .progress-bar {
   font-size: 16px;
   font-weight: 400px;
 }
-
 .progress-bar li {
   list-style-type: none;
   float: left;
@@ -161,7 +164,6 @@ export default {
   position: relative;
   text-align: center;
 }
-
 .progress-bar li:before {
   content: ' ';
   line-height: 30px;
@@ -174,7 +176,6 @@ export default {
   margin: 0 auto 10px;
   background-color: white;
 }
-
 .progress-bar li:after {
   content: '';
   position: absolute;
@@ -185,52 +186,42 @@ export default {
   left: -50%;
   z-index: -1;
 }
-
 .progress-bar li:first-child:after {
   content: none;
 }
-
 .progress-bar li.active {
   color: #08134b;
 }
-
 .progress-bar li.active:before {
   border-color: #08134b;
   background-color: #08134b;
 }
-
 .progress-bar .active:after {
   background-color: #08134b;
 }
-
 .instructions {
   padding-top: 100px;
 }
-
 p {
   font-size: 14px;
   text-align: center;
   font-weight: 400;
   color: black;
 }
-
 .center {
   width: 50%;
   margin: auto;
 }
-
 .center-wide {
   margin: auto;
   width: 80%;
 }
-
 .form {
   text-align: left;
   font-size: 12;
   padding-top: 10px;
   padding-bottom: 30px;
 }
-
 .input-field {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -239,7 +230,6 @@ p {
   font-weight: 400;
   color: black;
 }
-
 .child-three {
   width: 33%;
   padding-left: 10px;
