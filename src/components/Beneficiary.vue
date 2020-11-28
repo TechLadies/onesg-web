@@ -22,7 +22,7 @@
           <bwc-autocomplete
             required
             :items="beneficiaries"
-            v-model="beneficiary"
+            v-model="beneficiarySearch"
             @search="(e) => autoComplete(e)"
             placeholder="Search or add a beneficiary."
           >
@@ -31,29 +31,53 @@
 
         <div class="input-field">
           <div class="input-title">Contact Number</div>
-          <input class="input is-success" type="text" />
+          <input
+            class="input is-success"
+            type="text"
+            v-model="beneficiary.contact"
+          />
         </div>
 
         <div class="input-field">
           <div class="input-title">Email Address</div>
-          <input class="input is-success" type="text" placeholder="Optional" />
+          <input
+            class="input is-success"
+            type="text"
+            placeholder="Optional"
+            v-model="beneficiary.email"
+          />
         </div>
 
         <div class="input-field">
           <div class="input-title">Occupation</div>
-          <input class="input is-success" type="text" placeholder="Optional" />
+          <input
+            class="input is-success"
+            type="text"
+            placeholder="Optional"
+            v-model="beneficiary.occupation"
+          />
         </div>
 
         <div class="input-field">
           <div class="field-body">
-            <div class="field">Household income</div>
-            <input class="input" type="text" placeholder="Optional" />
-            <div class="field">Household size</div>
-            <input
-              class="input is-success"
-              placeholder="Optional"
-              type="text"
-            />
+            <div class="field">
+              Household income
+              <input
+                class="input"
+                type="text"
+                placeholder="Optional"
+                v-model="beneficiary.householdIncome"
+              />
+            </div>
+            <div class="field">
+              Household size
+              <input
+                class="input is-success"
+                placeholder="Optional"
+                type="text"
+                v-model="beneficiary.householdSize"
+              />
+            </div>
           </div>
         </div>
 
@@ -78,16 +102,16 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
-import { onMounted } from 'vue'
 
 export default {
-  name: 'Beneficiary',
-  setup() {
-    const beneficiary = ref()
+  name: 'Beneficary',
+  setup(context, props) {
+    console.log('props', props, props.attrs.beneficiary)
+    const beneficiarySearch = ref()
+    const beneficiary = reactive(props.attrs.beneficiary)
     const beneficiaries = ref([])
-
     const debounce = (callback, delay) => {
       let timeout = null
       return (...args) => {
@@ -96,12 +120,12 @@ export default {
         timeout = setTimeout(next, delay)
       }
     }
-
     const autoComplete = debounce(async (e, col, _showForm) => {
       console.log('search', e.detail, col, _showForm)
       console.log(e.detail)
       const res = await fetch(
-        'https://swapi.dev/api/people/?search=' + e.detail
+        'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/search.json?q=' +
+          e.detail
       )
       const data = await res.json()
       beneficiaries.value = data.results.map((item) => {
@@ -115,19 +139,12 @@ export default {
       console.log(e)
       store.dispatch('doLogin', 'zzzz')
     }
-    const stage = ref(0)
-
-    onMounted(async () => {
-      //   const res = await fetch('https://randomuser.me/api/?results=100')
-      //  const data = await res.json()
-      //  console.log(data)
-    })
     return {
       autoComplete,
       login,
+      beneficiarySearch,
       beneficiary,
       beneficiaries,
-      stage,
     }
   },
 }
@@ -137,12 +154,10 @@ export default {
 .wrapper-progress-bar {
   width: 100%;
 }
-
 .progress-bar {
   font-size: 16px;
   font-weight: 400px;
 }
-
 .progress-bar li {
   list-style-type: none;
   float: left;
@@ -150,7 +165,6 @@ export default {
   position: relative;
   text-align: center;
 }
-
 .progress-bar li:before {
   content: ' ';
   line-height: 30px;
@@ -163,7 +177,6 @@ export default {
   margin: 0 auto 10px;
   background-color: white;
 }
-
 .progress-bar li:after {
   content: '';
   position: absolute;
@@ -174,52 +187,42 @@ export default {
   left: -50%;
   z-index: -1;
 }
-
 .progress-bar li:first-child:after {
   content: none;
 }
-
 .progress-bar li.active {
   color: #08134b;
 }
-
 .progress-bar li.active:before {
   border-color: #08134b;
   background-color: #08134b;
 }
-
 .progress-bar .active:after {
   background-color: #08134b;
 }
-
 .instructions {
   padding-top: 100px;
 }
-
 p {
   font-size: 14px;
   text-align: center;
   font-weight: 400;
   color: black;
 }
-
 .center {
   width: 50%;
   margin: auto;
 }
-
 .center-wide {
   margin: auto;
   width: 80%;
 }
-
 .form {
   text-align: left;
   font-size: 12;
   padding-top: 10px;
   padding-bottom: 30px;
 }
-
 .input-field {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -228,7 +231,6 @@ p {
   font-weight: 400;
   color: black;
 }
-
 .child-three {
   width: 33%;
   padding-left: 10px;
@@ -241,5 +243,8 @@ p {
 }
 .add {
   padding-top: 20px;
+}
+.field {
+  padding-right: 10px;
 }
 </style>

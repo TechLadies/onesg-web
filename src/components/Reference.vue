@@ -4,7 +4,7 @@
       <div class="wrapper-progress-bar">
         <ul class="progress-bar">
           <li class="active">Beneficiary</li>
-          <li class="active">Reference</li>
+          <li class="active">Referee</li>
           <li>Case Details</li>
         </ul>
       </div>
@@ -22,7 +22,7 @@
           <bwc-autocomplete
             required
             :items="references"
-            v-model="reference"
+            v-model="referenceSearch"
             @search="(e) => autoComplete(e)"
             placeholder="Search or add a reference."
           >
@@ -31,17 +31,32 @@
 
         <div class="input-field">
           <div class="input-title">Reference Organisation</div>
-          <input class="input is-success" type="text" placeholder="Optional" />
+          <input
+            class="input is-success"
+            type="text"
+            placeholder="Optional"
+            v-model="reference.organisation"
+          />
         </div>
 
         <div class="input-field">
           <div class="input-title">Reference Contact Number</div>
-          <input class="input is-success" type="text" placeholder="Optional" />
+          <input
+            class="input is-success"
+            type="text"
+            placeholder="Optional"
+            v-model="reference.phone"
+          />
         </div>
 
         <div class="input-field">
           <div class="input-title">Reference Email Address</div>
-          <input class="input is-success" type="text" placeholder="Optional" />
+          <input
+            class="input is-success"
+            type="text"
+            placeholder="Optional"
+            v-model="reference.email"
+          />
         </div>
       </div>
     </div>
@@ -49,13 +64,15 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   name: 'Reference',
-  setup() {
-    const reference = ref()
+  setup(context, props) {
+    console.log('props', props, props.attrs.reference)
+    const referenceSearch = ref()
+    const reference = reactive(props.attrs.reference)
     const references = ref([])
     const debounce = (callback, delay) => {
       let timeout = null
@@ -70,7 +87,8 @@ export default {
       console.log('search', e.detail, col, _showForm)
       console.log(e.detail)
       const res = await fetch(
-        'https://swapi.dev/api/people/?search=' + e.detail
+        'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/search.json?q=' +
+          e.detail
       )
       const data = await res.json()
       references.value = data.results.map((item) => {
@@ -79,14 +97,9 @@ export default {
       console.log(data)
     }, 500)
 
-    const store = useStore()
-    const login = (e) => {
-      console.log(e)
-      store.dispatch('doLogin', 'zzzz')
-    }
     return {
       autoComplete,
-      login,
+      referenceSearch,
       reference,
       references,
     }

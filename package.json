@@ -7,8 +7,8 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@oruga-ui/oruga": "^0.2.2",
-    "@oruga-ui/oruga-next": "^0.2.2",
+    "axios": "^0.21.0",
+    "lodash": "^4.17.20",
     "vue": "^3.0.0-rc.1",
     "vue-router": "^4.0.0-beta.13",
     "vuex": "^4.0.0-beta.4"

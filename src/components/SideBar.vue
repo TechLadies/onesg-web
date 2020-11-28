@@ -14,11 +14,11 @@
     >
     <a @click="$router.push('/newcase')"
       ><i class="fa fa-plus-square"></i>
-      <span><div class="heanding">New Case</div></span></a
+      <span><div class="heading">New Case</div></span></a
     >
     <a @click="$router.push('/account')"
       ><i class="fa fa-user-circle-o"></i>
-      <span><div class="heanding">Account</div></span></a
+      <span><div class="heading">Account</div></span></a
     >
     <a href="#" @click="logout"
       ><i class="fa fa-sign-out"></i>
