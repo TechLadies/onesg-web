@@ -66,7 +66,7 @@ template.innerHTML = `
 #table-wrapper > nav {
   position: -webkit-sticky;
   position: sticky;
-  top: 0;
+  top: 0px;
   left: 0px;
   z-index: 2;
   background-color: var(--bwc-table-navbar-bgcolor, lightslategray) !important;
@@ -129,8 +129,8 @@ template.innerHTML = `
           <a id="cmd-reload" class="button">↻</a>
           <a id="cmd-add" class="button">+</a>
           <a id="cmd-del" class="button">-</a>
-          <a id="cmd-import" class="button">&uarr;</a>
-          <a id="cmd-export" class="button">&darr;</a>
+          <a id="cmd-import" class="button">↑</a>
+          <a id="cmd-export" class="button">↓</a>
         </div>
       </div>
     
@@ -300,7 +300,7 @@ class Table extends HTMLElement {
       this._trigger('page-size')
     }
 
-    console.log('connectedCallback 0')
+    // console.log('connectedCallback 0')
 
     // initialize non-required properties that are undefined
     if (!this.#sortKey) this.#sortKey = ''
@@ -352,7 +352,7 @@ class Table extends HTMLElement {
     this._renderPages()
     this._renderFilters()
 
-    console.log('connectedCallback 1')
+    // console.log('connectedCallback 1')
   }
 
   disconnectedCallback() {
@@ -419,7 +419,7 @@ class Table extends HTMLElement {
     return this.#items
   }
   set items(val) {
-    console.log('set items')
+    // console.log('set items')
     this.#items = val
     this._render()
     this._renderPageSelect()
@@ -527,21 +527,6 @@ class Table extends HTMLElement {
         pf.querySelector('#filter-and-or').value = filter.andOr
         div.appendChild(pf)
 
-        /*
-        const filterAndOr = new DOMParser().parseFromString(
-          `<p class="control m-0">
-          <span class="select">
-          <select id="filter-and-or">
-            <option value="and">And</option>
-            <option value="or">Or</option>
-          </select>
-          </span>
-          </p>`, 'text/html')
-        const filterAndOrNode = filterAndOr.body.childNodes[0]
-        filterAndOrNode.value = filter.andOr
-        div.appendChild(filterAndOrNode)
-        */
-
         const p1 = document.createElement('p')
         p1.classList.add('control', 'm-0')
         const delBtn = document.createElement('button')
@@ -641,7 +626,7 @@ class Table extends HTMLElement {
       }
 
       if (typeof this.#columns === 'object') {
-        console.log('render thead')
+        // console.log('render thead')
         table = document.createElement('table')
         table.setAttribute('id', 'table')
         el.appendChild(table)
@@ -694,11 +679,11 @@ class Table extends HTMLElement {
                 this.#columns[i - offset].key === this.#sortKey &&
                 this.#sortDir
               ) {
-                label = label + (this.#sortDir === 'asc' ? '&uarr;' : '&darr;')
+                label = label + (this.#sortDir === 'asc' ? '↑' : '↓')
               }
               th.innerHTML = label // cannot textContent (need to parse the HTML)
             }
-            this._trigger('sort')
+            this._trigger('sort') // checkboxes are also cleared...
           }
         }
 
@@ -720,7 +705,7 @@ class Table extends HTMLElement {
           const th = document.createElement('th')
           const label =
             col.label +
-            (this.#sortKey ? (this.#sortDir === 'asc' ? '&and;' : '&or') : '') // &and; (up) & &or; (down)
+            (this.#sortKey ? (this.#sortDir === 'asc' ? '↑' : '↓') : '') // &and; (up) & &or; (down)
           if (col.width) th.style.width = `${col.width}px`
           if (col.sticky) th.setAttribute('scope', 'row')
 
@@ -737,7 +722,7 @@ class Table extends HTMLElement {
 
         // populate the data
         if (typeof this.#items === 'object' && this.#items.length) {
-          console.log('render tbody')
+          // console.log('render tbody')
           const tbody = document.createElement('tbody')
           // TBD function to get checked rows...
           tbody.onclick = (e) => {
@@ -813,7 +798,7 @@ class Table extends HTMLElement {
               // if (sticky) td.setAttribute('scope', 'row') // not used yet, need to calculate left property value
               if (width) td.style.width = `${width}px`
               if (render) {
-                td.innerHTML = render(row[key])
+                td.innerHTML = render(row[key], key, row) // value, key, row
               } else {
                 td.appendChild(document.createTextNode(row[key]))
               }
@@ -829,60 +814,3 @@ class Table extends HTMLElement {
 }
 
 customElements.define('bwc-table', Table)
-
-/* FORM - This should be a seperate component I think...
-      <slot name="form" :tableCfg="tableCfg" :recordObj="recordObj" :showForm="showForm">
-        <form class="form-box-flex">
-          <p>{{ showForm !== 'add' ? 'Edit' : 'Add' }}</p>
-          <div class="field-set-flex">
-            <template v-for="(val, col, index) of recordObj[showForm]">
-              <template v-if="tableCfg.cols[col]">
-                <template v-if="tableCfg.cols[col].input === 'link'">
-                  <mwc-textfield
-                    @click="router.push('/' + tableCfg.cols[col].options.to + '?keyval=' + recordObj[showForm].key + '&keycol=' + tableCfg.cols[col].options.relatedCol)"
-                    disabled
-                    class="field-item"
-                    :key="col + index"
-                    :label="tableCfg.cols[col].label"
-                    outlined
-                    type="text"
-                    v-model="recordObj[showForm][col]"
-                  ></mwc-textfield>
-                </template>
-                <template v-else-if="tableCfg.cols[col][showForm] === 'readonly'">
-                  <mwc-textfield disabled class="field-item" :key="col + index" :label="tableCfg.cols[col].label" outlined type="text" v-model="recordObj[showForm][col]"></mwc-textfield>
-                </template>
-                <template v-else-if="tableCfg.cols[col].input === 'number'">
-                  <mwc-textfield :required="isRequired(col)" class="field-item" :key="col + index" :label="tableCfg.cols[col].label" outlined type="number" v-model="recordObj[showForm][col]"></mwc-textfield>
-                </template>
-                <template v-else-if="tableCfg.cols[col].input === 'datetime'">
-                  <mwc-textfield :required="isRequired(col)" class="field-item" :key="col + index" :label="tableCfg.cols[col].label" outlined type="datetime-local" v-model="recordObj[showForm][col]"></mwc-textfield>
-                </template>
-                <template v-else-if="tableCfg.cols[col].input === 'date'">
-                  <mwc-textfield :required="isRequired(col)" class="field-item" :key="col + index" :label="tableCfg.cols[col].label" outlined type="date" v-model="recordObj[showForm][col]"></mwc-textfield>
-                </template>
-                <template v-else-if="tableCfg.cols[col].input === 'time'">
-                  <mwc-textfield :required="isRequired(col)" class="field-item" :key="col + index" :label="tableCfg.cols[col].label" outlined type="time" v-model="recordObj[showForm][col]"></mwc-textfield>
-                </template>
-                <template v-else-if="tableCfg.cols[col].input === 'select'">
-                  <mwc-select :key="col + index" :label="tableCfg.cols[col].label" :value="recordObj[showForm][col]" @change="(e) => (recordObj[showForm][col] = e.target.value)">
-                    <mwc-list-item v-for="(option, index2) of tableCfg.cols[col].options" :value="option.key" :key="col + index + '-' + index2">{{ option.text }}</mwc-list-item>
-                  </mwc-select>
-                </template>
-                <template v-else-if="tableCfg.cols[col].input === 'multi-select'">
-                  <mwc-multiselect :required="isRequired(col)" :key="col + index" :label="tableCfg.cols[col].label" v-model="recordObj[showForm][col]" :options="JSON.stringify(tableCfg.cols[col].options)"></mwc-multiselect>
-                </template>
-                <template v-else-if="tableCfg.cols[col].input === 'autocomplete'">
-                  <mwc-autocomplete :class="col" :required="isRequired(col)" :key="col + index" :label="tableCfg.cols[col].label" v-model="recordObj[showForm][col]" @search="(e) => autoComplete(e, col, showForm)"></mwc-autocomplete>
-                </template>
-                <template v-else>
-                  <mwc-textfield :required="isRequired(col)" class="field-item" :key="col + index" :label="tableCfg.cols[col].label" outlined type="text" v-model="recordObj[showForm][col]"></mwc-textfield>
-                </template>
-              </template>
-            </template>
-          </div>
-          <mwc-button type="button" @click="showForm = ''">Cancel</mwc-button>
-          <mwc-button type="button" @click="doAddOrEdit" :disabled="loading">Confirm</mwc-button>
-        </form>
-      </slot>
-*/
