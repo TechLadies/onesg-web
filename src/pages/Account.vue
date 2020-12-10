@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div class="title">Manage Accounts</div>
+    <div class="titleAccount">Manage Accounts</div>
+    <button class="addAccount">
+      Add Account
+      <i class="fa fa-user-circle-o"></i>
+    </button>
+
     <div class="main">
       <!-- TODO: Temporarily replaced items prop to receive the data fetchedItems for example -->
       <bwc-table
@@ -118,7 +123,7 @@ export default {
       const transformedData = fetchedData.map((data) => {
         return {
           id: data.caseId,
-          email: data.beneficiary.name ? data.beneficiaryName : '-',
+          email: data.beneficiary.name,
           username: data.caseId ? data.caseId : '-',
           admin: dayjs(data.appliedOn).format('DD/MM/YYYY'),
           status: data.pointOfContact ? data.pointOfContact : '-',
@@ -157,16 +162,23 @@ export default {
   margin-left: 10%;
   margin-right: 20%;
   text-align: left;
-  padding: 0px 0px 0px 20px;
+  padding: 20px 0px 0px 20px;
 }
 
-.title {
+.titleAccount {
   text-align: left;
   margin-left: 10%;
   margin-right: 10%;
-  padding-bottom: 20px;
   position: relative;
   font-size: 24px;
   font-weight: 600;
+}
+.addAccount {
+  background-color: #0032c8;
+  color: white;
+  margin-left: 50%;
+  padding: 15px 2px 15px 2px;
+  width: 150px;
+  font-size: 16px;
 }
 </style>
