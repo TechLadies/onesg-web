@@ -18,7 +18,7 @@
     >
     <a @click="$router.push('/account')"
       ><i class="fa fa-user-circle-o"></i>
-      <span><div class="heading">Account</div></span></a
+      <span><div class="heading">Accounts</div></span></a
     >
     <a href="#" @click="logout"
       ><i class="fa fa-sign-out"></i>
