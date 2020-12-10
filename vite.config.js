@@ -3,4 +3,7 @@ module.exports = {
   vueCompilerOptions: {
     isCustomElement: (tag) => tag.startsWith('bwc-'),
   },
+  optimizeDeps: {
+    include: ['dayjs'],
+  },
 }
