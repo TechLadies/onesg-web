@@ -1,10 +1,17 @@
 <template>
   <div>
     <div class="titleAccount">Manage Accounts</div>
-    <button class="addAccount">
+
+    <button id="show-modal" @click="showModal" class="addAccount">
       Add Account
       <i class="fa fa-user-circle-o"></i>
     </button>
+
+    <modal v-if="showModal" @close="showModal = false">
+      <template v-slot:header>
+        <h3>custom header</h3>
+      </template>
+    </modal>
 
     <div class="main">
       <!-- TODO: Temporarily replaced items prop to receive the data fetchedItems for example -->
@@ -41,6 +48,11 @@ console.log(dayjs('2019-01-25').format('DD/MM/YYYY'))
 // Should figure out and move api services to separate folder/file
 
 export default {
+  data() {
+    return {
+      showModal: false,
+    }
+  },
   setup() {
     const page = ref(1)
     const pageSize = ref(10)
@@ -180,5 +192,17 @@ export default {
   padding: 15px 2px 15px 2px;
   width: 150px;
   font-size: 16px;
+}
+.popup-example .vs-input {
+  float: left;
+  width: 50%;
+  margin: 10px;
+  margin-top: 5px;
+}
+
+.con-select {
+  margin-left: 10px;
+  width: 50%;
+  margin-bottom: 10px;
 }
 </style>
