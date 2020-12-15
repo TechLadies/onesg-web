@@ -1,17 +1,33 @@
 <template>
   <div>
-    <div class="titleAccount">Manage Accounts</div>
+    <div class="parent">
+      <div class="titleAccount">Manage Accounts</div>
 
-    <button id="show-modal" @click="showModal" class="addAccount">
-      Add Account
-      <i class="fa fa-user-circle-o"></i>
-    </button>
-
-    <modal v-if="showModal" @close="showModal = false">
-      <template v-slot:header>
-        <h3>custom header</h3>
-      </template>
-    </modal>
+      <button @click="showModal = true" class="blueButton">
+        Add Account
+        <i class="fa fa-user-circle-o"></i>
+      </button>
+    </div>
+    <div v-if="showModal" class="modal is-active">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Modal title</p>
+          <button
+            @click="showModal = false"
+            class="delete"
+            aria-label="close"
+          ></button>
+        </header>
+        <section class="modal-card-body">
+          <!-- Content ... -->
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success">Save changes</button>
+          <button class="button">Cancel</button>
+        </footer>
+      </div>
+    </div>
 
     <div class="main">
       <!-- TODO: Temporarily replaced items prop to receive the data fetchedItems for example -->
@@ -48,12 +64,9 @@ console.log(dayjs('2019-01-25').format('DD/MM/YYYY'))
 // Should figure out and move api services to separate folder/file
 
 export default {
-  data() {
-    return {
-      showModal: false,
-    }
-  },
   setup() {
+    const showModal = ref(false)
+
     const page = ref(1)
     const pageSize = ref(10)
     const pageSizeList = [5, 10, 15]
@@ -164,6 +177,7 @@ export default {
       checked,
       triggered,
       cmd,
+      showModal,
     }
   },
 }
@@ -185,7 +199,7 @@ export default {
   font-size: 24px;
   font-weight: 600;
 }
-.addAccount {
+.blueButton {
   background-color: #0032c8;
   color: white;
   margin-left: 50%;
@@ -204,5 +218,8 @@ export default {
   margin-left: 10px;
   width: 50%;
   margin-bottom: 10px;
+}
+.parent {
+  display: flex;
 }
 </style>

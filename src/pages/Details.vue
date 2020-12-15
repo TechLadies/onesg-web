@@ -1,28 +1,85 @@
 <template>
-  <div>
-    <div class="title">Cases</div>
-    <div class="main">
-      <!-- TODO: Temporarily replaced items prop to receive the data fetchedItems for example -->
-      <bwc-table
-        commands="reload,filter,add,del"
-        :pagination="true"
-        :sort="true"
-        :page="page"
-        :pageSize="pageSize"
-        :pageSizeList="pageSizeList"
-        :columns="columns"
-        :items="table.fetchedItems"
-        :total="total"
-        @rowClick="rowClick"
-        @checked="checked"
-        @triggered="triggered"
-        @cmd="cmd"
-        style="--bwc-table-height: calc(100vh - 360px); --bwc-table-width: 100%"
-        class="sticky-header sticky-column"
-      >
-      </bwc-table>
+  <div class="parent">
+    <div class="left">
+      <div class="top">
+        <div class="title">Case EF 2020-0104</div>
+        <div class="alignRight">
+          <button @click="showModal = true" class="blueButton">
+            New <i class="fa fa-caret-down"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="details">
+          <div class="sectionHeading">DETAILS</div>
+          <div class="sectionBody">
+            <ul>
+              P.O.C.
+            </ul>
+
+            <ul>
+              Date of application
+            </ul>
+
+            <ul>
+              Amount Requested
+            </ul>
+
+            <ul>
+              Approval
+            </ul>
+          </div>
+          <br />
+          <div class="sectionHeading">REFERENCE</div>
+          <div class="sectionBody">
+            <ul>
+              Name
+            </ul>
+          </div>
+          <br />
+        </div>
+        <div class="requests">
+          <div class="sectionHeading">REQUEST(S)</div>
+          <div class="sectionBody">Body</div>
+          <br />
+        </div>
+      </div>
     </div>
-    <a @click="$router.push('/details')">Details</a>
+
+    <div class="right">
+      <div class="sectionHeading">BENEFICIARY</div>
+      <div class="sectionBody">
+        <ul>
+          Name
+        </ul>
+        <ul>
+          Phone
+        </ul>
+        <ul>
+          Email
+        </ul>
+        <ul>
+          Occupation
+        </ul>
+        <ul>
+          Household income
+        </ul>
+        <ul>
+          Household size
+        </ul>
+        <ul>
+          Payment type
+        </ul>
+        <br />
+      </div>
+      <div class="sectionHeading">Notes</div>
+      <div class="sectionBody"></div>
+      <ul>
+        Test
+      </ul>
+      <br />
+    </div>
   </div>
 </template>
 
@@ -37,6 +94,8 @@ console.log(dayjs('2019-01-25').format('DD/MM/YYYY'))
 // Should figure out and move api services to separate folder/file
 
 export default {
+  name: 'Details',
+
   setup() {
     const page = ref(1)
     const pageSize = ref(10)
@@ -163,20 +222,67 @@ export default {
 </script>
 
 <style scoped>
-.main {
-  margin-left: 10%;
-  margin-right: 20%;
-  text-align: left;
-  padding: 0px 0px 0px 20px;
+.parent {
+  display: flex;
+}
+.top {
+  display: flex;
 }
 
+.left {
+  width: 75%;
+  margin-left: 10%;
+  padding-right: 5%;
+}
+
+.right {
+  width: 25%;
+  background-color: lightblue;
+  align-items: stretch;
+}
 .title {
   text-align: left;
-  margin-left: 10%;
-  margin-right: 10%;
-  padding-bottom: 20px;
-  position: relative;
   font-size: 24px;
   font-weight: 600;
+  width: 90%;
+}
+.alignRight {
+  float: right;
+  margin-right: 7%;
+  padding-bottom: 20px;
+}
+
+.blueButton {
+  background-color: #0032c8;
+  color: white;
+  margin-left: 50%;
+  padding: 15px 2px 15px 2px;
+  width: 150px;
+  font-size: 16px;
+}
+
+.body {
+  display: flex;
+}
+.details {
+  width: 30%;
+}
+
+.requests {
+  width: 70%;
+}
+
+.sectionHeading {
+  font-size: 18px;
+  text-align: left;
+  font-weight: 400;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  padding-left: 5%;
+}
+
+.sectionBody {
+  font-size: 18px;
+  text-align: center;
 }
 </style>
