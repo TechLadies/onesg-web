@@ -31,11 +31,8 @@ import { onMounted, ref, reactive } from 'vue'
 import axios from 'axios'
 import dayjs from 'dayjs'
 
-console.log(dayjs('2019-01-25').format('DD/MM/YYYY'))
-
 // TODO: Temporarily moved this function here because couldn't get js export import files working.
 // Should figure out and move api services to separate folder/file
-
 export default {
   setup() {
     const page = ref(1)
@@ -79,12 +76,10 @@ export default {
         filter: true,
       },
     ])
-
     const table = reactive({
       fetchedItems: [],
     })
     const total = ref(30)
-
     const setItems = () => {
       const items = []
       const offset = (page.value - 1) * pageSize.value
@@ -95,12 +90,10 @@ export default {
       // console.log(items)
       table.items = items
     }
-
     const rowClick = (e) => {
       console.log('rowClick', e.detail)
       // $router.push('/requests')
     }
-
     const checked = (e) => {
       console.log('checked', e.detail)
     }
@@ -114,14 +107,12 @@ export default {
     const cmd = (e) => {
       console.log('cmd', e.detail)
     }
-
     const fetchData = async () => {
       const res = await axios.get(
         'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/cases?with_paging=true&page=${page}&per_page=5&sort=caseId:desc&include_entities=beneficiary,referee,staff,request'
       )
       const fetchedData = res.data.results
       console.log('fetchedData', fetchedData)
-
       // For each data, transform it to the desired shape
       const transformedData = fetchedData.map((data) => {
         return {
@@ -140,12 +131,10 @@ export default {
       // Assign it to Vue data
       table.fetchedItems = transformedData
     }
-
     onMounted(async () => {
       console.log('Dashboard mounted!')
       fetchData()
     })
-
     return {
       page,
       pageSize,
@@ -169,7 +158,6 @@ export default {
   text-align: left;
   padding: 0px 0px 0px 20px;
 }
-
 .title {
   text-align: left;
   margin-left: 10%;

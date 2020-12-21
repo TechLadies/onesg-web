@@ -61,13 +61,6 @@ const router = createRouter({
       beforeEnter: authGuard,
       meta: { requiresAuth: true, layout: 'layout-secure' },
     },
-    {
-      path: '/details',
-      name: 'Details',
-      component: () => import('/src/pages/Details.vue'),
-      beforeEnter: authGuard,
-      meta: { requiresAuth: true, layout: 'layout-secure' },
-    },
     { path: '/:catchAll(.*)', name: 'catchAll', redirect: { name: 'LogIn' } },
   ],
 })

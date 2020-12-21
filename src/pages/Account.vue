@@ -4,8 +4,8 @@
       <div class="titleAccount">Manage Accounts</div>
 
       <button @click="showModal = true" class="blueButton">
-        Add Account
         <i class="fa fa-user-circle-o"></i>
+        <div class="words">Add Account</div>
       </button>
     </div>
     <div v-if="showModal" class="modal is-active">
@@ -203,10 +203,17 @@ export default {
   background-color: #0032c8;
   color: white;
   margin-left: 50%;
-  padding: 15px 2px 15px 2px;
-  width: 150px;
+  margin-right: 5%;
+  padding: 3px 15px 3px 15px;
   font-size: 16px;
 }
+
+@media (max-width: 1400px) {
+  .words {
+    display: none;
+  }
+}
+
 .popup-example .vs-input {
   float: left;
   width: 50%;
