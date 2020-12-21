@@ -257,7 +257,7 @@ export default {
   color: white;
   margin-left: 50%;
   padding: 15px 2px 15px 2px;
-  width: 150px;
+  width: 100px;
   font-size: 16px;
 }
 
