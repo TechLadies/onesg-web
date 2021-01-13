@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "lint": "eslint . --ext .js,.vue",
+    "heroku-postbuild": "npm run build",
     "dev": "vite",
     "build": "vite build"
+    
   },
   "dependencies": {
     "axios": "^0.21.0",
