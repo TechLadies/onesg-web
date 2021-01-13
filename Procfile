@@ -1,2 +1,1 @@
-web: node vite
-
+web: node main.js

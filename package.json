@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "lint": "eslint . --ext .js,.vue",
+    "start": "node main.js",
     "heroku-postbuild": "npm run build",
     "dev": "vite",
     "build": "vite build"
