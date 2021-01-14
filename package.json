@@ -2,12 +2,11 @@
   "name": "onesg-web",
   "version": "0.0.0",
   "scripts": {
+    "heroku-prebuild": "npm run build",
     "lint": "eslint . --ext .js,.vue",
     "start": "node main.js",
-    "heroku-postbuild": "npm run build",
     "dev": "vite",
     "build": "vite build"
-    
   },
   "dependencies": {
     "axios": "^0.21.0",
