@@ -1,7 +1,6 @@
 {
   "name": "onesg-web",
   "version": "0.0.0",
-  "type": "module",
     "engines": {
     "node": "12.18.4"
   },
