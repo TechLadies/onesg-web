@@ -2,6 +2,8 @@
   "name": "onesg-web",
   "version": "0.0.0",
   "scripts": {
+    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build",,
+    "start": "node server.js",
     "lint": "eslint . --ext .js,.vue",
     "dev": "vite",
     "build": "vite build"
