@@ -1,1 +1,1 @@
-web: node vite
+web: npm run dev
