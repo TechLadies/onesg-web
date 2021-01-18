@@ -5,6 +5,7 @@
     "node": "12.18.4"
   },
   "scripts": {
+    "start": "node server.js",
     "lint": "eslint . --ext .js,.vue",
     "dev": "vite",
     "build": "vite build"
