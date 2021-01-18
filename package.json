@@ -1,14 +1,14 @@
 {
   "name": "onesg-web",
   "version": "0.0.0",
-    "engines": {
+  "engines": {
     "node": "12.18.4"
   },
   "scripts": {
     "start": "node server.js",
     "lint": "eslint . --ext .js,.vue",
     "dev": "vite",
-    "build": "vite build"  
+    "build": "vite build"
   },
   "dependencies": {
     "axios": "^0.21.0",
