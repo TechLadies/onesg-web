@@ -22,7 +22,8 @@ If you already have Travis installed, you can also add Travis to the repository 
 
 Create a `.travis.yml` file. Add the following block code to the file
 
-![travis block](src/images/travisyml.png)
+![travis block](src/images/travis.png
+)
 
 Generate your `api_key` with this code below:
 
