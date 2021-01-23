@@ -62,11 +62,12 @@ const router = createRouter({
       meta: { requiresAuth: true, layout: 'layout-secure' },
     },
     {
-      path: '/details',
+      path: '/details/:caseId',
       name: 'Details',
       component: () => import('/src/pages/Details.vue'),
       beforeEnter: authGuard,
       meta: { requiresAuth: true, layout: 'layout-secure' },
+      props: (route) => ({ caseId: route.params.caseId }),
     },
     { path: '/:catchAll(.*)', name: 'catchAll', redirect: { name: 'LogIn' } },
   ],

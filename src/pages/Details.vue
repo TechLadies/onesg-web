@@ -95,128 +95,47 @@ console.log(dayjs('2019-01-25').format('DD/MM/YYYY'))
 
 export default {
   name: 'Details',
+  props: {
+    caseId: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
+    console.log(props) // { user: '' }
 
-  setup() {
-    const page = ref(1)
-    const pageSize = ref(10)
-    const pageSizeList = [5, 10, 15]
-    const columns = reactive([
-      {
-        label: 'Beneficiary Name',
-        key: 'beneficiaryName',
-        render: (val) =>
-          `<a class="button" onclick="alert('${val}')">` + val + '</a>',
-      },
-      {
-        label: 'Case Number',
-        key: 'caseNumber',
-        filter: true,
-      },
-      {
-        label: 'Application Date',
-        key: 'applicationDate',
-        filter: true,
-      },
-      {
-        label: 'POC',
-        key: 'poc',
-        filter: true,
-      },
-      {
-        label: 'Reference Name',
-        key: 'referenceName',
-        filter: true,
-      },
-      {
-        label: 'Organisation',
-        key: 'organisation',
-        filter: true,
-      },
-      {
-        label: 'Last Update',
-        key: 'lastUpdate',
-        filter: true,
-      },
-    ])
+    // const fetchData = async () => {
+    //   const res = await axios.get(
+    //     'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/cases?with_paging=true&page=${page}&per_page=5&sort=caseId:desc&include_entities=beneficiary,referee,staff,request'
+    //   )
+    //   const fetchedData = res.data.results
+    //   console.log('fetchedData', fetchedData)
 
-    const table = reactive({
-      fetchedItems: [],
-    })
-    const total = ref(30)
-
-    const setItems = () => {
-      const items = []
-      const offset = (page.value - 1) * pageSize.value
-      for (let i = 0; i < pageSize.value; i++) {
-        if (!items[offset + i]) break
-        items.push(items[offset + i])
-      }
-      // console.log(items)
-      table.items = items
-    }
-
-    const rowClick = (e) => {
-      console.log('rowClick', e.detail)
-      // $router.push('/requests')
-    }
-
-    const checked = (e) => {
-      console.log('checked', e.detail)
-    }
-    const triggered = (e) => {
-      console.log('triggered', e.detail)
-      page.value = e.detail.page
-      pageSize.value = e.detail.pageSize
-      console.log(page.value, pageSize.value)
-      setItems()
-    }
-    const cmd = (e) => {
-      console.log('cmd', e.detail)
-    }
-
-    const fetchData = async () => {
-      const res = await axios.get(
-        'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/cases?with_paging=true&page=${page}&per_page=5&sort=caseId:desc&include_entities=beneficiary,referee,staff,request'
-      )
-      const fetchedData = res.data.results
-      console.log('fetchedData', fetchedData)
-
-      // For each data, transform it to the desired shape
-      const transformedData = fetchedData.map((data) => {
-        return {
-          id: data.caseId,
-          beneficiaryName: data.beneficiary.name ? data.beneficiaryName : '-',
-          caseNumber: data.caseId ? data.caseId : '-',
-          applicationDate: dayjs(data.appliedOn).format('DD/MM/YYYY'),
-          poc: data.pointOfContact ? data.pointOfContact : '-',
-          referenceName: data.referee.name ? data.referee.name : '-',
-          organisation: data.referee.organisation
-            ? data.referee.organisation
-            : '-',
-          lastUpdate: dayjs(data.updatedAt).format('DD/MM/YYYY'),
-        }
-      })
-      // Assign it to Vue data
-      table.fetchedItems = transformedData
-    }
+    //   // For each data, transform it to the desired shape
+    //   const transformedData = fetchedData.map((data) => {
+    //     return {
+    //       id: data.caseId,
+    //       beneficiaryName: data.beneficiary.name ? data.beneficiaryName : '-',
+    //       caseNumber: data.caseId ? data.caseId : '-',
+    //       applicationDate: dayjs(data.appliedOn).format('DD/MM/YYYY'),
+    //       poc: data.pointOfContact ? data.pointOfContact : '-',
+    //       referenceName: data.referee.name ? data.referee.name : '-',
+    //       organisation: data.referee.organisation
+    //         ? data.referee.organisation
+    //         : '-',
+    //       lastUpdate: dayjs(data.updatedAt).format('DD/MM/YYYY'),
+    //     }
+    //   })
+    //   // Assign it to Vue data
+    //   table.fetchedItems = transformedData
+    // }
 
     onMounted(async () => {
       console.log('Dashboard mounted!')
-      fetchData()
+      //   fetchData()
     })
 
-    return {
-      page,
-      pageSize,
-      pageSizeList,
-      columns,
-      table,
-      total,
-      rowClick,
-      checked,
-      triggered,
-      cmd,
-    }
+    return {}
   },
 }
 </script>
