@@ -124,7 +124,7 @@ export default {
       console.log('search', e.detail, col, _showForm)
       console.log(e.detail)
       const res = await fetch(
-        'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/search.json?q=' +
+        'https://onesg-backend-staging.herokuapp.com/v1/search?type=beneficiary&fields=name,phone,email,occupation,householdIncome,householdSize&q=' +
           e.detail
       )
       const data = await res.json()
