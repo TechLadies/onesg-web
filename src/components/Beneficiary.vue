@@ -24,6 +24,7 @@
             :items="beneficiaries"
             v-model="beneficiarySearch"
             @search="(e) => autoComplete(e)"
+            @selected="selected"
             placeholder="Search or add a beneficiary."
           >
           </bwc-autocomplete>
@@ -102,9 +103,9 @@
 </template>
 
 <script>
+import { VITE_API_URL } from '/config.js'
 import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
-
 export default {
   name: 'Beneficary',
   setup(context, props) {
@@ -122,18 +123,30 @@ export default {
     }
     const autoComplete = debounce(async (e, col, _showForm) => {
       console.log('search', e.detail, col, _showForm)
-      console.log(e.detail)
+      console.log(`e,detail`, e.detail)
       const res = await fetch(
-        'https://onesg-backend-staging.herokuapp.com/v1/search?type=beneficiary&fields=name,phone,email,occupation,householdIncome,householdSize&q=' +
+        `${VITE_API_URL}/v1/search?type=beneficiary&fields=name,phone,email,occupation,householdIncome,householdSize,beneficiaryNumber&q=` +
           e.detail
       )
       const data = await res.json()
       beneficiaries.value = data.results.map((item) => {
-        return item.name
+        return {
+          text: item.name,
+          key: item.beneficiaryNumber,
+          ...item,
+        }
       })
-      console.log(data)
+      console.log(`data`, data)
     }, 500)
-
+    const selected = async (e) => {
+      console.log(e.detail)
+      beneficiary.contact = e.detail.phone
+      beneficiary.email = e.detail.email
+      beneficiary.occupation = e.detail.occupation
+      beneficiary.householdSize = e.detail.householdSize
+      beneficiary.householdIncome = e.detail.householdIncome
+      // const found = data.results.find(item => item.beneficiaryName === e.detail.key)
+    }
     const store = useStore()
     const login = (e) => {
       console.log(e)
@@ -145,6 +158,7 @@ export default {
       beneficiarySearch,
       beneficiary,
       beneficiaries,
+      selected,
     }
   },
 }

@@ -1,18 +1,18 @@
 language: node_js
 node_js:
-  - 10.12.0
+  - 10.13.0
 install:
   - npm install
-  - npm instal --global cross-env
+  - npm install --global cross-env
 branches:
   only:
-    - rachel
+    - develop
     - master
-  deploy:
-    provider: heroku
-    api_key:
-      secure:
-    app:
-      rachel: onesg-frontend-staging
-      master: onesg-frontend
-      skip_cleanup: 'true'
+deploy:
+  provider: heroku
+  api_key:
+    secure: nnO5DZsYKTomQ/ssSYNiwJfCsA0xD1+/cGNfZLpUMNt1BZfdOdpFD3Z5GH1MOKTyxnV9cs6cz+SloKvLivAGsSLpQHduwDMzyRzUwfMFu7kI9oS0u8nY+PwgjPj7+0JZwYe7l5ZRIyuoIym6+qXrKLIhHaiDmjAsM564wcafj4kk6vsb3SV3cYU2b+Fub2/dpwZJVcc6AwL33W4tQwIF7IaP4zzay7I1FVDBSxwmTk0qHFt/iZam9azMDhtMitKrBwN6hsiMb7bnfpMhh1Eo2V533Yt7ydCeVEGVR+iWHTv5hhyuLM34KhmjUfX5tcPH1JrpydOxtoid0hqK3ddZC/cs+Qhkr9v2aMX5U9e0SduUZtFuZwxEqXeIA5hfbwHua3UVmAZarcMdb1vjts2qp57O4xTQoAvcdQ/bv8uin0xaRCimLBTc3X8PiHtvC5i9M1XRKEgthEYDQWB6ciHsWWel6Q7N9K7zWAMk8SFva14XsMs6H32Kf6pK6gy1QXDUwYFzbr4UxbYxNmBsbbEOh7c93j2+5GKHg+1X4cGq/yuNg8cZuU4EIab4NrrQBPTd/QLEFPN8J8YQknVQ600Kw/64pChswuLg+/h/B5Y4NCZ8cqC0Cj9he2fSC8t5cla6J03yQDId6OKVSAL+xdhhdS+D6iV//MSOYXihQnJqbrc=
+  app:
+    develop: onesg-frontend-staging
+    master: onesg-frontend
+  skip_cleanup: 'true'
