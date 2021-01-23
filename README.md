@@ -1,7 +1,38 @@
 # onesg-web
+
+
 ## Build and Deployment
 
-We use Heroku and Travis to run the build and deploy the app. The following are the corresponding branches and the app names and links
+### Pre-requisite
+
+Go to Travis CI website and Sign up with GitHub.
+
+Go to Heroku.com and sign up for an account.
+
+Install Travis CI CLI: https://github.com/travis-ci/travis.rb#installation
+
+Install Heroku CLI: https://devcenter.heroku.com/articles/heroku-cli
+
+Make sure you can successfully login, using the CLIs, with:
+
+For heroku
+
+```
+heroku login
+```
+
+For travis
+
+```
+travis login --pro
+```
+ ### Running the build
+
+We use Heroku and Travis to run the build and deploy the app.
+
+
+ The following are the corresponding branches and the app names and links. 
+
 
 - **Branch:** develop
   - **App name:** onesg-frontend-staging
@@ -14,6 +45,7 @@ We use Heroku and Travis to run the build and deploy the app. The following are 
 
 Create apps with the aforementioned app names.
 
+
 ### Setting up Travis
 
 Go to https://travis-ci.com/ and login with your Github account. Give Travis access to your repository.
@@ -25,10 +57,11 @@ Create a `.travis.yml` file. Add the following block code to the file
 ![travis block](src/images/travis.png
 )
 
-Generate your `api_key` with this code below:
+Generate your `api_key` with this code below in your terminal:
 
 ```
 travis encrypt \$(heroku auth:token) --add deploy.api_key --pro
 ```
 
 Push your changes to the branch and see your app build on Heroku. 
+![heroku](src/images/heroku_build.png)
