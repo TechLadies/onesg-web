@@ -252,7 +252,6 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { useStore } from 'vuex'
 
 export default {
   name: 'Case Details',

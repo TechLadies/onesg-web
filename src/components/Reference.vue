@@ -87,7 +87,7 @@ export default {
       console.log('search', e.detail, col, _showForm)
       console.log(e.detail)
       const res = await fetch(
-        'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/search.json?q=' +
+        'http://localhost:8080/v1/search?type=referee&page=1&per_page=10&fields=name,phone,email,organisation&q=' +
           e.detail
       )
       const data = await res.json()
