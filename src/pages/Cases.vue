@@ -49,12 +49,12 @@ export default {
         filter: true,
       },
       {
-        label: 'Case Number',
+        label: 'Case #',
         key: 'caseNumber',
         filter: true,
       },
       {
-        label: 'Application Date',
+        label: 'Applied on',
         key: 'applicationDate',
         filter: true,
       },
@@ -69,12 +69,12 @@ export default {
         filter: true,
       },
       {
-        label: 'Organisation',
+        label: 'Reference Organisation',
         key: 'organisation',
         filter: true,
       },
       {
-        label: 'Last Update',
+        label: 'Last Updated by',
         key: 'lastUpdate',
         filter: true,
       },
@@ -145,7 +145,7 @@ export default {
 <style scoped>
 .main {
   margin-left: 10%;
-  margin-right: 20%;
+  margin-right: 0;
   text-align: left;
   padding: 0px 0px 0px 20px;
 }
@@ -154,7 +154,7 @@ export default {
   text-align: left;
   margin-left: 10%;
   margin-right: 10%;
-  padding-bottom: 20px;
+  padding-bottom: 5px;
   position: relative;
   font-size: 24px;
   font-weight: 600;

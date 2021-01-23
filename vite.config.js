@@ -1,5 +1,5 @@
 module.exports = {
-  port: 8080,
+  port: 5050,
   vueCompilerOptions: {
     isCustomElement: (tag) => tag.startsWith('bwc-'),
   },
