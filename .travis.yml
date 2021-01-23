@@ -3,7 +3,7 @@ node_js:
 - 10.12.0
 install:
 - npm install
-- npm instal --global cross-env
+- npm install --global cross-env
 branches:
   only:
   - rachel
