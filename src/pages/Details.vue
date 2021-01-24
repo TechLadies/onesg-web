@@ -29,6 +29,9 @@
             <ul>
               Approval
             </ul>
+            <ul>
+              Last updated
+            </ul>
           </div>
           <br />
           <div class="sectionHeading">REFERENCE</div>
@@ -36,12 +39,56 @@
             <ul>
               Name
             </ul>
+            <ul>
+              Occupation
+            </ul>
+            <ul>
+              Phone
+            </ul>
+            <ul>
+              Email
+            </ul>
           </div>
           <br />
+          <div class="sectionHeading">Reference Status</div>
+          <div class="sectionHeading">
+            <div class="select">
+              <select>
+                <option>Unverified</option>
+                <option>Option 1</option>
+                <option>Option 2</option>
+                <option>Option 3</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="sectionBody">
+            <div class="sectionHeading">Amount Granted</div>
+
+            <div class="sectionHeading">
+              <input class="input" type="text" placeholder="S$" />
+            </div>
+            <div class="sectionHeading">Case Tags</div>
+            <br />
+            <br />
+            <br />
+            <br />
+          </div>
         </div>
         <div class="requests">
           <div class="sectionHeading">REQUEST(S)</div>
-          <div class="sectionBody">Body</div>
+          <div class="sectionBodyLeft">Request Type</div>
+          <div class="sectionBodyLeft">Fulfillment</div>
+          <div class="sectionBodyLeft">Description</div>
+          <br />
+          <div class="sectionHeadingf">COMMENTS & DOCUMENTS</div>
+          <div class="sectionBodyLeft">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book it has?
+          </div>
+
           <br />
         </div>
       </div>
@@ -74,10 +121,11 @@
         <br />
       </div>
       <div class="sectionHeading">Notes</div>
-      <div class="sectionBody"></div>
-      <ul>
-        Test
-      </ul>
+
+      <div class="sectionBodyLeft">
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry.
+      </div>
       <br />
     </div>
   </div>
@@ -156,7 +204,7 @@ export default {
 
 .right {
   width: 25%;
-  background-color: lightblue;
+  background-color: #f2f2ff;
   align-items: stretch;
 }
 .title {
@@ -194,14 +242,19 @@ export default {
 .sectionHeading {
   font-size: 18px;
   text-align: left;
-  font-weight: 400;
+  font-weight: 500;
   padding-top: 5%;
   padding-bottom: 5%;
   padding-left: 5%;
+  color: rgb(48, 46, 46);
 }
 
 .sectionBody {
   font-size: 18px;
   text-align: center;
+}
+.sectionBodyLeft {
+  font-size: 18px;
+  text-align: left;
 }
 </style>
