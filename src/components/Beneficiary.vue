@@ -128,6 +128,7 @@ export default {
         `${VITE_API_URL}/v1/search?type=beneficiary&fields=name,phone,email,occupation,householdIncome,householdSize,beneficiaryNumber&q=` +
           e.detail
       )
+
       const data = await res.json()
       beneficiaries.value = data.results.map((item) => {
         return {
@@ -139,7 +140,7 @@ export default {
       console.log(`data`, data)
     }, 500)
     const selected = async (e) => {
-      console.log(e.detail)
+      console.log('here', e.detail)
       beneficiary.contact = e.detail.phone
       beneficiary.email = e.detail.email
       beneficiary.occupation = e.detail.occupation
@@ -147,6 +148,7 @@ export default {
       beneficiary.householdIncome = e.detail.householdIncome
       // const found = data.results.find(item => item.beneficiaryName === e.detail.key)
     }
+
     const store = useStore()
     const login = (e) => {
       console.log(e)

@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import { VITE_API_URL } from '/config.js'
 import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 
@@ -87,21 +88,33 @@ export default {
       console.log('search', e.detail, col, _showForm)
       console.log(e.detail)
       const res = await fetch(
-        'https://onesg-backend-staging.herokuapp.com/v1/search?type=referee&page=1&per_page=10&fields=name,phone,email,organisation&q=' +
+        `${VITE_API_URL}/v1/search?type=referee&fields=name,phone,email,organisation,refereeNumber&q=` +
           e.detail
       )
       const data = await res.json()
       references.value = data.results.map((item) => {
-        return item.name
+        return {
+          text: item.name,
+          key: item.refereeNumber,
+          ...item,
+        }
       })
-      console.log(data)
+      console.log(`data`, data)
     }, 500)
+    const selected = async (e) => {
+      console.log('here', e.detail)
+      reference.phone = e.detail.phone
+      reference.email = e.detail.email
+      reference.organisation = e.detail.organisation
+      // const found = data.results.find(item => item.beneficiaryName === e.detail.key)
+    }
 
     return {
       autoComplete,
       referenceSearch,
       reference,
       references,
+      selected,
     }
   },
 }
