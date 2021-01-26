@@ -24,6 +24,7 @@
             :items="references"
             v-model="referenceSearch"
             @search="(e) => autoComplete(e)"
+            @selected="selected"
             placeholder="Search or add a reference."
           >
           </bwc-autocomplete>
