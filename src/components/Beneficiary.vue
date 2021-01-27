@@ -106,7 +106,6 @@
 import { VITE_API_URL } from '/config.js'
 import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
-
 export default {
   name: 'Beneficary',
   setup(context, props) {
@@ -140,15 +139,13 @@ export default {
       })
       console.log(`data`, data)
     }, 500)
-
     const selected = async (e) => {
-      console.log(e.detail)
+      console.log('here', e.detail)
       beneficiary.contact = e.detail.phone
       beneficiary.email = e.detail.email
       beneficiary.occupation = e.detail.occupation
       beneficiary.householdSize = e.detail.householdSize
       beneficiary.householdIncome = e.detail.householdIncome
-
       // const found = data.results.find(item => item.beneficiaryName === e.detail.key)
     }
 

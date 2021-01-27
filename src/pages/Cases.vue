@@ -23,7 +23,6 @@
       >
       </bwc-table>
     </div>
-    <a @click="$router.push('/details/' + '123456')">Details</a>
   </div>
 </template>
 
