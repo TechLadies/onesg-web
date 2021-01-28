@@ -1,46 +1,58 @@
 <template>
   <div>
-    <div class="status-bar">
-      <div class="sub-title">Status</div>
+    <div class="sub-title">Status</div>
+    <div class="StatusBar">
       <button
         class="all-btn"
-        @click="activeBtn = 'all-btn-clicked'"
-        :class="{ active: activeBtn === 'all-btn-clicked' }"
+        id="all-btn-clicked"
+        type="button"
+        @click="toggleView('ALL')"
+        :class="{ active: activeBtn === 'ALL' }"
       >
         All
       </button>
       <button
         class="new-btn"
-        @click="activeBtn = 'new-btn-clicked'"
-        :class="{ active: activeBtn === 'new-btn-clicked' }"
+        id="new-btn-clicked"
+        type="button"
+        @click="toggleView('NEW')"
+        :class="{ active: activeBtn === 'NEW' }"
       >
         New
       </button>
       <button
         class="pending-btn"
-        @click="activeBtn = 'pending-btn-clicked'"
-        :class="{ active: activeBtn === 'pending-btn-clicked' }"
+        id="pending-btn-clicked"
+        type="button"
+        @click="toggleView('PENDING')"
+        :class="{ active: activeBtn === 'PENDING' }"
       >
         Pending
       </button>
       <button
         class="efc-btn"
-        @click="activeBtn = 'efc-btn-clicked'"
-        :class="{ active: activeBtn === 'efc-btn-clicked' }"
+        id="referred-btn-clicked"
+        type="button"
+        @click="toggleView('REFERRED')"
+        :class="{ active: activeBtn === 'REFERRED' }"
       >
         Referred to EFC
       </button>
       <button
         class="processing-btn"
-        @click="activeBtn = 'processing-btn-clicked'"
-        :class="{ active: activeBtn === 'processing-btn-clicked' }"
+        id="processing-btn-clicked"
+        type="button"
+        @click="toggleView('PROCESSING')"
+        :class="{ active: activeBtn === 'PROCESSING' }"
       >
         Processing
       </button>
       <button
         class="closed-btn"
-        @click="activeBtn = 'closed-btn-clicked'"
-        :class="{ active: activeBtn === 'closed-btn-clicked' }"
+        id="closed-btn-clicked"
+        type="button"
+        @click="toggleView('CLOSED')"
+        :class="{ active: activeBtn === 'CLOSED' }"
       >
         Closed
       </button>
@@ -50,17 +62,26 @@
 
 <script>
 export default {
-  name: 'StatusBar',
-  data() {
+  name: '#status-bar',
+  data: function () {
     return {
       activeBtn: '',
     }
+  },
+
+  setup(props, { emit }) {
+    function toggleView(activeBtn) {
+      console.log(activeBtn)
+      emit('clicked', activeBtn)
+    }
+    return { toggleView }
+    // what i am returning the the key which is the object that return the function const returnObject = { toggleView: function () { //. somefunction } }
   },
 }
 </script>
 
 <style>
-.status-bar {
+.StatusBar {
   padding: 10px;
 }
 .sub-title {
@@ -80,17 +101,16 @@ export default {
 
 .all-btn {
   display: flex;
+  left: 161px;
+  position: absolute;
   flex-direction: row;
   align-items: flex-end;
   padding: 6px 14px;
-  position: absolute;
   width: 44px;
   height: 32px;
-  left: 200px;
   top: 83px;
-  /* Primary Dark */
+  z-index: 1;
   background: #ffffff;
-  /* Primary Dark */
   border: 1px solid #e6e6f0;
   box-sizing: border-box;
   border-radius: 290486px 0px 0px 290486px;
@@ -104,11 +124,10 @@ export default {
   position: absolute;
   width: 56px;
   height: 32px;
-  left: 244px;
+  left: 204px;
   top: 83px;
-  /* White */
-  background: #ffffff;
-  /* Light Gray */
+  z-index: 1;
+  background: #ffffff; /* Light Gray */
   border: 1px solid #e6e6f0;
   box-sizing: border-box;
   border-radius: 0px;
@@ -121,11 +140,10 @@ export default {
   position: absolute;
   width: 79px;
   height: 32px;
-  left: 300px;
+  left: 259px;
   top: 83px;
-  /* White */
-  background: #ffffff;
-  /* Light Gray */
+  z-index: 1;
+  background: #ffffff; /* Light Gray */
   border: 1px solid #e6e6f0;
   box-sizing: border-box;
   border-radius: 0px;
@@ -137,13 +155,12 @@ export default {
   align-items: flex-end;
   padding: 6px 14px;
   position: absolute;
-  width: 130px;
+  width: 128px;
   height: 32px;
-  left: 379px;
+  left: 337px;
   top: 83px;
-  /* White*/
-  background: #ffffff;
-  /* Light Gray */
+  z-index: 1;
+  background: #ffffff; /* Light Gray */
   border: 1px solid #e6e6f0;
   box-sizing: border-box;
   border-radius: 0px;
@@ -158,8 +175,9 @@ export default {
   position: absolute;
   width: 98px;
   height: 32px;
-  left: 509px;
-  top: 83px; /* White */
+  left: 462px;
+  top: 83px;
+  z-index: 1;
   background: #ffffff; /* Light Gray */
   border: 1px solid #e6e6f0;
   box-sizing: border-box;
@@ -174,11 +192,10 @@ export default {
   position: absolute;
   width: 72px;
   height: 32px;
-  left: 607px;
   top: 83px;
-  /* White*/
-  background: #ffffff;
-  /* Light Gray */
+  z-index: 1;
+  left: 559px;
+  background: #ffffff; /* Light Gray */
   border: 1px solid #e6e6f0;
   box-sizing: border-box;
   border-radius: 0px 290486px 290486px 0px;
@@ -186,5 +203,6 @@ export default {
 .active {
   background-color: #0e0e4d;
   color: #ffffff;
+  top: 83px;
 }
 </style>
