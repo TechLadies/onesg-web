@@ -40,7 +40,13 @@
         >
           Create New
         </button>
-
+        <button
+          v-else-if="stage === 1"
+          @click="upsertReferee"
+          class="button is-dark is-outlined"
+        ><span class="icon is-small">
+            <i class="fa fa-arrow-right"></i>
+          </span></button>
         <button
           v-else
           @click="upsertBeneficiary"
@@ -130,6 +136,7 @@ export default {
             `${VITE_API_URL}/v1/beneficiaries/${beneficiary.id}`,
             body
           )
+        stage.value++
         } catch (e) {
           alert(
             e?.data?.error?.message ||
@@ -141,11 +148,41 @@ export default {
         try {
           const edf = await http('GET', `${VITE_API_URL}/v1/beneficiaries`)
           console.log('edf', edf)
+          stage.value++
         } catch (e) {
           alert(e.toString())
         }
       }
-      stage.value++
+    }
+
+    const upsertReferee = async () => {
+      console.log(`referee in upsert`, reference)
+      if (reference.id) {
+        // update
+        try {
+          const body = reference
+          const abc = await http(
+            'PATCH',
+            `${VITE_API_URL}/v1/referees/${reference.id}`,
+            body
+          )
+        stage.value++
+        } catch (e) {
+          alert(
+            e?.data?.error?.message ||
+              'There is an error. Please contact admin.'
+          )
+        }
+      } else {
+        // create
+        try {
+          const edf = await http('GET', `${VITE_API_URL}/v1/referees`)
+          console.log('edf', edf)
+          stage.value++
+        } catch (e) {
+          alert(e.toString())
+        }
+      }
     }
 
     return {
@@ -156,6 +193,7 @@ export default {
       reference,
       caseDetail,
       upsertBeneficiary,
+      upsertReferee,
     }
   },
 }
