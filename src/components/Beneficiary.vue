@@ -35,7 +35,7 @@
           <input
             class="input is-success"
             type="text"
-            v-model="beneficiary.contact"
+            v-model="beneficiary.phone"
           />
         </div>
 
@@ -125,7 +125,7 @@ export default {
       console.log('search', e.detail, col, _showForm)
       console.log(`e,detail`, e.detail)
       const res = await fetch(
-        `${VITE_API_URL}/v1/search?type=beneficiary&fields=name,phone,email,occupation,householdIncome,householdSize,beneficiaryNumber&q=` +
+        `${VITE_API_URL}/v1/search?type=beneficiary&fields=name,phone,email,occupation,householdIncome,householdSize,beneficiaryNumber,id&q=` +
           e.detail
       )
 
@@ -141,11 +141,12 @@ export default {
     }, 500)
     const selected = async (e) => {
       console.log('here', e.detail)
-      beneficiary.contact = e.detail.phone
+      beneficiary.phone = e.detail.phone
       beneficiary.email = e.detail.email
       beneficiary.occupation = e.detail.occupation
       beneficiary.householdSize = e.detail.householdSize
       beneficiary.householdIncome = e.detail.householdIncome
+      beneficiary.id = e.detail.id
       // const found = data.results.find(item => item.beneficiaryName === e.detail.key)
     }
 

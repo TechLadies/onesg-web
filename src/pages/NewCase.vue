@@ -41,7 +41,11 @@
           Create New
         </button>
 
-        <button v-else @click="stage++" class="button is-dark is-outlined">
+        <button
+          v-else
+          @click="upsertBeneficiary"
+          class="button is-dark is-outlined"
+        >
           <span class="icon is-small">
             <i class="fa fa-arrow-right"></i>
           </span>
@@ -52,7 +56,9 @@
 </template>
 
 <script>
+import { VITE_API_URL } from '/config.js'
 import { ref, reactive } from 'vue'
+import http from '../components/http.js'
 import { useStore } from 'vuex'
 import { onMounted } from 'vue'
 import Beneficiary from '../components/Beneficiary.vue'
@@ -77,7 +83,7 @@ export default {
       email: '',
       occupation: '',
       householdIncome: '',
-      householeSize: '',
+      householdSize: '',
     })
     const reference = reactive({
       // all these properties should match with DB, check with backend team
@@ -107,11 +113,41 @@ export default {
       console.log('createNew')
     }
     onMounted(async () => {
-      const res = await fetch('https://randomuser.me/api/')
-      const data = await res.json()
-      console.log(data)
+      // const res = await fetch('https://randomuser.me/api/')
+      // const data = await res.json()
+      // console.log(data)
       console.log('Secure is mounted!')
     })
+
+    const upsertBeneficiary = async () => {
+      console.log(`beneficiary in upsert`, beneficiary)
+      if (beneficiary.id) {
+        // update
+        try {
+          const body = beneficiary
+          const abc = await http(
+            'PATCH',
+            `${VITE_API_URL}/v1/beneficiaries/${beneficiary.id}`,
+            body
+          )
+        } catch (e) {
+          alert(
+            e?.data?.error?.message ||
+              'There is an error. Please contact admin.'
+          )
+        }
+      } else {
+        // create
+        try {
+          const edf = await http('GET', `${VITE_API_URL}/v1/beneficiaries`)
+          console.log('edf', edf)
+        } catch (e) {
+          alert(e.toString())
+        }
+      }
+      stage.value++
+    }
+
     return {
       logout,
       stage,
@@ -119,6 +155,7 @@ export default {
       beneficiary,
       reference,
       caseDetail,
+      upsertBeneficiary,
     }
   },
 }
