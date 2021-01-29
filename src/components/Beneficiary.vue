@@ -141,6 +141,7 @@ export default {
     }, 500)
     const selected = async (e) => {
       console.log('here', e.detail)
+      beneficiary.name = e.detail.name
       beneficiary.phone = e.detail.phone
       beneficiary.email = e.detail.email
       beneficiary.occupation = e.detail.occupation

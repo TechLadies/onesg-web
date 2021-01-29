@@ -89,7 +89,7 @@ export default {
       console.log('search', e.detail, col, _showForm)
       console.log(e.detail)
       const res = await fetch(
-        `${VITE_API_URL}/v1/search?type=referee&fields=name,phone,email,organisation,refereeNumber&q=` +
+        `${VITE_API_URL}/v1/search?type=referee&fields=name,phone,email,organisation,refereeNumber,id&q=` +
           e.detail
       )
       const data = await res.json()
@@ -104,9 +104,11 @@ export default {
     }, 500)
     const selected = async (e) => {
       console.log('here', e.detail)
+      reference.name = e.detail.name
       reference.phone = e.detail.phone
       reference.email = e.detail.email
       reference.organisation = e.detail.organisation
+      reference.id = e.detail.id
       // const found = data.results.find(item => item.beneficiaryName === e.detail.key)
     }
 
