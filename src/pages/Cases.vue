@@ -32,7 +32,7 @@
 <script>
 import { VITE_API_URL } from '/config.js'
 // ref when we change value
-import { onMounted, ref, reactive } from 'vue'
+import { onMounted, ref, reactive, onUpdated } from 'vue'
 //axios vue
 import axios from 'axios'
 //formatting for date
@@ -40,17 +40,12 @@ import dayjs from 'dayjs'
 import { useRouter } from 'vue-router'
 import StatusBar from '../components/StatusBar.vue'
 const link = {
-  ALL: `${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=5&sort=caseNumber:desc&include_entities=beneficiary,referee,request`,
-  PENDING: `${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=5&sort=caseNumber:desc&include_entities=beneficiary,referee,request
-&status=PENDING`,
-  NEW: `${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=5&sort=caseNumber:desc&include_entities=beneficiary,referee,request
-&status=NEW`,
-  REFERRED: `${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=5&sort=caseNumber:desc&include_entities=beneficiary,referee,request
-&status=REFFERED`,
-  PROCESSING: `${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=5&sort=caseNumber:desc&include_entities=beneficiary,referee,request
-&status=PROCESSING`,
-  CLOSED: `${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=5&sort=caseNumber:desc&include_entities=beneficiary,referee,request
-&status=CLOSED`,
+  ALL: ``,
+  PENDING: `&status=PENDING`,
+  NEW: `&status=NEW`,
+  REFERRED: `&status=REFERRED`,
+  PROCESSING: `&status=PROCESSING`,
+  CLOSED: `&status=CLOSED`,
 }
 
 // TODO: Temporarily moved this function here because couldn't get js export import files working.
@@ -58,23 +53,34 @@ const link = {
 export default {
   name: 'Cases',
   components: { StatusBar },
-  // data: function () {
-  //   const state = link.ALL
-  //   return { state }
-  // },
 
   setup(props, { emit }) {
+    const link = {
+      ALL: ``,
+      PENDING: `&status=PENDING`,
+      NEW: `&status=NEW`,
+      REFERRED: `&status=REFERRED`,
+      PROCESSING: `&status=PROCESSING`,
+      CLOSED: `&status=CLOSED`,
+    }
+
     const router = useRouter()
     const page = ref(1)
     const pageSize = ref(10)
     const state = reactive({ url: link.ALL })
     const pageSizeList = [5, 10, 15]
+
     function selectActiveBtn(thisLink) {
-      console.log(`thisLink`, thisLink)
+      console.log(`thisLink in cases`, thisLink)
+      console.log(`state.url in cases`, state.url)
       state.url = link[thisLink]
-      // if use link.thisLink, it will look for the literal "this.thisLink" instead of this.ALL eg. 
-      fetchData()
+      // if use link.thisLink, it will look for the literal "this.thisLink" instead of this.ALL eg
     }
+
+    onUpdated(() => {
+      console.log(`am on onupdated`)
+      fetchData(state.url)
+    })
 
     const columns = reactive([
       {
@@ -152,8 +158,10 @@ export default {
 
     const fetchData = async () => {
       console.log(`FetchingData`)
-      const res = await axios.get(state.url, console.log(`url`, state.url))
+      const res = await axios.get(`${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=5&sort=caseNumber:desc&include_entities=beneficiary,referee,request
+${state.url}`)
       const fetchedData = res.data.results
+      console.log(`fetcheddata results`, fetchedData)
 
       // For each data, transform it to the desired shape
       const transformedData = fetchedData.map((data) => {

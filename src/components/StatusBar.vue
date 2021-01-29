@@ -7,7 +7,8 @@
         id="all-btn-clicked"
         type="button"
         @click="toggleView('ALL')"
-        :class="{ active: activeBtn === 'ALL' }"
+        v-on:click="clicked = 'ALL'"
+        :class="{ active: clicked === 'ALL' }"
       >
         All
       </button>
@@ -16,7 +17,8 @@
         id="new-btn-clicked"
         type="button"
         @click="toggleView('NEW')"
-        :class="{ active: activeBtn === 'NEW' }"
+        v-on:click="clicked = 'NEW'"
+        :class="{ active: clicked === 'NEW' }"
       >
         New
       </button>
@@ -25,7 +27,8 @@
         id="pending-btn-clicked"
         type="button"
         @click="toggleView('PENDING')"
-        :class="{ active: activeBtn === 'PENDING' }"
+        v-on:click="clicked = 'PENDING'"
+        :class="{ active: clicked === 'PENDING' }"
       >
         Pending
       </button>
@@ -34,7 +37,8 @@
         id="referred-btn-clicked"
         type="button"
         @click="toggleView('REFERRED')"
-        :class="{ active: activeBtn === 'REFERRED' }"
+        v-on:click="clicked = 'REFERRED'"
+        :class="{ active: clicked === 'REFERRED' }"
       >
         Referred to EFC
       </button>
@@ -43,7 +47,8 @@
         id="processing-btn-clicked"
         type="button"
         @click="toggleView('PROCESSING')"
-        :class="{ active: activeBtn === 'PROCESSING' }"
+        v-on:click="clicked = 'PROCESSING'"
+        :class="{ active: clicked === 'PROCESSING' }"
       >
         Processing
       </button>
@@ -52,7 +57,8 @@
         id="closed-btn-clicked"
         type="button"
         @click="toggleView('CLOSED')"
-        :class="{ active: activeBtn === 'CLOSED' }"
+        v-on:click="clicked = 'CLOSED'"
+        :class="{ active: clicked === 'CLOSED' }"
       >
         Closed
       </button>
@@ -65,13 +71,13 @@ export default {
   name: '#status-bar',
   data: function () {
     return {
-      activeBtn: '',
+      clicked: '',
     }
   },
 
   setup(props, { emit }) {
     function toggleView(activeBtn) {
-      console.log(activeBtn)
+      console.log(`activeBtn`, activeBtn)
       emit('clicked', activeBtn)
     }
     return { toggleView }
