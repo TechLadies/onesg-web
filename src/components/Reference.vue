@@ -22,7 +22,7 @@
           <bwc-autocomplete
             required
             :items="references"
-            v-model="referenceSearch"
+            v-model="reference.name"
             @search="(e) => autoComplete(e)"
             @selected="selected"
             placeholder="Search or add a reference."

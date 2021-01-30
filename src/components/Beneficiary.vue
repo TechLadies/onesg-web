@@ -22,7 +22,7 @@
           <bwc-autocomplete
             required
             :items="beneficiaries"
-            v-model="beneficiarySearch"
+            v-model="beneficiary.name"
             @search="(e) => autoComplete(e)"
             @selected="selected"
             placeholder="Search or add a beneficiary."
