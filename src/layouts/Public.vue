@@ -20,7 +20,7 @@
   font-family: Teko;
   font-style: normal;
   font-weight: 500;
-  font-size: 33px;
+  font-size: 30px;
   line-height: 48px;
   /* identical to box height, or 109% */
 
@@ -55,12 +55,13 @@
 }
 .sidebar {
   height: 100%;
-  width: 100px;
+  width: 7%;
   position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
   background-color: #08134b;
+  overflow-x: scroll;
   padding-top: 16px;
 }
 </style>
