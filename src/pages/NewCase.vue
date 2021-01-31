@@ -44,9 +44,11 @@
           v-else-if="stage === 1"
           @click="upsertReferee"
           class="button is-dark is-outlined"
-        ><span class="icon is-small">
+        >
+          <span class="icon is-small">
             <i class="fa fa-arrow-right"></i>
-          </span></button>
+          </span>
+        </button>
         <button
           v-else
           @click="upsertBeneficiary"
@@ -81,7 +83,7 @@ export default {
   setup() {
     const stage = ref(0)
     const store = useStore()
-    const beneficiary = reactive({
+    let beneficiary = reactive({
       // all these properties should match with DB, check with backend team
       id: '', // this is populated by aytocomplete, if null then it should be new reference
       name: '',
@@ -101,22 +103,38 @@ export default {
     })
     const caseDetail = reactive({
       // all these properties should match with DB, check with backend team
+      appliedOn: '',
       amountRequested: '',
-      poc: '',
-      applicationDate: '',
-      description1: '',
-      description2: '',
-      description3: '',
-      title: '',
-      dropbox: '',
+      pointOfContact: '',
+      refereeId: '',
+      beneficiaryId: '',
+      createdBy: '1',
+      updatedBy: '2',
+      requests: [],
     })
+    console.log(caseDetail)
     const logout = (e) => {
       console.log(e)
       store.dispatch('doLogin', null)
     }
     const createNew = async () => {
+      caseDetail.beneficiaryId = beneficiary.id
+      caseDetail.refereeId = reference.id
+
       alert(JSON.stringify(caseDetail))
-      console.log('createNew')
+      console.log('test', beneficiary)
+
+      try {
+        const body = caseDetail
+        const abc = await http('POST', `${VITE_API_URL}/v1/cases`, body)
+        beneficiary = {}
+        stage.value = 0
+      } catch (e) {
+        console.log('error', e)
+        alert(
+          e?.data?.error?.message || 'There is an error. Please contact admin.'
+        )
+      }
     }
     onMounted(async () => {
       // const res = await fetch('https://randomuser.me/api/')
@@ -136,7 +154,7 @@ export default {
             `${VITE_API_URL}/v1/beneficiaries/${beneficiary.id}`,
             body
           )
-        stage.value++
+          stage.value++
         } catch (e) {
           alert(
             e?.data?.error?.message ||
@@ -166,7 +184,7 @@ export default {
             `${VITE_API_URL}/v1/referees/${reference.id}`,
             body
           )
-        stage.value++
+          stage.value++
         } catch (e) {
           alert(
             e?.data?.error?.message ||
@@ -185,6 +203,8 @@ export default {
       }
     }
 
+    const insertDetails = async () => {}
+
     return {
       logout,
       stage,
@@ -194,6 +214,7 @@ export default {
       caseDetail,
       upsertBeneficiary,
       upsertReferee,
+      insertDetails,
     }
   },
 }

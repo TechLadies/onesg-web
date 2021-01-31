@@ -12,84 +12,94 @@
 
       <div class="body">
         <div class="details">
-          <div class="sectionHeading">DETAILS</div>
-          <div class="sectionBody">
-            <ul>
-              P.O.C.
-            </ul>
+          <div class="border">
+            <div class="sectionHeading">DETAILS</div>
+            <div class="sectionBody">
+              <ul>
+                P.O.C.
+              </ul>
 
-            <ul>
-              Date of application
-            </ul>
+              <ul>
+                Date of application
+              </ul>
 
-            <ul>
-              Amount Requested
-            </ul>
+              <ul>
+                Amount Requested
+              </ul>
 
-            <ul>
-              Approval
-            </ul>
-            <ul>
-              Last updated
-            </ul>
-          </div>
-          <br />
-          <div class="sectionHeading">REFERENCE</div>
-          <div class="sectionBody">
-            <ul>
-              Name
-            </ul>
-            <ul>
-              Occupation
-            </ul>
-            <ul>
-              Phone
-            </ul>
-            <ul>
-              Email
-            </ul>
-          </div>
-          <br />
-          <div class="sectionHeading">Reference Status</div>
-          <div class="sectionHeading">
-            <div class="select">
-              <select>
-                <option>Unverified</option>
-                <option>Option 1</option>
-                <option>Option 2</option>
-                <option>Option 3</option>
-              </select>
+              <ul>
+                Approval
+              </ul>
+              <ul>
+                Last updated
+              </ul>
             </div>
           </div>
-
-          <div class="sectionBody">
-            <div class="sectionHeading">Amount Granted</div>
-
+          <div class="border">
+            <div class="sectionHeading">REFERENCE</div>
+            <div class="sectionBody">
+              <ul>
+                Name
+              </ul>
+              <ul>
+                Occupation
+              </ul>
+              <ul>
+                Phone
+              </ul>
+              <ul>
+                Email
+              </ul>
+            </div>
+          </div>
+          <div class="border">
+            <div class="sectionHeading">Reference Status</div>
             <div class="sectionHeading">
-              <input class="input" type="text" placeholder="S$" />
+              <div class="select">
+                <select>
+                  <option>Unverified</option>
+                  <option>Option 1</option>
+                  <option>Option 2</option>
+                  <option>Option 3</option>
+                </select>
+              </div>
             </div>
-            <div class="sectionHeading">Case Tags</div>
-            <br />
-            <br />
-            <br />
-            <br />
+
+            <div class="sectionBody">
+              <div class="sectionHeading">Amount Granted</div>
+
+              <div class="sectionHeading">
+                <input class="input" type="text" placeholder="S$" />
+              </div>
+              <div class="sectionHeading">Case Tags</div>
+              <br />
+              <br />
+              <br />
+              <br />
+            </div>
           </div>
         </div>
-        <div class="requests">
+        <div class="requests border">
           <div class="sectionHeading">REQUEST(S)</div>
-          <div class="sectionBodyLeft">Request Type</div>
-          <div class="sectionBodyLeft">Fulfillment</div>
-          <div class="sectionBodyLeft">Description</div>
-          <br />
-          <div class="sectionHeadingf">COMMENTS & DOCUMENTS</div>
-          <div class="sectionBodyLeft">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book it has?
+          <div class="border">
+            <div class="sectionBodyLeft">Request Type</div>
+            <div class="sectionBodyLeft">Fulfillment</div>
+            <div class="sectionBodyLeft">Description</div>
+            <br />
           </div>
+          <div class="border">
+            <br />
+            <div class="sectionHeadingf">COMMENTS & DOCUMENTS</div>
+            <br />
+            <div class="sectionBodyLeft">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s when an unknown printer took a galley of type
+              and scrambled it to make a type specimen book it has?
+            </div>
 
-          <br />
+            <br />
+          </div>
         </div>
       </div>
     </div>
@@ -199,7 +209,7 @@ export default {
 .left {
   width: 75%;
   margin-left: 10%;
-  padding-right: 5%;
+  padding-right: 0%;
 }
 
 .right {
@@ -237,6 +247,12 @@ export default {
 
 .requests {
   width: 70%;
+}
+
+.border {
+  border: 0.05rem solid #dedede;
+  box-shadow: 0.5 0.5px 0.5px 0.5;
+  padding: 10px 10px 10px 10px;
 }
 
 .sectionHeading {

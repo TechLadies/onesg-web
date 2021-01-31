@@ -47,11 +47,7 @@
             <div class="input-field">
               <div class="field">Application date</div>
 
-              <input
-                class="input"
-                type="text"
-                v-model="caseDetail.applicationDate"
-              />
+              <input class="input" type="text" v-model="caseDetail.appliedOn" />
             </div>
           </div>
         </div>
@@ -69,9 +65,12 @@
                 <div class="select">
                   <select>
                     <option>Select one</option>
-                    <option>Option 1</option>
-                    <option>Option 2</option>
-                    <option>Option 3</option>
+                    <option>Baby Products</option>
+                    <option>Cooked Food</option>
+                    <option>Financial Assitance</option>
+                    <option>Medical Bills</option>
+                    <option>School Fees</option>
+                    <option>Transportation Fees</option>
                   </select>
                 </div>
               </div>
@@ -83,9 +82,12 @@
                 <div class="select">
                   <select>
                     <option>Select one</option>
-                    <option>Option 1</option>
-                    <option>Option 2</option>
-                    <option>Option 3</option>
+                    <option>Baby Products</option>
+                    <option>Cooked Food</option>
+                    <option>Financial Assitance</option>
+                    <option>Medical Bills</option>
+                    <option>School Fees</option>
+                    <option>Transportation Fees</option>
                   </select>
                 </div>
               </div>
@@ -210,38 +212,35 @@
                     <label class="label">Document 1</label>
                   </div>
 
-                  <!-- child -->
+                  <!-- 
                   <div class="child-three">
                     <div class="input-field">
                       <div class="field">Title</div>
 
+                      
                       <input
                         class="input"
                         type="text"
-                        v-model="caseDetail.title"
+                        v-model="caseDetail.title" 
                       />
-                    </div>
-                    <div class="add">
-                      <a href=""
-                        ><i class="fa fa-plus-square"></i> ADD DOCUMENT</a
-                      >
-                    </div>
-                  </div>
-
-                  <!-- child -->
+                      -->
+                </div>
+ <!--
+                <div class="add">
+                  <a href=""><i class="fa fa-plus-square"></i> ADD DOCUMENT</a>
+                </div>
+              </div>
+             
                   <div class="child-two">
                     <div class="input-field">
                       <div class="field">Dropbox Link</div>
-
+                      
                       <input
                         class="input"
                         type="text"
                         v-model="caseDetail.dropbox"
                       />
-                    </div>
-                  </div>
-                </div>
-              </div>
+                      -->
             </div>
           </div>
         </div>
