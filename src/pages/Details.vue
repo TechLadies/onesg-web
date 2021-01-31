@@ -15,41 +15,66 @@
           <div class="border">
             <div class="sectionHeading">DETAILS</div>
             <div class="sectionBody">
-              <ul>
-                P.O.C.
-              </ul>
+              <div class="contentLeft">
+                <ul>
+                  P.O.C.
+                </ul>
 
-              <ul>
-                Date of application
-              </ul>
+                <ul>
+                  Date of application
+                </ul>
 
-              <ul>
-                Amount Requested
-              </ul>
+                <ul>
+                  Amount Requested
+                </ul>
 
-              <ul>
-                Approval
-              </ul>
-              <ul>
-                Last updated
-              </ul>
+                <ul>
+                  Approval
+                </ul>
+                <ul>
+                  Last updated
+                </ul>
+              </div>
+              <div class="contentRight">
+                <ul>
+                  Rachel
+                </ul>
+
+                <ul>
+                  21/08/2020
+                </ul>
+
+                <ul>
+                  S$1
+                </ul>
+
+                <ul>
+                  Yes
+                </ul>
+                <ul>
+                  21/08/2021
+                </ul>
+              </div>
             </div>
           </div>
           <div class="border">
             <div class="sectionHeading">REFERENCE</div>
             <div class="sectionBody">
-              <ul>
-                Name
-              </ul>
-              <ul>
-                Occupation
-              </ul>
-              <ul>
-                Phone
-              </ul>
-              <ul>
-                Email
-              </ul>
+              <div class="contentLeft">
+                <ul>
+                  Name
+                </ul>
+                <ul>
+                  Occupation
+                </ul>
+                <ul>
+                  Phone
+                </ul>
+                <ul>
+                  Email
+                </ul>
+              </div>
+              <div class="contentRight"></div>
             </div>
           </div>
           <div class="border">
@@ -67,11 +92,11 @@
 
             <div class="sectionBody">
               <div class="sectionHeading">Amount Granted</div>
-
+              <br />
+              <br />
               <div class="sectionHeading">
                 <input class="input" type="text" placeholder="S$" />
               </div>
-              <div class="sectionHeading">Case Tags</div>
               <br />
               <br />
               <br />
@@ -107,30 +132,33 @@
     <div class="right">
       <div class="sectionHeading">BENEFICIARY</div>
       <div class="sectionBody">
-        <ul>
-          Name
-        </ul>
-        <ul>
-          Phone
-        </ul>
-        <ul>
-          Email
-        </ul>
-        <ul>
-          Occupation
-        </ul>
-        <ul>
-          Household income
-        </ul>
-        <ul>
-          Household size
-        </ul>
-        <ul>
-          Payment type
-        </ul>
+        <div class="contentLeft">
+          <ul>
+            Name
+          </ul>
+          <ul>
+            Phone
+          </ul>
+          <ul>
+            Email
+          </ul>
+          <ul>
+            Occupation
+          </ul>
+          <ul>
+            Household income
+          </ul>
+          <ul>
+            Household size
+          </ul>
+          <ul>
+            Payment type
+          </ul>
+        </div>
+        <div class="contentRight"></div>
         <br />
       </div>
-      <div class="sectionHeading">Notes</div>
+      <div class="sectionHeadingWhite">NOTES</div>
 
       <div class="sectionBodyLeft">
         Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -235,7 +263,7 @@ export default {
   margin-left: 50%;
   padding: 15px 2px 15px 2px;
   width: 100px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .body {
@@ -250,27 +278,52 @@ export default {
 }
 
 .border {
-  border: 0.05rem solid #dedede;
-  box-shadow: 0.5 0.5px 0.5px 0.5;
+  border: 0.01px solid #dedede;
+  box-shadow: 0.02 0.02 0.02 0.02;
   padding: 10px 10px 10px 10px;
 }
 
 .sectionHeading {
-  font-size: 18px;
+  font-size: 14px;
+  text-align: left;
+  font-weight: 500;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  padding-left: 0%;
+  color: rgb(48, 46, 46);
+}
+.sectionHeadingWhite {
+  font-size: 14px;
   text-align: left;
   font-weight: 500;
   padding-top: 5%;
   padding-bottom: 5%;
   padding-left: 5%;
+  background-color: white;
   color: rgb(48, 46, 46);
 }
 
 .sectionBody {
-  font-size: 18px;
+  font-size: 12px;
   text-align: center;
+  padding-left: 15px;
+  padding-right: 10px;
+  display: flex;
 }
 .sectionBodyLeft {
-  font-size: 18px;
+  padding-right: 5px;
+  font-size: 12px;
   text-align: left;
+  padding-left: 15px;
+  padding-right: 10px;
+}
+.contentLeft {
+  text-align: right;
+  width: 50%;
+  padding-right: 10px;
+}
+.contentRight {
+  text-align: left;
+  width: 50%;
 }
 </style>
