@@ -11,52 +11,52 @@
     </div>
 
     <div class="instructions">
-      <p>Select or create a new reference.</p>
-      <p>Changes to an existing reference's details will be updated.</p>
+      <p>Select or create a new referee.</p>
+      <p>Changes to an existing referee's details will be updated.</p>
     </div>
 
     <div class="center">
       <div class="form">
         <div class="input-field">
-          <div class="input-title">Reference Name</div>
+          <div class="input-title">Referee Name</div>
           <bwc-autocomplete
             required
-            :items="references"
-            v-model="reference.name"
+            :items="referees"
+            v-model="referee.name"
             @search="(e) => autoComplete(e)"
             @selected="selected"
-            placeholder="Search or add a reference."
+            placeholder="Search or add a referee."
           >
           </bwc-autocomplete>
         </div>
 
         <div class="input-field">
-          <div class="input-title">Reference Organisation</div>
+          <div class="input-title">Referee Organisation</div>
           <input
             class="input is-success"
             type="text"
             placeholder="Optional"
-            v-model="reference.organisation"
+            v-model="referee.organisation"
           />
         </div>
 
         <div class="input-field">
-          <div class="input-title">Reference Contact Number</div>
+          <div class="input-title">Referee Contact Number</div>
           <input
             class="input is-success"
             type="text"
             placeholder="Optional"
-            v-model="reference.phone"
+            v-model="referee.phone"
           />
         </div>
 
         <div class="input-field">
-          <div class="input-title">Reference Email Address</div>
+          <div class="input-title">Referee Email Address</div>
           <input
             class="input is-success"
             type="text"
             placeholder="Optional"
-            v-model="reference.email"
+            v-model="referee.email"
           />
         </div>
       </div>
@@ -70,12 +70,12 @@ import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
-  name: 'Reference',
+  name: 'Referee',
   setup(context, props) {
-    console.log('props', props, props.attrs.reference)
-    const referenceSearch = ref()
-    const reference = reactive(props.attrs.reference)
-    const references = ref([])
+    console.log('props', props, props.attrs.referee)
+    const refereeSearch = ref()
+    const referee = reactive(props.attrs.referee)
+    const referees = ref([])
     const debounce = (callback, delay) => {
       let timeout = null
       return (...args) => {
@@ -93,7 +93,7 @@ export default {
           e.detail
       )
       const data = await res.json()
-      references.value = data.results.map((item) => {
+      referees.value = data.results.map((item) => {
         return {
           text: item.name,
           key: item.refereeNumber,
@@ -104,19 +104,19 @@ export default {
     }, 500)
     const selected = async (e) => {
       console.log('here', e.detail)
-      reference.name = e.detail.name
-      reference.phone = e.detail.phone
-      reference.email = e.detail.email
-      reference.organisation = e.detail.organisation
-      reference.id = e.detail.id
+      referee.name = e.detail.name
+      referee.phone = e.detail.phone
+      referee.email = e.detail.email
+      referee.organisation = e.detail.organisation
+      referee.id = e.detail.id
       // const found = data.results.find(item => item.beneficiaryName === e.detail.key)
     }
 
     return {
       autoComplete,
-      referenceSearch,
-      reference,
-      references,
+      refereeSearch,
+      referee,
+      referees,
       selected,
     }
   },

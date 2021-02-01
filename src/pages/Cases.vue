@@ -67,12 +67,12 @@ export default {
         filter: true,
       },
       {
-        label: 'Reference Name',
-        key: 'referenceName',
+        label: 'Referee Name',
+        key: 'refereeName',
         filter: true,
       },
       {
-        label: 'Reference Organisation',
+        label: 'Referee Organisation',
         key: 'organisation',
         filter: true,
       },
@@ -128,7 +128,7 @@ export default {
           caseNumber: data.caseId || '',
           applicationDate: dayjs(data.appliedOn).format('DD/MM/YYYY'),
           poc: data.pointOfContact || '',
-          referenceName: data.referee.name || '',
+          refereeName: data.referee.name || '',
           organisation: data.referee.organisation || '',
           lastUpdate: dayjs(data.updatedAt).format('DD/MM/YYYY'),
         }

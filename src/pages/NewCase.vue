@@ -5,9 +5,7 @@
       <div v-if="stage === 0">
         <Beneficiary :beneficiary="beneficiary" />
       </div>
-      <div v-if="stage === 1">
-        <Reference :reference="reference" />
-      </div>
+      <div v-if="stage === 1"><Referee :referee="referee" /></div>
       <div v-if="stage === 2">
         <CaseDetails :caseDetail="caseDetail" />
       </div>
@@ -70,14 +68,14 @@ import http from '../components/http.js'
 import { useStore } from 'vuex'
 import { onMounted } from 'vue'
 import Beneficiary from '../components/Beneficiary.vue'
-import Reference from '../components/Reference.vue'
+import Referee from '../components/Referee.vue'
 import CaseDetails from '../components/CaseDetails.vue'
 
 export default {
   name: 'Secure',
   components: {
     Beneficiary,
-    Reference,
+    Referee,
     CaseDetails,
   },
   setup() {
@@ -85,7 +83,7 @@ export default {
     const store = useStore()
     let beneficiary = reactive({
       // all these properties should match with DB, check with backend team
-      id: '', // this is populated by aytocomplete, if null then it should be new reference
+      id: '', // this is populated by aytocomplete, if null then it should be new referee
       name: '',
       phone: '',
       email: '',
@@ -93,9 +91,9 @@ export default {
       householdIncome: '',
       householdSize: '',
     })
-    const reference = reactive({
+    const referee = reactive({
       // all these properties should match with DB, check with backend team
-      id: '', // this is populated by aytocomplete, if null then it should be new reference
+      id: '', // this is populated by aytocomplete, if null then it should be new referee
       name: '',
       organisation: '', // autocomplete strict... must have a match
       phone: '',
@@ -119,7 +117,7 @@ export default {
     }
     const createNew = async () => {
       caseDetail.beneficiaryId = beneficiary.id
-      caseDetail.refereeId = reference.id
+      caseDetail.refereeId = referee.id
 
       alert(JSON.stringify(caseDetail))
       console.log('test', beneficiary)
@@ -174,14 +172,14 @@ export default {
     }
 
     const upsertReferee = async () => {
-      console.log(`referee in upsert`, reference)
-      if (reference.id) {
+      console.log(`referee in upsert`, referee)
+      if (referee.id) {
         // update
         try {
-          const body = reference
+          const body = referee
           const abc = await http(
             'PATCH',
-            `${VITE_API_URL}/v1/referees/${reference.id}`,
+            `${VITE_API_URL}/v1/referees/${referee.id}`,
             body
           )
           stage.value++
@@ -210,7 +208,7 @@ export default {
       stage,
       createNew,
       beneficiary,
-      reference,
+      referee,
       caseDetail,
       upsertBeneficiary,
       upsertReferee,

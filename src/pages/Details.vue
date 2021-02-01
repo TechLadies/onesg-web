@@ -58,7 +58,7 @@
             </div>
           </div>
           <div class="border">
-            <div class="sectionHeading">REFERENCE</div>
+            <div class="sectionHeading">REFEREE</div>
             <div class="sectionBody">
               <div class="contentLeft">
                 <ul>
@@ -78,7 +78,7 @@
             </div>
           </div>
           <div class="border">
-            <div class="sectionHeading">Reference Status</div>
+            <div class="sectionHeading">Referee Status</div>
             <div class="sectionHeading">
               <div class="select">
                 <select>
@@ -205,7 +205,7 @@ export default {
     //       caseNumber: data.caseId ? data.caseId : '-',
     //       applicationDate: dayjs(data.appliedOn).format('DD/MM/YYYY'),
     //       poc: data.pointOfContact ? data.pointOfContact : '-',
-    //       referenceName: data.referee.name ? data.referee.name : '-',
+    //       refereeName: data.referee.name ? data.referee.name : '-',
     //       organisation: data.referee.organisation
     //         ? data.referee.organisation
     //         : '-',
