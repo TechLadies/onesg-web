@@ -82,12 +82,10 @@
                 <div class="select">
                   <select>
                     <option>Select one</option>
-                    <option>Baby Products</option>
-                    <option>Cooked Food</option>
-                    <option>Financial Assitance</option>
-                    <option>Medical Bills</option>
-                    <option>School Fees</option>
-                    <option>Transportation Fees</option>
+                    <option>In-Kind Donation</option>
+                    <option>Cash Transfer</option>
+                    <option>Third-Party Payment</option>
+                    <option>Partner Referral</option>
                   </select>
                 </div>
               </div>
@@ -119,9 +117,12 @@
                   <div class="select">
                     <select>
                       <option>Select one</option>
-                      <option>Option 1</option>
-                      <option>Option 2</option>
-                      <option>Option 3</option>
+                      <option>Baby Products</option>
+                      <option>Cooked Food</option>
+                      <option>Financial Assitance</option>
+                      <option>Medical Bills</option>
+                      <option>School Fees</option>
+                      <option>Transportation Fees</option>
                     </select>
                   </div>
                 </div>
@@ -133,9 +134,10 @@
                   <div class="select">
                     <select>
                       <option>Select one</option>
-                      <option>Option 1</option>
-                      <option>Option 2</option>
-                      <option>Option 3</option>
+                      <option>In-Kind Donation</option>
+                      <option>Cash Transfer</option>
+                      <option>Third-Party Payment</option>
+                      <option>Partner Referral</option>
                     </select>
                   </div>
                 </div>
@@ -167,9 +169,12 @@
                     <div class="select">
                       <select>
                         <option>Select one</option>
-                        <option>Option 1</option>
-                        <option>Option 2</option>
-                        <option>Option 3</option>
+                        <option>Baby Products</option>
+                        <option>Cooked Food</option>
+                        <option>Financial Assitance</option>
+                        <option>Medical Bills</option>
+                        <option>School Fees</option>
+                        <option>Transportation Fees</option>
                       </select>
                     </div>
                   </div>
@@ -197,9 +202,12 @@
                         <div class="select selectModal">
                           <select>
                             <option>Add Request Type</option>
-                            <option>Option 1</option>
-                            <option>Option 2</option>
-                            <option>Option 3</option>
+                            <option>Baby Products</option>
+                            <option>Cooked Food</option>
+                            <option>Financial Assitance</option>
+                            <option>Medical Bills</option>
+                            <option>School Fees</option>
+                            <option>Transportation Fees</option>
                           </select>
                         </div>
                         <ul>
@@ -208,9 +216,10 @@
                         <div class="select selectModal">
                           <select>
                             <option>Select one</option>
-                            <option>Option 1</option>
-                            <option>Option 2</option>
-                            <option>Option 3</option>
+                            <option>In-Kind Donation</option>
+                            <option>Cash Transfer</option>
+                            <option>Third-Party Payment</option>
+                            <option>Partner Referral</option>
                           </select>
                         </div>
                         <ul>
@@ -237,9 +246,10 @@
                     <div class="select">
                       <select>
                         <option>Select one</option>
-                        <option>Option 1</option>
-                        <option>Option 2</option>
-                        <option>Option 3</option>
+                        <option>In-Kind Donation</option>
+                        <option>Cash Transfer</option>
+                        <option>Third-Party Payment</option>
+                        <option>Partner Referral</option>
                       </select>
                     </div>
                   </div>
