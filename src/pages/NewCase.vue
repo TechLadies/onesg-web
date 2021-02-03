@@ -220,7 +220,7 @@ export default {
 
 <style scoped>
 .main {
-  margin-left: 10%;
+  margin-left: 6%;
   margin-right: 20%;
   text-align: left;
   padding: 0px 0px 0px 20px;

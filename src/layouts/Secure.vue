@@ -17,11 +17,6 @@ export default {
   components: {
     SideBar,
   },
-  methods: {
-    log: function () {
-      console.log('hello')
-    },
-  },
   setup() {
     const stage = ref(0)
     const store = useStore()

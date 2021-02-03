@@ -56,17 +56,22 @@ const template = document.createElement('template')
 template.innerHTML = `
 <style>
 #table-wrapper {
-  overflow: var(--bwc-table-overflow, auto);
+  overflow: scroll;
   height: var(--bwc-table-height, 100%);
+  position: absolute;
+  top: 83px;
+  width: 93%;
+  height: 83%;
 }
 #table-wrapper table {
   table-layout: initial;
-  width: var(--bwc-table-width, 100%);
+  width: 100%
+  
 }
 #table-wrapper > nav {
   position: -webkit-sticky;
   position: sticky;
-  top: 0px;
+  top: 100%;
   left: 0px;
   z-index: 2;
   background-color: var(--bwc-table-navbar-bgcolor, lightslategray) !important;
@@ -79,6 +84,7 @@ template.innerHTML = `
   z-index: 2;
   background-color: var(--bwc-table-filter-bgcolor, white);
   color: var(--bwc-table-filter-color, black);
+  height:100%;
 }
 #table-wrapper th {
   background-color:  var(--bwc-table-th-bgcolor, white);
