@@ -63,7 +63,7 @@ export default {
       },
       {
         label: 'POC',
-        key: 'poc',
+        key: 'pointOfContact',
         filter: true,
       },
       {
@@ -127,7 +127,7 @@ export default {
           beneficiaryName: data.beneficiary.name || '',
           caseNumber: data.caseId || '',
           applicationDate: dayjs(data.appliedOn).format('DD/MM/YYYY'),
-          poc: data.pointOfContact || '',
+          pointOfContact: data.pointOfContact || '',
           refereeName: data.referee.name || '',
           organisation: data.referee.organisation || '',
           lastUpdate: dayjs(data.updatedAt).format('DD/MM/YYYY'),

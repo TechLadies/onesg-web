@@ -39,7 +39,11 @@
             <div class="input-field">
               <div class="field">ONE (Singapore) P.O.C.</div>
 
-              <input class="input" type="text" v-model="caseDetail.poc" />
+              <input
+                class="input"
+                type="text"
+                v-model="caseDetail.pointOfContact"
+              />
             </div>
           </div>
           <!-- child -->
