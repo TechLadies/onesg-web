@@ -108,12 +108,15 @@ export default {
       beneficiaryId: '',
       createdBy: '1',
       updatedBy: '2',
-      requests: [],
+      // requests: [],
     })
     console.log(caseDetail)
     const logout = (e) => {
       console.log(e)
       store.dispatch('doLogin', null)
+    }
+    const caseDetails = (e) => {
+      router.push('/details/' + e.detail.row.caseNumber)
     }
     const createNew = async () => {
       caseDetail.beneficiaryId = beneficiary.id
@@ -213,6 +216,7 @@ export default {
       upsertBeneficiary,
       upsertReferee,
       insertDetails,
+      caseDetails,
     }
   },
 }

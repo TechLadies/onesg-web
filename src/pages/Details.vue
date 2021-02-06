@@ -204,7 +204,7 @@ export default {
     //       beneficiaryName: data.beneficiary.name ? data.beneficiaryName : '-',
     //       caseNumber: data.caseId ? data.caseId : '-',
     //       applicationDate: dayjs(data.appliedOn).format('DD/MM/YYYY'),
-    //       poc: data.pointOfContact ? data.pointOfContact : '-',
+    //       pointOfContact: data.pointOfContact ? data.pointOfContact : '-',
     //       refereeName: data.referee.name ? data.referee.name : '-',
     //       organisation: data.referee.organisation
     //         ? data.referee.organisation

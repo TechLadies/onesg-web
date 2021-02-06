@@ -104,7 +104,7 @@ export default {
       },
       {
         label: 'POC',
-        key: 'poc',
+        key: 'pointOfContact',
         filter: true,
       },
       {
