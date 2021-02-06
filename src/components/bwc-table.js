@@ -37,7 +37,7 @@
 // :columns="columns"
 // :items="table.items"
 // :total="total"
-// style="--bwc-table-height: calc(100vh - 360px);--bwc-table-width: 200%;"
+// style="--bwc-table-height: calc(100vh - 260px);--bwc-table-width: 200%;"
 // class="sticky-header sticky-column"
 
 // EVENTS
@@ -55,36 +55,30 @@
 const template = document.createElement('template')
 template.innerHTML = `
 <style>
+
 #table-wrapper {
-  overflow: scroll;
-  height: var(--bwc-table-height, 100%);
-  position: absolute;
-  top: 83px;
-  width: 93%;
-  height: 83%;
+  overflow: var(--bwc-table-overflow, auto);
+  height: var(--bwc-table-height, 83%);
 }
 #table-wrapper table {
   table-layout: initial;
-  width: 100%
-  
+  width: var(--bwc-table-width, 100%);
 }
 #table-wrapper > nav {
   position: -webkit-sticky;
   position: sticky;
-  top: 100%;
+  top: 80%;
   left: 0px;
   z-index: 2;
-  background-color: var(--bwc-table-navbar-bgcolor, lightslategray) !important;
+  background-color: var(--bwc-table-navbar-bgcolor, white) !important;
 }
 #table-wrapper #filters {
   position: -webkit-sticky;
   position: sticky;
-  top: 56px;
   left: 0px;
   z-index: 2;
   background-color: var(--bwc-table-filter-bgcolor, white);
   color: var(--bwc-table-filter-color, black);
-  height:100%;
 }
 #table-wrapper th {
   background-color:  var(--bwc-table-th-bgcolor, white);
@@ -93,6 +87,7 @@ template.innerHTML = `
 #table-wrapper tr td {
   background-color:  var(--bwc-table-td-bgcolor, transparent);
   color: var(--bwc-table-td-color, black);
+  font-size: 14px;
 }
 #table-wrapper tr.is-selected td {
   background-color:  var(--bwc-table-td-select-bgcolor, lightgrey);
@@ -101,7 +96,7 @@ template.innerHTML = `
 .sticky-header #table-wrapper th {
   position: -webkit-sticky;
   position: sticky;
-  top: 56px; /* nav height - TBD filter height*/
+  top: 0px; /* nav height - TBD filter height*/
   z-index: 2;
 }
 .sticky-column #table-wrapper th[scope=row] {
@@ -119,6 +114,7 @@ template.innerHTML = `
   z-index: 1;
 }
 </style>
+
 <div id="table-wrapper">
   <nav id="table-navbar" class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
@@ -131,36 +127,21 @@ template.innerHTML = `
     <div id="table-navbar-menu" class="navbar-menu">
       <div class="navbar-start">
         <div id="commands" class="navbar-item">
-          <a id="cmd-filter" class="button">o</a>
-          <a id="cmd-reload" class="button">↻</a>
-          <a id="cmd-add" class="button">+</a>
-          <a id="cmd-del" class="button">-</a>
-          <a id="cmd-import" class="button">↑</a>
-          <a id="cmd-export" class="button">↓</a>
         </div>
       </div>
     
       <div class="navbar-end pagination">
         <div class="navbar-item">
-          <a id="page-dec" class="button">&lt;</a>
           <a><input id="page-input" class="input" type="number" min="1" style="width: auto;"/></a>
           <a class="button is-static">&nbsp;/&nbsp;<span id="pages-span"></span></a>
+          <a id="page-dec" class="button">&lt;</a>
           <a id="page-inc" class="button">&gt;</a>
-        </div>
-        <div class="navbar-item">
-          <a>
-            <span class="select">
-              <select id="page-select">
-              </select>
-            </span>
-          </a>
-          <a class="button is-static">Rows/Page</a>
         </div>
       </div>
     </div>
   </nav>
   <div id="filters"></div>
-</div>
+  </div>
 `
 
 class Table extends HTMLElement {
@@ -249,13 +230,6 @@ class Table extends HTMLElement {
       }
     }
 
-    this.querySelector('#cmd-filter').onclick = () => {
-      this.#filterShow = !this.#filterShow
-      this.querySelector('#filters').style.display = this.#filterShow
-        ? 'block'
-        : 'none'
-    }
-
     new ResizeObserver((entries) => {
       this.#navbarHeight = entries[0].target.clientHeight
       this._setHeights()
@@ -266,23 +240,6 @@ class Table extends HTMLElement {
       this._setHeights()
     }).observe(this.querySelector('#filters')) // start observing a DOM node
 
-    this.querySelector('#cmd-reload').onclick = () => this._trigger('reload')
-    this.querySelector('#cmd-add').onclick = () =>
-      this.dispatchEvent(new CustomEvent('cmd', { detail: { cmd: 'add' } }))
-    this.querySelector('#cmd-del').onclick = () =>
-      this.dispatchEvent(
-        new CustomEvent('cmd', {
-          detail: { cmd: 'del', items: this.#checkedRows },
-        })
-      )
-    this.querySelector('#cmd-import').onclick = () =>
-      this.dispatchEvent(new CustomEvent('cmd', { detail: { cmd: 'import' } }))
-    this.querySelector('#cmd-export').onclick = () =>
-      this.dispatchEvent(
-        new CustomEvent('cmd', {
-          detail: { cmd: 'export', items: this.#checkedRows },
-        })
-      )
     this.querySelector('#page-dec').onclick = (e) => {
       if (this.page > 1) {
         this.page -= 1

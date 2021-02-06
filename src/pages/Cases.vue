@@ -21,7 +21,7 @@
         @triggered="triggered"
         @cmd="cmd"
         @get-case.capture="caseDetails"
-        style="--bwc-table-height: calc(100vh - 360px); --bwc-table-width: 100%"
+        style="--bwc-table-height: calc(100vh - 0px); --bwc-table-width: 100%"
         class="sticky-header sticky-column"
       >
       </bwc-table>
@@ -158,7 +158,7 @@ export default {
 
     const fetchData = async () => {
       console.log(`FetchingData`)
-      const res = await axios.get(`${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=5&sort=caseNumber:desc&include_entities=beneficiary,referee,request
+      const res = await axios.get(`${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=10&sort=caseNumber:desc&include_entities=beneficiary,referee,request
 ${state.url}`)
       const fetchedData = res.data.results
       console.log(`fetcheddata results`, fetchedData)
@@ -231,7 +231,7 @@ ${state.url}`)
   margin-right: 0;
   margin-top: 0;
   text-align: left;
-  padding: 0px 0px 0px 20px;
+  padding: 40px 0px 0px 20px;
 }
 .title {
   position: absolute;
@@ -272,8 +272,8 @@ ${state.url}`)
   align-items: flex-end;
   padding: 6px 14px;
   width: 44px;
-  height: 32px;
-  top: 83px;
+  height: 3px;
+  top: 0px;
   z-index: 1;
   background: #ffffff;
   border: 1px solid #e6e6f0;
