@@ -2,8 +2,10 @@
   <div>
     <h1></h1>
     <div class="sidebar">
-      <div class="one">ONE</div>
-      <div class="singapore">SINGAPORE</div>
+      <div class="logo">
+        <div class="one">ONE</div>
+        <div class="singapore">SINGAPORE</div>
+      </div>
     </div>
     <router-view></router-view>
   </div>
@@ -55,7 +57,7 @@
 }
 .sidebar {
   height: 100%;
-  width: 7%;
+  width: 80px;
   position: fixed;
   z-index: 1;
   top: 0;
