@@ -75,12 +75,8 @@ export default {
       console.log(`state.url in cases`, state.url)
       state.url = link[thisLink]
       // if use link.thisLink, it will look for the literal "this.thisLink" instead of this.ALL eg
-    }
-
-    onUpdated(() => {
-      console.log(`am on onupdated`)
       fetchData(state.url)
-    })
+    }
 
     const columns = reactive([
       {
