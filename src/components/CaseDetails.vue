@@ -69,12 +69,13 @@
                 <div class="select">
                   <select>
                     <option>Select one</option>
-                    <option>Baby Products</option>
-                    <option>Cooked Food</option>
-                    <option>Financial Assitance</option>
-                    <option>Medical Bills</option>
-                    <option>School Fees</option>
-                    <option>Transportation Fees</option>
+                    <option value="1">Cooked Food</option>
+                    <option value="2">Diapers</option>
+                    <option value="3">Financial Assistance</option>
+                    <option value="4">Medical Bills</option>
+                    <option value="5">Milk Formula</option>
+                    <option value="6">School Fees</option>
+                    <option value="7">Transportation Fees</option>
                   </select>
                 </div>
               </div>
@@ -86,10 +87,10 @@
                 <div class="select">
                   <select>
                     <option>Select one</option>
-                    <option>In-Kind Donation</option>
-                    <option>Cash Transfer</option>
-                    <option>Third-Party Payment</option>
-                    <option>Partner Referral</option>
+                    <option value="1">In-Kind Donation</option>
+                    <option value="2">Cash Transfer</option>
+                    <option value="3">Third-Party Payment</option>
+                    <option value="4">Partner Referral</option>
                   </select>
                 </div>
               </div>
@@ -121,12 +122,13 @@
                   <div class="select">
                     <select>
                       <option>Select one</option>
-                      <option>Baby Products</option>
-                      <option>Cooked Food</option>
-                      <option>Financial Assitance</option>
-                      <option>Medical Bills</option>
-                      <option>School Fees</option>
-                      <option>Transportation Fees</option>
+                      <option value="1">Cooked Food</option>
+                      <option value="2">Diapers</option>
+                      <option value="3">Financial Assistance</option>
+                      <option value="4">Medical Bills</option>
+                      <option value="5">Milk Formula</option>
+                      <option value="6">School Fees</option>
+                      <option value="7">Transportation Fees</option>
                     </select>
                   </div>
                 </div>
@@ -173,12 +175,13 @@
                     <div class="select">
                       <select>
                         <option>Select one</option>
-                        <option>Baby Products</option>
-                        <option>Cooked Food</option>
-                        <option>Financial Assitance</option>
-                        <option>Medical Bills</option>
-                        <option>School Fees</option>
-                        <option>Transportation Fees</option>
+                        <option value="1">Cooked Food</option>
+                        <option value="2">Diapers</option>
+                        <option value="3">Financial Assistance</option>
+                        <option value="4">Medical Bills</option>
+                        <option value="5">Milk Formula</option>
+                        <option value="6">School Fees</option>
+                        <option value="7">Transportation Fees</option>
                       </select>
                     </div>
                   </div>
@@ -206,12 +209,13 @@
                         <div class="select selectModal">
                           <select>
                             <option>Add Request Type</option>
-                            <option>Baby Products</option>
-                            <option>Cooked Food</option>
-                            <option>Financial Assitance</option>
-                            <option>Medical Bills</option>
-                            <option>School Fees</option>
-                            <option>Transportation Fees</option>
+                            <option value="1">Cooked Food</option>
+                            <option value="2">Diapers</option>
+                            <option value="3">Financial Assistance</option>
+                            <option value="4">Medical Bills</option>
+                            <option value="5">Milk Formula</option>
+                            <option value="6">School Fees</option>
+                            <option value="7">Transportation Fees</option>
                           </select>
                         </div>
                         <ul>
