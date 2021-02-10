@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <div class="upper-menu">
+    <div>
       <a @click="$router.push('/home')"
         ><i class="fa fa-fw fa-home"></i>
         <span><div class="heading">Home</div></span></a
@@ -18,14 +18,14 @@
         <span><div class="heading">New Case</div></span></a
       >
     </div>
-    <div class="lower-menu">
+    <div>
       <a @click="$router.push('/account')"
         ><i class="fa fa-user-circle-o"></i>
         <span><div class="heading">Accounts</div></span></a
       >
       <a href="#" @click="logout"
         ><i class="fa fa-sign-out"></i>
-        <span><div class="heading">Log Out</div></span></a
+        <span><div class="heading">Logout</div></span></a
       >
     </div>
   </div>
@@ -51,7 +51,6 @@ export default {
 <style scoped>
 .sidebar {
   height: 100%;
-  width: 7%;
   min-width: 80px;
   position: fixed;
   z-index: 1;
@@ -69,9 +68,9 @@ export default {
 
 }
 .sidebar a {
-  padding: 8px 8px 8px 8px;
+  padding: 8px;
   text-decoration: none;
-  font-size: 14 px;
+  font-size: 14px;
   color: white;
   display: block;
   text-align: center;
@@ -85,12 +84,9 @@ export default {
 }
 .heading {
   text-transform: capitalize;
-}
-.upper-menu {
-
-}
-.lower-menu {
-
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: normal;
 }
 @media (max-width: 1000px) {
   .heading {
