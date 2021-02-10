@@ -1,29 +1,33 @@
 <template>
   <div class="sidebar">
-    <a @click="$router.push('/home')"
-      ><i class="fa fa-fw fa-home"></i>
-      <span><div class="heading">Home</div></span></a
-    >
-    <a @click="$router.push('/cases')"
-      ><i class="fa fa-id-card-o"></i>
-      <span><div class="heading">Cases</div></span></a
-    >
-    <a @click="$router.push('/requests')"
-      ><i class="fa fa-check"></i>
-      <span><div class="heading">Requests</div></span></a
-    >
-    <a @click="$router.push('/newcase')"
-      ><i class="fa fa-plus-square"></i>
-      <span><div class="heading">New Case</div></span></a
-    >
-    <a @click="$router.push('/account')"
-      ><i class="fa fa-user-circle-o"></i>
-      <span><div class="heading">Account</div></span></a
-    >
-    <a href="#" @click="logout"
-      ><i class="fa fa-sign-out"></i>
-      <span><div class="heading">Log Out</div></span></a
-    >
+    <div class="upper-menu">
+      <a @click="$router.push('/home')"
+        ><i class="fa fa-fw fa-home"></i>
+        <span><div class="heading">Home</div></span></a
+      >
+      <a @click="$router.push('/cases')"
+        ><i class="fa fa-id-card-o"></i>
+        <span><div class="heading">Cases</div></span></a
+      >
+      <a @click="$router.push('/requests')"
+        ><i class="fa fa-check"></i>
+        <span><div class="heading">Requests</div></span></a
+      >
+      <a @click="$router.push('/newcase')"
+        ><i class="fa fa-plus-square"></i>
+        <span><div class="heading">New Case</div></span></a
+      >
+    </div>
+    <div class="lower-menu">
+      <a @click="$router.push('/account')"
+        ><i class="fa fa-user-circle-o"></i>
+        <span><div class="heading">Accounts</div></span></a
+      >
+      <a href="#" @click="logout"
+        ><i class="fa fa-sign-out"></i>
+        <span><div class="heading">Log Out</div></span></a
+      >
+    </div>
   </div>
 </template>
 
@@ -48,6 +52,7 @@ export default {
 .sidebar {
   height: 100%;
   width: 7%;
+  min-width: 80px;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -55,6 +60,13 @@ export default {
   background-color: #08134b;
   overflow-x: scroll;
   padding-top: 16px;
+  display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  flex-direction: column;
+  justify-content: space-between;
+
 }
 .sidebar a {
   padding: 8px 8px 8px 8px;
@@ -70,6 +82,15 @@ export default {
 }
 .active {
   background-color: #4caf50; /* Add an active/current color */
+}
+.heading {
+  text-transform: capitalize;
+}
+.upper-menu {
+
+}
+.lower-menu {
+
 }
 @media (max-width: 1000px) {
   .heading {
