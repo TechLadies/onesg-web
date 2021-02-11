@@ -1,6 +1,8 @@
 <template>
   <div class="sidebar">
-    <div>
+    <div class="one">ONE</div>
+    <div class="singapore">SINGAPORE</div>
+    <div class="menu-bar">
       <a @click="$router.push('/home')"
         ><i class="fa fa-fw fa-home"></i>
         <span><div class="heading">Home</div></span></a
@@ -49,6 +51,11 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300;500&display=swap');
+
+.menu-bar {
+  padding-top: 60px;
+}
 .sidebar {
   height: 100%;
   min-width: 80px;
@@ -57,7 +64,6 @@ export default {
   top: 0;
   left: 0;
   background-color: #08134b;
-  overflow-x: scroll;
   padding-top: 16px;
   display: flex;
   display: -webkit-box;
@@ -131,5 +137,40 @@ p {
 .inputTitle {
   font-weight: 400;
   color: black;
+}
+.one {
+  position: absolute;
+  left: 17.5%;
+  right: 17.5%;
+  top: 2.44%;
+  bottom: 92.22%;
+  font-family: Teko;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 44px;
+  line-height: 48px; /* identical to box height, or 109% */
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.04em; /* White */
+  color: #ffffff;
+}
+.singapore {
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  top: 5.89%;
+  bottom: 91.11%;
+  font-family: Teko;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 27px; /* identical to box height, or 193% */
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.05em;
+
+  /* White */
+
+  color: #ffffff;
 }
 </style>

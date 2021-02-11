@@ -4,7 +4,7 @@
       <div class="wrapper-progress-bar">
         <ul class="progress-bar">
           <li class="active">Beneficiary</li>
-          <li class="before">Reference</li>
+          <li class="before">Referee</li>
           <li>Case Details</li>
         </ul>
       </div>

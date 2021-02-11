@@ -39,7 +39,11 @@
             <div class="input-field">
               <div class="field">ONE (Singapore) P.O.C.</div>
 
-              <input class="input" type="text" v-model="caseDetail.poc" />
+              <input
+                class="input"
+                type="text"
+                v-model="caseDetail.pointOfContact"
+              />
             </div>
           </div>
           <!-- child -->
@@ -47,11 +51,7 @@
             <div class="input-field">
               <div class="field">Application date</div>
 
-              <input
-                class="input"
-                type="text"
-                v-model="caseDetail.applicationDate"
-              />
+              <input class="input" type="text" v-model="caseDetail.appliedOn" />
             </div>
           </div>
         </div>
@@ -69,9 +69,12 @@
                 <div class="select">
                   <select>
                     <option>Select one</option>
-                    <option>Option 1</option>
-                    <option>Option 2</option>
-                    <option>Option 3</option>
+                    <option>Baby Products</option>
+                    <option>Cooked Food</option>
+                    <option>Financial Assitance</option>
+                    <option>Medical Bills</option>
+                    <option>School Fees</option>
+                    <option>Transportation Fees</option>
                   </select>
                 </div>
               </div>
@@ -83,9 +86,10 @@
                 <div class="select">
                   <select>
                     <option>Select one</option>
-                    <option>Option 1</option>
-                    <option>Option 2</option>
-                    <option>Option 3</option>
+                    <option>In-Kind Donation</option>
+                    <option>Cash Transfer</option>
+                    <option>Third-Party Payment</option>
+                    <option>Partner Referral</option>
                   </select>
                 </div>
               </div>
@@ -117,9 +121,12 @@
                   <div class="select">
                     <select>
                       <option>Select one</option>
-                      <option>Option 1</option>
-                      <option>Option 2</option>
-                      <option>Option 3</option>
+                      <option>Baby Products</option>
+                      <option>Cooked Food</option>
+                      <option>Financial Assitance</option>
+                      <option>Medical Bills</option>
+                      <option>School Fees</option>
+                      <option>Transportation Fees</option>
                     </select>
                   </div>
                 </div>
@@ -131,9 +138,10 @@
                   <div class="select">
                     <select>
                       <option>Select one</option>
-                      <option>Option 1</option>
-                      <option>Option 2</option>
-                      <option>Option 3</option>
+                      <option>In-Kind Donation</option>
+                      <option>Cash Transfer</option>
+                      <option>Third-Party Payment</option>
+                      <option>Partner Referral</option>
                     </select>
                   </div>
                 </div>
@@ -165,14 +173,74 @@
                     <div class="select">
                       <select>
                         <option>Select one</option>
-                        <option>Option 1</option>
-                        <option>Option 2</option>
-                        <option>Option 3</option>
+                        <option>Baby Products</option>
+                        <option>Cooked Food</option>
+                        <option>Financial Assitance</option>
+                        <option>Medical Bills</option>
+                        <option>School Fees</option>
+                        <option>Transportation Fees</option>
                       </select>
                     </div>
                   </div>
-                  <div class="add">
-                    <a href=""><i class="fa fa-plus-square"></i> ADD REQUEST</a>
+                  <div class="add"></div>
+                  <button @click="showModal = true" class="blueButton">
+                    <i class="fa fa-plus-square"></i>
+                    <div class="words">ADD REQUEST</div>
+                  </button>
+                  <div v-if="showModal" class="modal is-active">
+                    <div class="modal-background"></div>
+                    <div class="modal-card">
+                      <header class="modal-card-head">
+                        <p class="modal-card-title">Add Request</p>
+                        <button
+                          @click="showModal = false"
+                          class="delete"
+                          aria-label="close"
+                        ></button>
+                      </header>
+                      <section class="modal-card-body">
+                        <!-- Content ... -->
+                        <ul>
+                          Request Type
+                        </ul>
+                        <div class="select selectModal">
+                          <select>
+                            <option>Add Request Type</option>
+                            <option>Baby Products</option>
+                            <option>Cooked Food</option>
+                            <option>Financial Assitance</option>
+                            <option>Medical Bills</option>
+                            <option>School Fees</option>
+                            <option>Transportation Fees</option>
+                          </select>
+                        </div>
+                        <ul>
+                          Fulfilment
+                        </ul>
+                        <div class="select selectModal">
+                          <select>
+                            <option>Select one</option>
+                            <option>In-Kind Donation</option>
+                            <option>Cash Transfer</option>
+                            <option>Third-Party Payment</option>
+                            <option>Partner Referral</option>
+                          </select>
+                        </div>
+                        <ul>
+                          Description
+                        </ul>
+                        <input
+                          class="select selectModal"
+                          type="text"
+                          placeholder="Optional"
+                          v-model="caseDetail.description2"
+                        />
+                      </section>
+                      <footer class="modal-card-foot">
+                        <button class="button is-success">Save changes</button>
+                        <button class="button">Cancel</button>
+                      </footer>
+                    </div>
                   </div>
                 </div>
 
@@ -182,9 +250,10 @@
                     <div class="select">
                       <select>
                         <option>Select one</option>
-                        <option>Option 1</option>
-                        <option>Option 2</option>
-                        <option>Option 3</option>
+                        <option>In-Kind Donation</option>
+                        <option>Cash Transfer</option>
+                        <option>Third-Party Payment</option>
+                        <option>Partner Referral</option>
                       </select>
                     </div>
                   </div>
@@ -203,45 +272,40 @@
                 </div>
               </div>
 
-              <hr />
+              <!-- 
               <div class="form">
                 <div class="field is-horizontal">
                   <div class="field-label is-normal">
                     <label class="label">Document 1</label>
                   </div>
 
-                  <!-- child -->
+                 
                   <div class="child-three">
                     <div class="input-field">
                       <div class="field">Title</div>
 
+                      
                       <input
                         class="input"
                         type="text"
-                        v-model="caseDetail.title"
+                        v-model="caseDetail.title" 
                       />
-                    </div>
-                    <div class="add">
-                      <a href=""
-                        ><i class="fa fa-plus-square"></i> ADD DOCUMENT</a
-                      >
-                    </div>
-                  </div>
+                      
+                <div class="add">
+                  <a href=""><i class="fa fa-plus-square"></i> ADD DOCUMENT</a>
+                </div>
+              </div>
 
-                  <!-- child -->
                   <div class="child-two">
                     <div class="input-field">
                       <div class="field">Dropbox Link</div>
-
+                      
                       <input
                         class="input"
                         type="text"
                         v-model="caseDetail.dropbox"
                       />
-                    </div>
-                  </div>
-                </div>
-              </div>
+                      -->
             </div>
           </div>
         </div>
@@ -256,6 +320,8 @@ import { ref, reactive } from 'vue'
 export default {
   name: 'Case Details',
   setup(context, props) {
+    const showModal = ref(false)
+
     console.log('props', props, props.attrs.caseDetail)
 
     const caseDetailSearch = ref()
@@ -288,7 +354,15 @@ export default {
       caseDetailSearch,
       caseDetail,
       caseDetails,
+      showModal,
     }
   },
 }
 </script>
+
+<style scoped>
+.selectModal {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+</style>
