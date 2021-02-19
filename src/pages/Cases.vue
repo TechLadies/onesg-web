@@ -168,8 +168,6 @@ export default {
 ${state.url}`)
 
       const fetchedData = res.data.results
-      console.log(`res`, res)
-      console.log(`res.data.cases`, res.data.results)
 
       // For each data, transform it to the desired shape
       const transformedData = fetchedData.map((data) => {
