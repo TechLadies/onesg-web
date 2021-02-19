@@ -135,9 +135,8 @@ export default {
         if (!items[offset + i]) break
         items.push(items[offset + i])
       }
-      console.log(`items`, items)
+      // console.log(items)
       table.items = items
-      console.log(`table.items`, table.items)
     }
     const rowClick = (e) => {
       console.log('rowClick', e.detail)
