@@ -71,7 +71,6 @@ export default {
     const pageSizeList = [5, 10, 15]
     const sortKey = ref('caseNumber')
     const sortDir = ref('desc')
-    console.log(`sortKey`, sortKey, `page`, page)
 
     function selectActiveBtn(thisLink) {
       console.log(`thisLink in cases`, thisLink)
@@ -136,9 +135,8 @@ export default {
         if (!items[offset + i]) break
         items.push(items[offset + i])
       }
-      console.log(`items`, items)
+      // console.log(items)
       table.items = items
-      console.log(`table.items`, table.items)
     }
     const rowClick = (e) => {
       console.log('rowClick', e.detail)
@@ -153,16 +151,7 @@ export default {
       pageSize.value = e.detail.pageSize
       sortKey.value = e.detail.sortKey
       sortDir.value = e.detail.sortDir
-      console.log(
-        `page.value`,
-        page.value,
-        `pageSize.value,`,
-        pageSize.value,
-        `sortKey.value`,
-        sortKey.value,
-        `sortDir.value`,
-        sortDir.value
-      )
+      console.log(page.value, pageSize.value)
       fetchData()
       setItems()
     }
@@ -172,9 +161,8 @@ export default {
 
     const fetchData = async () => {
       console.log(`FetchingData`)
-      const res = await axios.get(`${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=5&sort=${sortKey.value}:${sortDir.value}&include_entities=beneficiary,referee,request
+      const res = await axios.get(`${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=10&sort=${sortKey.value}:${sortDir.value}&include_entities=beneficiary,referee,request
 ${state.url}`)
-      console.log(`res`, res)
 
       const fetchedData = res.data.results
       console.log(`fetcheddata results`, fetchedData)
