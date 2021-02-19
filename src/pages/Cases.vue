@@ -168,7 +168,7 @@ export default {
 ${state.url}`)
 
       const fetchedData = res.data.results
-      console.log(`fetcheddata results`, fetchedData)
+      console.log(`fetcheddata results`, res.data)
 
       // For each data, transform it to the desired shape
       const transformedData = fetchedData.map((data) => {
