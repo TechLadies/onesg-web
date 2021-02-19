@@ -167,8 +167,8 @@ export default {
 &include_entities=beneficiary,referee,request
 ${state.url}`)
 
-      const fetchedData = res.data.results
-      console.log(`fetcheddata results`, res.data)
+      const fetchedData = res.data.cases
+      console.log(`fetcheddata results`, res.data.cases)
 
       // For each data, transform it to the desired shape
       const transformedData = fetchedData.map((data) => {
