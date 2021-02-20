@@ -7,7 +7,7 @@
       </div>
       <div v-if="stage === 1"><Referee :referee="referee" /></div>
       <div v-if="stage === 2">
-        <CaseDetails :caseDetail="caseDetail" />
+        <CaseDetail :caseDetail="caseDetail" />
       </div>
 
       <div class="arrow">
@@ -69,14 +69,14 @@ import { useStore } from 'vuex'
 import { onMounted } from 'vue'
 import Beneficiary from '../components/Beneficiary.vue'
 import Referee from '../components/Referee.vue'
-import CaseDetails from '../components/CaseDetails.vue'
+import CaseDetail from '../components/CaseDetail.vue'
 
 export default {
   name: 'Secure',
   components: {
     Beneficiary,
     Referee,
-    CaseDetails,
+    CaseDetail,
   },
   setup() {
     const stage = ref(0)
@@ -108,14 +108,16 @@ export default {
       beneficiaryId: '',
       createdBy: '1',
       updatedBy: '2',
-      // requests: [],
+      requestType: '',
+      //description: '',
+      request: [],
     })
     console.log(caseDetail)
     const logout = (e) => {
       console.log(e)
       store.dispatch('doLogin', null)
     }
-    const caseDetails = (e) => {
+    const details = (e) => {
       router.push('/details/' + e.detail.row.caseNumber)
     }
     const createNew = async () => {
@@ -213,10 +215,10 @@ export default {
       beneficiary,
       referee,
       caseDetail,
+      details,
       upsertBeneficiary,
       upsertReferee,
       insertDetails,
-      caseDetails,
     }
   },
 }
@@ -224,7 +226,7 @@ export default {
 
 <style scoped>
 .main {
-  margin-left: 6%;
+  margin-left: 10%;
   margin-right: 20%;
   text-align: left;
   padding: 0px 0px 0px 20px;

@@ -69,9 +69,9 @@
                 <div class="select">
                   <select>
                     <option>Select one</option>
-                    <option>Baby Products</option>
+                    <option v-if="!loading && data"></option>
                     <option>Cooked Food</option>
-                    <option>Financial Assitance</option>
+                    <option>Financial Assistance</option>
                     <option>Medical Bills</option>
                     <option>School Fees</option>
                     <option>Transportation Fees</option>
@@ -123,7 +123,7 @@
                       <option>Select one</option>
                       <option>Baby Products</option>
                       <option>Cooked Food</option>
-                      <option>Financial Assitance</option>
+                      <option>Financial Assistance</option>
                       <option>Medical Bills</option>
                       <option>School Fees</option>
                       <option>Transportation Fees</option>
@@ -175,7 +175,7 @@
                         <option>Select one</option>
                         <option>Baby Products</option>
                         <option>Cooked Food</option>
-                        <option>Financial Assitance</option>
+                        <option>Financial Assistance</option>
                         <option>Medical Bills</option>
                         <option>School Fees</option>
                         <option>Transportation Fees</option>
@@ -324,9 +324,53 @@ export default {
 
     console.log('props', props, props.attrs.caseDetail)
 
+    // vue3, create array, ajax call/fetch, reactive
+
+    const data = ref(null)
+    const loading = ref(true)
+    const error = ref(null)
+
+    function fetchData() {
+      loading.value = true
+
+      return fetch('{{url}}:{{port}}/v1/request-types', {
+        method: 'get',
+        headers: {
+          'content-type': 'application/json',
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            const error = new Error(res.statusText)
+            error.json = res.json()
+            throw error
+          }
+
+          return res.json()
+        })
+        .then((json) => {
+          // set the response data
+          // results ?
+          data.value = json.data
+        })
+        .catch((err) => {
+          error.value = err
+          // In case a custom JSON error response was provided
+          if (err.json) {
+            return err.json.then((json) => {
+              // set the JSON response message
+              error.value.message = json.message
+            })
+          }
+        })
+        .then(() => {
+          loading.value = false
+        })
+    }
+
     const caseDetailSearch = ref()
     const caseDetail = reactive(props.attrs.caseDetail)
-    const caseDetails = ref([])
+
     const debounce = (callback, delay) => {
       let timeout = null
       return (...args) => {
@@ -343,18 +387,24 @@ export default {
         'https://swapi.dev/api/people/?search=' + e.detail
       )
       const data = await res.json()
-      caseDetails.value = data.results.map((item) => {
+      caseDetail.value = data.results.map((item) => {
         return item.name
       })
       console.log(data)
     }, 500)
 
+    // onMounted(() => {
+    //  fetchData()
+    // })
+
     return {
       autoComplete,
       caseDetailSearch,
       caseDetail,
-      caseDetails,
       showModal,
+      data,
+      loading,
+      error,
     }
   },
 }
