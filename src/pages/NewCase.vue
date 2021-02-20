@@ -108,7 +108,9 @@ export default {
       beneficiaryId: '',
       createdBy: '1',
       updatedBy: '2',
-      // requests: [],
+      requestType: '',
+      //description: '',
+      request: [],
     })
     console.log(caseDetail)
     const logout = (e) => {

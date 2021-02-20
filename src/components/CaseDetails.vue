@@ -67,7 +67,7 @@
               <div class="input-field">
                 <div class="field">Request Type</div>
                 <div class="select">
-                  <select>
+                  <select v-model="caseDetail.request[0].requestTypeId">
                     <option>Select one</option>
                     <option value="1">Cooked Food</option>
                     <option value="2">Diapers</option>
@@ -103,7 +103,7 @@
                   class="input"
                   type="text"
                   placeholder="Optional"
-                  v-model="caseDetail.description1"
+                  v-model="caseDetail.description"
                 />
               </div>
             </div>
@@ -156,7 +156,7 @@
                     class="input"
                     type="text"
                     placeholder="Optional"
-                    v-model="caseDetail.description2"
+                    v-model="caseDetail.description"
                   />
                 </div>
               </div>
@@ -207,7 +207,7 @@
                           Request Type
                         </ul>
                         <div class="select selectModal">
-                          <select>
+                          <select v-model="caseDetail.requestType">
                             <option>Add Request Type</option>
                             <option value="1">Cooked Food</option>
                             <option value="2">Diapers</option>
@@ -237,7 +237,7 @@
                           class="select selectModal"
                           type="text"
                           placeholder="Optional"
-                          v-model="caseDetail.description2"
+                          v-model="caseDetail.description"
                         />
                       </section>
                       <footer class="modal-card-foot">
@@ -270,7 +270,7 @@
                       class="input"
                       type="text"
                       placeholder="Optional"
-                      v-model="caseDetail.description3"
+                      v-model="caseDetail.description"
                     />
                   </div>
                 </div>
