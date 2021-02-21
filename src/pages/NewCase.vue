@@ -101,7 +101,6 @@ export default {
     })
     const caseDetail = reactive({
       // all these properties should match with DB, check with backend team
-      // appliedOn: '',
       amountRequested: '',
       pointOfContact: '',
       refereeId: '',
