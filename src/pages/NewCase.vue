@@ -101,16 +101,14 @@ export default {
     })
     const caseDetail = reactive({
       // all these properties should match with DB, check with backend team
-      appliedOn: '',
+      // appliedOn: '',
       amountRequested: '',
       pointOfContact: '',
       refereeId: '',
       beneficiaryId: '',
       createdBy: '1',
       updatedBy: '2',
-      requestType: '',
-      //description: '',
-      request: [],
+      requests: [],
     })
     console.log(caseDetail)
     const logout = (e) => {
@@ -124,13 +122,32 @@ export default {
       caseDetail.beneficiaryId = beneficiary.id
       caseDetail.refereeId = referee.id
 
-      alert(JSON.stringify(caseDetail))
+      // alert(JSON.stringify(caseDetail))
       console.log('test', beneficiary)
 
       try {
-        const body = caseDetail
+        caseDetail.requests = caseDetail.requests.filter(
+          (request) => request.requestTypeId > 0
+        )
+        let body = { ...caseDetail }
+
+        body = {
+          request: [...body.requests],
+          ...body,
+        }
+
+        delete body.requests
+
+        console.log('case details', body)
+
         const abc = await http('POST', `${VITE_API_URL}/v1/cases`, body)
+
+        console.log('posting case details', abc)
+
         beneficiary = {}
+
+        caseDetail.requests = []
+        // change to specific case detail page
         stage.value = 0
       } catch (e) {
         console.log('error', e)

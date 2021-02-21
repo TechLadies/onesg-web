@@ -108,7 +108,7 @@
           <div class="sectionHeading">REQUEST(S)</div>
           <div class="border">
             <div class="sectionBodyLeft">Request Type</div>
-            <div class="sectionBodyLeft">Fulfillment</div>
+            <div class="sectionBodyLeft">Fulfilment</div>
             <div class="sectionBodyLeft">Description</div>
             <br />
           </div>

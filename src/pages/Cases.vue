@@ -205,12 +205,12 @@ ${state.url}`)
       console.log('Dashboard mounted!')
       fetchData()
     })
-    const caseDetails = (e) => {
+    const caseDetail = (e) => {
       router.push('/details/' + e.detail.row.caseNumber)
     }
 
     return {
-      caseDetails,
+      caseDetail,
       page,
       pageSize,
       pageSizeList,
