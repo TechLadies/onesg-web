@@ -126,7 +126,7 @@ export default {
 
       try {
         caseDetail.requests = caseDetail.requests.filter(
-          (request) => request.requestTypeId > 0
+          (request) => request.requestTypeId > 1
         )
         let body = { ...caseDetail }
 

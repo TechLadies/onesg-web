@@ -72,6 +72,7 @@
                 <div class="select">
                   <select v-model="request.requestTypeId">
                     <option id="0">Select one</option>
+                    <option id="-1">Add Request Type</option>
                     <option
                       v-for="result in requestTypesList"
                       :value="result.id"
@@ -80,6 +81,41 @@
                       {{ result.type }}
                     </option>
                   </select>
+                </div>
+                <div v-if="addRequestType" class="modal is-active">
+                  <div class="modal-background"></div>
+                  <div class="modal-card">
+                    <header class="modal-card-head">
+                      <p class="modal-card-title">Add Request Type</p>
+                      <button
+                        class="delete"
+                        @click="addRequestType = false"
+                        aria-label="close"
+                      ></button>
+                    </header>
+                    <section class="modal-card-body">
+                      <!-- Content ... -->
+                      <ul>
+                        Add Request Type
+                      </ul>
+                      <input
+                        class="select selectModal"
+                        type="text"
+                        placeholder="Enter Request Type"
+                      />
+                    </section>
+                    <footer class="modal-card-foot">
+                      <button
+                        @click="addRequestType = false"
+                        class="button is-success"
+                      >
+                        Save changes
+                      </button>
+                      <button class="button" @click="addRequestType = false">
+                        Cancel
+                      </button>
+                    </footer>
+                  </div>
                 </div>
               </div>
             </div>
@@ -124,7 +160,8 @@
           <i class="fa fa-plus-square"></i>
           <div class="words">ADD REQUEST</div>
         </button>
-        <div v-if="showModal" class="modal is-active">
+
+        <!-- <div v-if="showModal" class="modal is-active">
           <div class="modal-background"></div>
           <div class="modal-card">
             <header class="modal-card-head">
@@ -136,9 +173,8 @@
               ></button>
             </header>
             <section class="modal-card-body">
-              <!-- Content ... -->
 
-              <ul>
+        <ul>
                 Add Request Type
               </ul>
               <input
@@ -151,25 +187,28 @@
             <footer class="modal-card-foot">
               <button class="button is-success">Save changes</button>
               <button class="button">Cancel</button>
-            </footer>
-          </div>
-        </div>
+            </footer> -->
+        <!-- </div> -->
+        <!-- </div>  -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch, watchEffect } from 'vue'
 import { VITE_API_URL } from '/config.js'
 
 // import axios from 'axios'
 
 export default {
   name: 'Case Details',
+
   setup(context, props) {
     console.log('props', props)
-    const showModal = ref(false)
+
+    const addRequestType = ref(false)
+
     // vue3, create array, ajax call/fetch, reactive
     const loading = ref(true)
     const requestTypesList = ref([])
@@ -211,6 +250,21 @@ export default {
 
     const caseDetail = reactive(props.attrs.caseDetail)
 
+    watchEffect(() => console.log('watch requests', caseDetail.requests))
+
+    watch(
+      () => caseDetail,
+      (caseDetail, prevCaseDetail) => {
+        console.log('deep ', caseDetail.requests, prevCaseDetail.requests)
+
+        for (var i = 0; i < caseDetail.requests.length; i++);
+        {
+          console.log('request type', caseDetail.requests.requestType)
+        }
+      },
+      { deep: true }
+    )
+
     // const autoComplete = debounce(async (e, col, _showForm) => {
     //   console.log('search', e.detail, col, _showForm)
     //   console.log(e.detail)
@@ -244,7 +298,7 @@ export default {
     return {
       caseDetailSearch,
       caseDetail,
-      showModal,
+      addRequestType,
       requestTypesList,
       addRequest,
       deleteRequest,
