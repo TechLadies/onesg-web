@@ -82,7 +82,11 @@
                     </option>
                   </select>
                 </div>
-                <div v-if="addRequestType" class="modal is-active">
+                <div
+                  style="visibility: "
+                  addRequestType
+                  class="modal is-active"
+                >
                   <div class="modal-background"></div>
                   <div class="modal-card">
                     <header class="modal-card-head">
@@ -207,7 +211,7 @@ export default {
   setup(context, props) {
     console.log('props', props)
 
-    const addRequestType = ref(false)
+    var addRequestType = ref(false)
 
     // vue3, create array, ajax call/fetch, reactive
     const loading = ref(true)
@@ -255,11 +259,13 @@ export default {
     watch(
       () => caseDetail,
       (caseDetail, prevCaseDetail) => {
-        console.log('deep ', caseDetail.requests, prevCaseDetail.requests)
+        console.log('test ', caseDetail.requests, prevCaseDetail.requests)
 
-        for (var i = 0; i < caseDetail.requests.length; i++);
-        {
-          console.log('request type', caseDetail.requests.requestType)
+        for (var i = 0; i < caseDetail.requests.length; i++) {
+          if (caseDetail.requests[i].requestTypeId === 'Add Request Type') {
+            addRequestType = true
+          }
+          console.log('requests', caseDetail.requests[i])
         }
       },
       { deep: true }
