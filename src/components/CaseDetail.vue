@@ -82,45 +82,65 @@
                     </option>
                   </select>
                 </div>
-                <div
-                  style="visibility: "
-                  addRequestType
-                  class="modal is-active"
-                >
-                  <div class="modal-background"></div>
-                  <div class="modal-card">
-                    <header class="modal-card-head">
-                      <p class="modal-card-title">Add Request Type</p>
-                      <button
-                        class="delete"
-                        @click="addRequestType = false"
-                        aria-label="close"
-                      ></button>
-                    </header>
-                    <section class="modal-card-body">
-                      <!-- Content ... -->
-                      <ul>
-                        Add Request Type
-                      </ul>
-                      <input
-                        class="select selectModal"
-                        type="text"
-                        placeholder="Enter Request Type"
-                      />
-                    </section>
-                    <footer class="modal-card-foot">
-                      <button
-                        @click="addRequestType = false"
-                        class="button is-success"
-                      >
-                        Save changes
-                      </button>
-                      <button class="button" @click="addRequestType = false">
-                        Cancel
-                      </button>
-                    </footer>
-                  </div>
-                </div>
+                <!-- 
+                <div>
+                  <b-button
+                    id="show-btn"
+                    @click="$bvModal.show('bv-modal-example')"
+                    >Open Modal</b-button
+                  >
+
+                  <b-modal id="bv-modal-example" hide-footer>
+                    <template #modal-title>
+                      Using <code>$bvModal</code> Methods
+                    </template>
+                    <div class="d-block text-center">
+                      <h3>Hello From This Modal!</h3>
+                    </div>
+                    <b-button
+                      class="mt-3"
+                      block
+                      @click="$bvModal.hide('bv-modal-example')"
+                      >Close Me</b-button
+                    >
+                  </b-modal>
+                </div> -->
+              </div>
+            </div>
+
+            <div v-if="addRequestType" class="modal is-active">
+              class="modal is-active" >
+              <div class="modal-background"></div>
+              <div class="modal-card">
+                <header class="modal-card-head">
+                  <p class="modal-card-title">Add Request Type</p>
+                  <button
+                    class="delete"
+                    @click="addRequestType = false"
+                    aria-label="close"
+                  ></button>
+                </header>
+                <section class="modal-card-body">
+                  <ul>
+                    Add Request Type
+                  </ul>
+                  <input
+                    class="select selectModal"
+                    type="text"
+                    placeholder="Enter Request Type"
+                  />
+                </section>
+                <footer class="modal-card-foot">
+                  <button
+                    @click="addRequestType = false"
+                    class="button is-success"
+                  >
+                    Save changes
+                  </button>
+                  <button class="button" @click="addRequestType = false">
+                    Cancel
+                  </button>
+                </footer>
               </div>
             </div>
 
@@ -164,36 +184,6 @@
           <i class="fa fa-plus-square"></i>
           <div class="words">ADD REQUEST</div>
         </button>
-
-        <!-- <div v-if="showModal" class="modal is-active">
-          <div class="modal-background"></div>
-          <div class="modal-card">
-            <header class="modal-card-head">
-              <p class="modal-card-title">Add Request</p>
-              <button
-                @click="showModal = false"
-                class="delete"
-                aria-label="close"
-              ></button>
-            </header>
-            <section class="modal-card-body">
-
-        <ul>
-                Add Request Type
-              </ul>
-              <input
-                class="select selectModal"
-                type="text"
-                placeholder="Optional"
-                v-model="caseDetail.description"
-              />
-            </section>
-            <footer class="modal-card-foot">
-              <button class="button is-success">Save changes</button>
-              <button class="button">Cancel</button>
-            </footer> -->
-        <!-- </div> -->
-        <!-- </div>  -->
       </div>
     </div>
   </div>
@@ -202,8 +192,6 @@
 <script>
 import { ref, reactive, onMounted, watch, watchEffect } from 'vue'
 import { VITE_API_URL } from '/config.js'
-
-// import axios from 'axios'
 
 export default {
   name: 'Case Details',
@@ -265,24 +253,15 @@ export default {
           if (caseDetail.requests[i].requestTypeId === 'Add Request Type') {
             addRequestType = true
           }
-          console.log('requests', caseDetail.requests[i])
+          console.log(
+            'state Add Request Type',
+            caseDetail.requests[i].requestTypeId
+          )
         }
       },
       { deep: true }
     )
 
-    // const autoComplete = debounce(async (e, col, _showForm) => {
-    //   console.log('search', e.detail, col, _showForm)
-    //   console.log(e.detail)
-    //   const res = await fetch(
-    //     'https://swapi.dev/api/people/?search=' + e.detail
-    //   )
-    //   const data = await res.json()
-    //   caseDetail.value = data.results.map((item) => {
-    //     return item.name
-    //   })
-    //   console.log(data)
-    // }, 500)
     onMounted(() => {
       fetchRequestTypes()
       if (caseDetail.requests.length === 0) {
@@ -308,9 +287,6 @@ export default {
       requestTypesList,
       addRequest,
       deleteRequest,
-      // data,
-      // loading,
-      // error,
     }
   },
 }
