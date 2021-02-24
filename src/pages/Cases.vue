@@ -171,6 +171,7 @@ ${state.url}`)
 
       // For each data, transform it to the desired shape
       const transformedData = fetchedData.map((data) => {
+        console.log(`typeof:referee`, typeof data.referee)
         if (data.referee === null) {
           return {
             id: data.caseId,
