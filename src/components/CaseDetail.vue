@@ -102,7 +102,7 @@
                   </ul>
                   <input
                     v-model="newRequestType"
-                    class="select selectModal"
+                    class="input select selectModal"
                     type="text"
                     placeholder="Enter Request Type"
                   />
@@ -316,5 +316,8 @@ export default {
 .selectModal {
   margin-top: 5px;
   margin-bottom: 10px;
+}
+.input {
+  padding: 5px 8px;
 }
 </style>
