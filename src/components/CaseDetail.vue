@@ -71,8 +71,8 @@
                 <div class="field">Request Type</div>
                 <div class="select">
                   <select v-model="request.requestTypeId">
-                    <option id="0">Select one</option>
-                    <option id="-1">Add Request Type</option>
+                    <option :value="0">Select one</option>
+                    <option :value="-1">Add Request Type</option>
                     <option
                       v-for="result in requestTypesList"
                       :value="result.id"
@@ -82,34 +82,10 @@
                     </option>
                   </select>
                 </div>
-                <!-- 
-                <div>
-                  <b-button
-                    id="show-btn"
-                    @click="$bvModal.show('bv-modal-example')"
-                    >Open Modal</b-button
-                  >
-
-                  <b-modal id="bv-modal-example" hide-footer>
-                    <template #modal-title>
-                      Using <code>$bvModal</code> Methods
-                    </template>
-                    <div class="d-block text-center">
-                      <h3>Hello From This Modal!</h3>
-                    </div>
-                    <b-button
-                      class="mt-3"
-                      block
-                      @click="$bvModal.hide('bv-modal-example')"
-                      >Close Me</b-button
-                    >
-                  </b-modal>
-                </div> -->
               </div>
             </div>
 
             <div v-if="addRequestType" class="modal is-active">
-              class="modal is-active" >
               <div class="modal-background"></div>
               <div class="modal-card">
                 <header class="modal-card-head">
@@ -125,16 +101,14 @@
                     Add Request Type
                   </ul>
                   <input
+                    v-model="newRequestType"
                     class="select selectModal"
                     type="text"
                     placeholder="Enter Request Type"
                   />
                 </section>
                 <footer class="modal-card-foot">
-                  <button
-                    @click="addRequestType = false"
-                    class="button is-success"
-                  >
+                  <button @click="saveRequestType" class="button is-success">
                     Save changes
                   </button>
                   <button class="button" @click="addRequestType = false">
@@ -199,10 +173,11 @@ export default {
   setup(context, props) {
     console.log('props', props)
 
-    var addRequestType = ref(false)
+    const addRequestType = ref(false)
+    const newRequestType = ref()
+    const loading = ref(false)
 
     // vue3, create array, ajax call/fetch, reactive
-    const loading = ref(true)
     const requestTypesList = ref([])
     const initialRequests = [
       {
@@ -223,6 +198,7 @@ export default {
     ]
 
     async function fetchRequestTypes() {
+      if (loading.value === true) return
       loading.value = true
 
       try {
@@ -249,14 +225,20 @@ export default {
       (caseDetail, prevCaseDetail) => {
         console.log('test ', caseDetail.requests, prevCaseDetail.requests)
 
-        for (var i = 0; i < caseDetail.requests.length; i++) {
-          if (caseDetail.requests[i].requestTypeId === 'Add Request Type') {
-            addRequestType = true
-          }
+        for (let i = 0; i < caseDetail.requests.length; i++) {
           console.log(
-            'state Add Request Type',
+            'Request Type Id',
+            typeof caseDetail.requests[i].requestTypeId,
             caseDetail.requests[i].requestTypeId
           )
+
+          if (caseDetail.requests[i].requestTypeId === -1) {
+            addRequestType.value = true
+
+            console.log('value', addRequestType)
+
+            caseDetail.requests[i].requestTypeId = 0
+          }
         }
       },
       { deep: true }
@@ -280,6 +262,42 @@ export default {
       caseDetail.requests.splice(index, 1)
     }
 
+    const saveRequestType = async () => {
+      console.log('v-model request', newRequestType.value)
+
+      if (loading.value === true) return
+      loading.value = true
+
+      try {
+        const res = await fetch(`${VITE_API_URL}/v1/request-types`, {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: newRequestType.value,
+          }),
+        })
+        const json = await res.json()
+        console.log('fetchRequestTypes - ok', json.requestType)
+
+        requestTypesList.value.push({
+          type: json.requestType.type,
+          id: +json.requestType.id,
+        })
+      } catch (err) {
+        console.log('fetchRequestTypes', err)
+      }
+      loading.value = false
+      addRequestType.value = false
+    }
+
+    // caseDetail.requests.push({
+    //   requestTypeId: newRequestType.value,
+    // })
+    // console.log('updated array', caseDetail.requests)
+    // addRequestType.value = false
+
     return {
       caseDetailSearch,
       caseDetail,
@@ -287,6 +305,8 @@ export default {
       requestTypesList,
       addRequest,
       deleteRequest,
+      saveRequestType,
+      newRequestType,
     }
   },
 }
