@@ -71,7 +71,8 @@
                 <div class="field">Request Type</div>
                 <div class="select">
                   <select v-model="request.requestTypeId">
-                    <option id="0">Select one</option>
+                    <option :value="0">Select one</option>
+                    <option :value="-1">Add Request Type</option>
                     <option
                       v-for="result in requestTypesList"
                       :value="result.id"
@@ -81,6 +82,39 @@
                     </option>
                   </select>
                 </div>
+              </div>
+            </div>
+
+            <div v-if="addRequestType" class="modal is-active">
+              <div class="modal-background"></div>
+              <div class="modal-card">
+                <header class="modal-card-head">
+                  <p class="modal-card-title">Add Request Type</p>
+                  <button
+                    class="delete"
+                    @click="addRequestType = false"
+                    aria-label="close"
+                  ></button>
+                </header>
+                <section class="modal-card-body">
+                  <ul>
+                    Add Request Type
+                  </ul>
+                  <input
+                    v-model="newRequestType"
+                    class="input select selectModal"
+                    type="text"
+                    placeholder="Enter Request Type"
+                  />
+                </section>
+                <footer class="modal-card-foot">
+                  <button @click="saveRequestType" class="button is-success">
+                    Save changes
+                  </button>
+                  <button class="button" @click="addRequestType = false">
+                    Cancel
+                  </button>
+                </footer>
               </div>
             </div>
 
@@ -124,54 +158,26 @@
           <i class="fa fa-plus-square"></i>
           <div class="words">ADD REQUEST</div>
         </button>
-        <div v-if="showModal" class="modal is-active">
-          <div class="modal-background"></div>
-          <div class="modal-card">
-            <header class="modal-card-head">
-              <p class="modal-card-title">Add Request</p>
-              <button
-                @click="showModal = false"
-                class="delete"
-                aria-label="close"
-              ></button>
-            </header>
-            <section class="modal-card-body">
-              <!-- Content ... -->
-
-              <ul>
-                Add Request Type
-              </ul>
-              <input
-                class="select selectModal"
-                type="text"
-                placeholder="Optional"
-                v-model="caseDetail.description"
-              />
-            </section>
-            <footer class="modal-card-foot">
-              <button class="button is-success">Save changes</button>
-              <button class="button">Cancel</button>
-            </footer>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch, watchEffect } from 'vue'
 import { VITE_API_URL } from '/config.js'
-
-// import axios from 'axios'
 
 export default {
   name: 'Case Details',
+
   setup(context, props) {
     console.log('props', props)
-    const showModal = ref(false)
+
+    const addRequestType = ref(false)
+    const newRequestType = ref()
+    const loading = ref(false)
+
     // vue3, create array, ajax call/fetch, reactive
-    const loading = ref(true)
     const requestTypesList = ref([])
     const initialRequests = [
       {
@@ -192,6 +198,7 @@ export default {
     ]
 
     async function fetchRequestTypes() {
+      if (loading.value === true) return
       loading.value = true
 
       try {
@@ -211,18 +218,32 @@ export default {
 
     const caseDetail = reactive(props.attrs.caseDetail)
 
-    // const autoComplete = debounce(async (e, col, _showForm) => {
-    //   console.log('search', e.detail, col, _showForm)
-    //   console.log(e.detail)
-    //   const res = await fetch(
-    //     'https://swapi.dev/api/people/?search=' + e.detail
-    //   )
-    //   const data = await res.json()
-    //   caseDetail.value = data.results.map((item) => {
-    //     return item.name
-    //   })
-    //   console.log(data)
-    // }, 500)
+    watchEffect(() => console.log('watch requests', caseDetail.requests))
+
+    watch(
+      () => caseDetail,
+      (caseDetail, prevCaseDetail) => {
+        console.log('test ', caseDetail.requests, prevCaseDetail.requests)
+
+        for (let i = 0; i < caseDetail.requests.length; i++) {
+          console.log(
+            'Request Type Id',
+            typeof caseDetail.requests[i].requestTypeId,
+            caseDetail.requests[i].requestTypeId
+          )
+
+          if (caseDetail.requests[i].requestTypeId === -1) {
+            addRequestType.value = true
+
+            console.log('value', addRequestType)
+
+            caseDetail.requests[i].requestTypeId = 0
+          }
+        }
+      },
+      { deep: true }
+    )
+
     onMounted(() => {
       fetchRequestTypes()
       if (caseDetail.requests.length === 0) {
@@ -241,16 +262,45 @@ export default {
       caseDetail.requests.splice(index, 1)
     }
 
+    const saveRequestType = async () => {
+      console.log('v-model request', newRequestType.value)
+
+      if (loading.value === true) return
+      loading.value = true
+
+      try {
+        const res = await fetch(`${VITE_API_URL}/v1/request-types`, {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: newRequestType.value,
+          }),
+        })
+        const json = await res.json()
+        console.log('fetchRequestTypes - ok', json.requestType)
+
+        requestTypesList.value.push({
+          type: json.requestType.type,
+          id: +json.requestType.id,
+        })
+      } catch (err) {
+        console.log('fetchRequestTypes', err)
+      }
+      loading.value = false
+      addRequestType.value = false
+    }
+
     return {
       caseDetailSearch,
       caseDetail,
-      showModal,
+      addRequestType,
       requestTypesList,
       addRequest,
       deleteRequest,
-      // data,
-      // loading,
-      // error,
+      saveRequestType,
+      newRequestType,
     }
   },
 }
@@ -260,5 +310,8 @@ export default {
 .selectModal {
   margin-top: 5px;
   margin-bottom: 10px;
+}
+.input {
+  padding: 5px 8px;
 }
 </style>

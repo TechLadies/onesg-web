@@ -101,7 +101,6 @@ export default {
     })
     const caseDetail = reactive({
       // all these properties should match with DB, check with backend team
-      // appliedOn: '',
       amountRequested: '',
       pointOfContact: '',
       refereeId: '',
@@ -126,9 +125,7 @@ export default {
       console.log('test', beneficiary)
 
       try {
-        caseDetail.requests = caseDetail.requests.filter(
-          (request) => request.requestTypeId > 0
-        )
+        caseDetail.requests = caseDetail.requests.filter((request) => request.requestTypeId > 0) // -1 = add new type, 0 = not selected
         let body = { ...caseDetail }
 
         body = {
