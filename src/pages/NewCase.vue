@@ -125,9 +125,7 @@ export default {
       console.log('test', beneficiary)
 
       try {
-        caseDetail.requests = caseDetail.requests.filter(
-          (request) => request.requestTypeId > 1
-        )
+        caseDetail.requests = caseDetail.requests.filter((request) => request.requestTypeId > 0) // -1 = add new type, 0 = not selected
         let body = { ...caseDetail }
 
         body = {

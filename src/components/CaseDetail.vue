@@ -292,12 +292,6 @@ export default {
       addRequestType.value = false
     }
 
-    // caseDetail.requests.push({
-    //   requestTypeId: newRequestType.value,
-    // })
-    // console.log('updated array', caseDetail.requests)
-    // addRequestType.value = false
-
     return {
       caseDetailSearch,
       caseDetail,
