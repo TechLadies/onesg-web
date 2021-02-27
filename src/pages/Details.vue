@@ -6,7 +6,7 @@
     </script> -->
     <div class="left">
       <div class="top">
-        <div class="title">Case #{{props.caseId}}</div>
+        <div class="title">Case #{{caseDetails.caseNumber}}</div>
         <div v-bind="test" />
         <div class="alignRight">
           <button @click="showModal = true" class="blueButton">
@@ -195,56 +195,30 @@ export default {
     },
   },
   
-      // // For each data, transform it to the desired shape
-      // const transformedData = fetchedData.map((data) => {
-      //   return {
-      //     id: data.caseId,
-      //     beneficiaryName: data.beneficiary.name ? data.beneficiaryName : '-',
-      //     caseNumber: data.caseId ? data.caseId : '-',
-      //     applicationDate: dayjs(data.appliedOn).format('DD/MM/YYYY'),
-      //     pointOfContact: data.pointOfContact ? data.pointOfContact : '-',
-      //     refereeName: data.referee.name ? data.referee.name : '-',
-      //     organisation: data.referee.organisation
-      //       ? data.referee.organisation
-      //       : '-',
-      //     lastUpdate: dayjs(data.updatedAt).format('DD/MM/YYYY'),
-      //   }
-      // })
-      // // Assign it to Vue data
-      // table.fetchedItems = transformedData
-
   
   setup(props) {
     // const xx = props
-    console.log(props) // { user: '' }
+    // console.log(props) // { user: '' }
 
     const refereeStatus = reactive([{//key: the array
     }])
     const amountGranted = reactive([{//key: the array
     }])
-    
+
+    let caseDetails =reactive({});
+
     onMounted(async () => {
-      console.log('Dashboard mounted!')
-      let fetchedData
-      
-      console.log('at function fetchData')
+      console.log('DETAILS mounted!')      
       const res = await axios.get(
         `${VITE_API_URL}/v1/cases?case_number=${props.caseId}&include_entities=beneficiary,referee`
       )
-      fetchedData = res.data.results[0]
-      console.log('fetchedData', fetchedData)
+      
+      const data = res.data.results[0];
+      caseDetails.caseNumber = data.caseNumber;
 
-
-      return {
-        poc: fetchedData.pointOfContact || '',
-        appliedOn: fetchedData.appliedOn,
-        caseNumber: fetchedData.caseNumber
-      }
-      // fetchData() for case, ben, ref and comments
-      // console.log('fetchingData')
-      console.log(fetchedData)
     })
-  return {props}
+    console.log("caseNumber outside: ", caseDetails.caseNumber);
+    return {  caseDetails }
   }
 }
 </script>
