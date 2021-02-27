@@ -173,6 +173,7 @@ export default {
           )
           stage.value++
         } catch (e) {
+          console.log(e)
           alert(
             e?.data?.error?.message ||
               'There is an error. Please contact admin.'

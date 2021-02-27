@@ -1,3 +1,5 @@
+import { VITE_WITH_CREDENTIALS, VITE_FETCH_MODE } from '/config.js'
+
 const http = async (method, url, body = null, query = null, headers = null) => {
   const qs = query
     ? '?' +
@@ -14,6 +16,8 @@ const http = async (method, url, body = null, query = null, headers = null) => {
     }
   }
   const options = { method, headers }
+  options.mode = VITE_FETCH_MODE
+  options.credentials = VITE_WITH_CREDENTIALS
   if (body) {
     if (body instanceof FormData) {
       options.body = body
