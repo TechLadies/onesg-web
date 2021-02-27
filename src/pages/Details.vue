@@ -6,7 +6,7 @@
     </script> -->
     <div class="left">
       <div class="top">
-        <div class="title">Case #{{props.caseId}}</div>
+        <div class="title">Case #{{caseDetails.caseNumber}}</div>
         <div v-bind="test" />
         <div class="alignRight">
           <button @click="showModal = true" class="blueButton">
@@ -42,22 +42,22 @@
               </div>
               <div class="contentRight">
                 <ul>
-                  Rachel
+                  {{caseDetails.poc}}
                 </ul>
 
                 <ul>
-                  21/08/2020
+                  {{caseDetails.appliedOn}}
                 </ul>
 
                 <ul>
-                  S$1
+                  {{caseDetails.amountRequested}}
                 </ul>
 
                 <ul>
                   Yes
                 </ul>
                 <ul>
-                  21/08/2021
+                  {{caseDetails.lastUpdated}}
                 </ul>
               </div>
             </div>
@@ -79,7 +79,20 @@
                   Email
                 </ul>
               </div>
-              <div class="contentRight"></div>
+              <div class="contentRight">
+                <ul>
+                  {{caseDetails.refereeName}} <!--referee-->
+                </ul>
+                <ul>
+                  {{caseDetails.refereeOccupation}}
+                </ul>
+                <ul>
+                  {{caseDetails.refereePhone}}
+                </ul>
+                <ul>
+                  {{caseDetails.refereeEmail}}
+                </ul>
+              </div>
             </div>
           </div>
           <div class="border">
@@ -160,7 +173,29 @@
             Payment type
           </ul>
         </div>
-        <div class="contentRight"></div>
+        <div class="contentRight">
+          <ul>
+            {{caseDetails.beneficiaryName}} <!--beneficiary-->
+          </ul>
+          <ul>
+            {{caseDetails.beneficiaryPhone}}
+          </ul>
+          <ul>
+            {{caseDetails.beneficiaryEmail}}
+          </ul>
+          <ul>
+            {{caseDetails.beneficiaryPhone}}
+          </ul>
+          <ul>
+            {{caseDetails.beneficiaryHouseholdIncome}}
+          </ul>
+          <ul>
+            {{caseDetails.beneficiaryHouseholdSize}}
+          </ul>
+          <ul>
+            {{caseDetails.beneficiaryPaymentType}}
+          </ul>
+        </div>
         <br />
       </div>
       <div class="sectionHeadingWhite">NOTES</div>
@@ -223,28 +258,70 @@ export default {
     const amountGranted = reactive([{//key: the array
     }])
     
+    let caseDetails = reactive({})
     onMounted(async () => {
-      console.log('Dashboard mounted!')
-      let fetchedData
-      
-      console.log('at function fetchData')
+      console.log('Dashboard mounted!');
+
       const res = await axios.get(
-        `${VITE_API_URL}/v1/cases?case_number=${props.caseId}&include_entities=beneficiary,referee`
-      )
-      fetchedData = res.data.results[0]
-      console.log('fetchedData', fetchedData)
+        `${VITE_API_URL}/v1/cases?case_number=${props.caseId}&include_entities=beneficiary,referee,request`
+      );
+      const data = res.data.results[0]
+      console.log('data', data)
+      // for details
+      caseDetails.caseNumber = data.caseNumber;
+      caseDetails.poc = data.pointOfContact || '-';
+      caseDetails.appliedOn = data.appliedOn;
+      caseDetails.amountRequested = 'S$' + data.amountRequested;
+      caseDetails.lastUpdated = data.updatedAt.toString().slice(0,10);
 
+      // for referee
+      caseDetails.refereeName = (data.referee === null) ? '-' : data.referee.name;
+      caseDetails.refereeOccupation = '-' // there is no referee occupation?
+      caseDetails.refereePhone = (data.referee === null) ? '-' : data.referee.phone;
+      caseDetails.refereeEmail = (data.referee === null) ? '-' : data.referee.email;
 
-      return {
-        poc: fetchedData.pointOfContact || '',
-        appliedOn: fetchedData.appliedOn,
-        caseNumber: fetchedData.caseNumber
+      // for beneficiary
+      caseDetails.beneficiaryName = data.beneficiary.name;
+      caseDetails.beneficiaryPhone = data.beneficiary.phone;
+      caseDetails.beneficiaryEmail = data.beneficiary.email;
+      caseDetails.beneficiaryOccupation = data.beneficiary.occupation;
+      caseDetails.beneficiaryHouseholdIncome = 'S$' + data.beneficiary.householdIncome;
+      caseDetails.beneficiaryHouseholdSize = data.beneficiary.householdSize;
+      caseDetails.beneficiaryPaymentType = '';
+      for(let i = 0; i < data.beneficiary.paymentType.length; i++) {
+        if (data.beneficiary.paymentType[i] === 'PAYNOW') {
+          const paymentType = 'PayNow'
+          caseDetails.beneficiaryPaymentType += paymentType
+        }
+        if (data.beneficiary.paymentType[i] === 'BANK_TRANSFER') {
+          const paymentType = 'Bank Transfer'
+          caseDetails.beneficiaryPaymentType += paymentType
+        }
+        if (i < data.beneficiary.paymentType.length - 1) {
+          caseDetails.beneficiaryPaymentType += ', '
+        }
       }
+
+      // for requests
+      // to retrieve request types
+      const reqType = await axios.get(
+        `${VITE_API_URL}/v1/request-types`
+      );
+      // push request objects into requestArray
+      const requestArray = []
+      for(let i = 0; i < data.requests.length; i++) {
+        const arr = {}
+        const requestType = reqType.data.results[data.requests[i].requestTypeId-1].type
+        arr.requestType = requestType
+        arr.fulfilmentType = data.requests[i].fulfilmentType
+        arr.description = data.requests[i].description
+        requestArray.push(arr)
+      }
+      caseDetails.requests = requestArray
+      
       // fetchData() for case, ben, ref and comments
-      // console.log('fetchingData')
-      console.log(fetchedData)
     })
-  return {props}
+  return {props, caseDetails}
   }
 }
 </script>

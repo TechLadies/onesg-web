@@ -125,7 +125,7 @@
                       <option>Cooked Food</option>
                       <option>Financial Assitance</option>
                       <option>Medical Bills</option>
-                      <option>School Fees</option>
+                      <option>School Fees</option>c
                       <option>Transportation Fees</option>
                     </select>
                   </div>
