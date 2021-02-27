@@ -128,12 +128,12 @@ export default {
         caseDetail.requests = caseDetail.requests.filter((request) => request.requestTypeId > 0) // -1 = add new type, 0 = not selected
         let body = { ...caseDetail }
 
-        body = {
-          request: [...body.requests],
-          ...body,
-        }
-
-        delete body.requests
+        // API is now requests so this conversion can be removed
+        // body = {
+        //   request: [...body.requests],
+        //   ...body,
+        // }
+        // delete body.requests
 
         console.log('case details', body)
 
