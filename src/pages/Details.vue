@@ -1,8 +1,13 @@
 <template>
   <div class="parent">
+
+    <!-- <script type="text/javascript">
+    const CaseNumber = 
+    </script> -->
     <div class="left">
       <div class="top">
-        <div class="title">Case EF 2020-0104</div>
+        <div class="title">Case #{{props.caseId}}</div>
+        <div v-bind="test" />
         <div class="alignRight">
           <button @click="showModal = true" class="blueButton">
             New <i class="fa fa-caret-down"></i>
@@ -170,11 +175,13 @@
 </template>
 
 <script>
+import { VITE_API_URL } from '/config.js'
 import { onMounted, ref, reactive } from 'vue'
 import axios from 'axios'
 import dayjs from 'dayjs'
 
 console.log(dayjs('2019-01-25').format('DD/MM/YYYY'))
+
 
 // TODO: Temporarily moved this function here because couldn't get js export import files working.
 // Should figure out and move api services to separate folder/file
@@ -187,42 +194,58 @@ export default {
       required: true,
     },
   },
+  
+      // // For each data, transform it to the desired shape
+      // const transformedData = fetchedData.map((data) => {
+      //   return {
+      //     id: data.caseId,
+      //     beneficiaryName: data.beneficiary.name ? data.beneficiaryName : '-',
+      //     caseNumber: data.caseId ? data.caseId : '-',
+      //     applicationDate: dayjs(data.appliedOn).format('DD/MM/YYYY'),
+      //     pointOfContact: data.pointOfContact ? data.pointOfContact : '-',
+      //     refereeName: data.referee.name ? data.referee.name : '-',
+      //     organisation: data.referee.organisation
+      //       ? data.referee.organisation
+      //       : '-',
+      //     lastUpdate: dayjs(data.updatedAt).format('DD/MM/YYYY'),
+      //   }
+      // })
+      // // Assign it to Vue data
+      // table.fetchedItems = transformedData
+
+  
   setup(props) {
+    // const xx = props
     console.log(props) // { user: '' }
 
-    // const fetchData = async () => {
-    //   const res = await axios.get(
-    //     'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/cases?with_paging=true&page=${page}&per_page=5&sort=caseId:desc&include_entities=beneficiary,referee,staff,request'
-    //   )
-    //   const fetchedData = res.data.results
-    //   console.log('fetchedData', fetchedData)
-
-    //   // For each data, transform it to the desired shape
-    //   const transformedData = fetchedData.map((data) => {
-    //     return {
-    //       id: data.caseId,
-    //       beneficiaryName: data.beneficiary.name ? data.beneficiaryName : '-',
-    //       caseNumber: data.caseId ? data.caseId : '-',
-    //       applicationDate: dayjs(data.appliedOn).format('DD/MM/YYYY'),
-    //       pointOfContact: data.pointOfContact ? data.pointOfContact : '-',
-    //       refereeName: data.referee.name ? data.referee.name : '-',
-    //       organisation: data.referee.organisation
-    //         ? data.referee.organisation
-    //         : '-',
-    //       lastUpdate: dayjs(data.updatedAt).format('DD/MM/YYYY'),
-    //     }
-    //   })
-    //   // Assign it to Vue data
-    //   table.fetchedItems = transformedData
-    // }
-
+    const refereeStatus = reactive([{//key: the array
+    }])
+    const amountGranted = reactive([{//key: the array
+    }])
+    
     onMounted(async () => {
       console.log('Dashboard mounted!')
-      //   fetchData()
-    })
+      let fetchedData
+      
+      console.log('at function fetchData')
+      const res = await axios.get(
+        `${VITE_API_URL}/v1/cases?case_number=${props.caseId}&include_entities=beneficiary,referee`
+      )
+      fetchedData = res.data.results[0]
+      console.log('fetchedData', fetchedData)
 
-    return {}
-  },
+
+      return {
+        poc: fetchedData.pointOfContact || '',
+        appliedOn: fetchedData.appliedOn,
+        caseNumber: fetchedData.caseNumber
+      }
+      // fetchData() for case, ben, ref and comments
+      // console.log('fetchingData')
+      console.log(fetchedData)
+    })
+  return {props}
+  }
 }
 </script>
 
