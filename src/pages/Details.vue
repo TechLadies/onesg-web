@@ -155,10 +155,9 @@
             <div class="sectionHeadingf">COMMENTS & DOCUMENTS</div>
             <br />
             <div class="sectionBodyLeft">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s when an unknown printer took a galley of type
-              and scrambled it to make a type specimen book it has?
+              <div v-for='items in caseDetails.comments' :key='items.id'> 
+                {{items['message']}}
+                </div>
             </div>
 
             <br />
@@ -378,6 +377,14 @@ export default {
         // push request objects into requestArray
         requestArray.push(arr)
       }
+
+      // for comments
+      // to retrieve comments
+      const comments = await axios.get(
+        `${VITE_API_URL}/v1/cases/${props.caseId}/comments`
+      );
+      caseDetails.comments = comments.data.comments
+      console.log('caseDetails.comments',  caseDetails.comments)
 
 
       caseDetails.requests = requestArray
