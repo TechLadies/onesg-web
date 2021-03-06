@@ -10,7 +10,7 @@
         <div v-bind="test" />
         <div class="alignRight">
           <button @click="showModal = true" class="blueButton">
-            New <i class="fa fa-caret-down"></i>
+            {{caseDetails.caseStatus}} <i class="fa fa-caret-down"></i>
           </button>
         </div>
       </div>
@@ -101,9 +101,8 @@
               <div class="select">
                 <select>
                   <option>Unverified</option>
-                  <option>Option 1</option>
-                  <option>Option 2</option>
-                  <option>Option 3</option>
+                  <option>Pending</option>
+                  <option>Verified</option>
                 </select>
               </div>
             </div>
@@ -124,12 +123,30 @@
         </div>
         <div class="requests border">
           <div class="sectionHeading">REQUEST(S)</div>
-          <div class="border">
-            <div class="sectionBodyLeft">Request Type</div>
-            <div class="sectionBodyLeft">Fulfillment</div>
-            <div class="sectionBodyLeft">Description</div>
-            <br />
-          </div>
+            <div class="border" v-for='details in caseDetails.requests' :key='details.id'>
+              <div class="sectionBodyLeft" >
+                <b>Request Type</b> <br>
+                {{details.requestType}}<br>
+                <b>Fulfilment</b> <br>
+                {{details.fulfilmentType}}<br>
+                <b>Description</b> <br>
+                {{details.description}}<br>
+                <b>Request Type</b> <br>
+                <div v-for='items in details.fulfilmentChecklist' :key='items.id'> 
+                  <div v-if='details.completedFulfilmentItems.includes(items)'>
+                      <input type='checkbox' checked=true> {{items}}<br>
+                  </div>
+                  <div v-else>
+                    <input type='checkbox'> {{items}}<br>
+                  </div>
+                </div>
+              </div>
+              
+              <!--<div class="sectionBodyLeft">Request Type</div>
+              <div class="sectionBodyLeft">Fulfillment</div>
+              <div class="sectionBodyLeft">Description</div>-->
+              
+            </div>
           <div class="border">
             <br />
             <div class="sectionHeadingf">COMMENTS & DOCUMENTS</div>
@@ -230,25 +247,6 @@ export default {
     },
   },
   
-      // // For each data, transform it to the desired shape
-      // const transformedData = fetchedData.map((data) => {
-      //   return {
-      //     id: data.caseId,
-      //     beneficiaryName: data.beneficiary.name ? data.beneficiaryName : '-',
-      //     caseNumber: data.caseId ? data.caseId : '-',
-      //     applicationDate: dayjs(data.appliedOn).format('DD/MM/YYYY'),
-      //     pointOfContact: data.pointOfContact ? data.pointOfContact : '-',
-      //     refereeName: data.referee.name ? data.referee.name : '-',
-      //     organisation: data.referee.organisation
-      //       ? data.referee.organisation
-      //       : '-',
-      //     lastUpdate: dayjs(data.updatedAt).format('DD/MM/YYYY'),
-      //   }
-      // })
-      // // Assign it to Vue data
-      // table.fetchedItems = transformedData
-
-  
   setup(props) {
     // const xx = props
     console.log(props) // { user: '' }
@@ -259,6 +257,7 @@ export default {
     }])
     
     let caseDetails = reactive({})
+    let requestArray = reactive([])
     onMounted(async () => {
       console.log('Dashboard mounted!');
 
@@ -267,6 +266,9 @@ export default {
       );
       const data = res.data.results[0]
       console.log('data', data)
+      // for case status on top
+      caseDetails.caseStatus = data.caseStatus;
+
       // for details
       caseDetails.caseNumber = data.caseNumber;
       caseDetails.poc = data.pointOfContact || '-';
@@ -307,20 +309,79 @@ export default {
       const reqType = await axios.get(
         `${VITE_API_URL}/v1/request-types`
       );
-      // push request objects into requestArray
-      const requestArray = []
+      
+
+      // checklist items associated with fulfilment type
+      let fulfilmentChecklistEnum = [
+        {
+          IN_KIND_DONATION: [
+            'ITEMS_PURCHASED',
+            'PURCHASE_AND_REIMBURSEMENT',
+            'REIMBURSEMENT_PAID',
+            'DELIVERED_TO_BENEFICIARY',
+          ],
+        },
+        {
+          PARTNER_REFERRAL: [
+            'REFERRED_TO_PARTNER',
+            'REFERRAL_APPROVED',
+            'DELIVERED_TO_BENEFICIARY',
+          ],
+        },
+        { THIRD_PARTY_PAYMENT: ['PURCHASE_VOUCHER', 'PAYMENT_PROCESSED'] },
+        { CASH_TRANSFER: ['PURCHASE_VOUCHER', 'PAYMENT_PROCESSED'] },
+      ];
+      
+      let shownFulfilmentObj = 
+      {
+        'ITEMS_PURCHASED': 'Items procured',
+        'PURCHASE_AND_REIMBURSEMENT': 'Purchase & Reimbursement form sent to Treasurer',
+        'REIMBURSEMENT_PAID': 'Reimbursement paid',
+        'DELIVERED_TO_BENEFICIARY': 'Delivered to beneficiary',
+        'REFERRED_TO_PARTNER': 'Referred to partner',
+        'REFERRAL_APPROVED': 'Referral approved',
+        'DELIVERED_TO_BENEFICIARY': 'Delivered to beneficiary',
+        'PURCHASE_VOUCHER': 'Purchase voucher & supporting documents sent to Treasurer', 
+        'PAYMENT_PROCESSED': 'Payment processed'
+      }
+
       for(let i = 0; i < data.requests.length; i++) {
         const arr = {}
         const requestType = reqType.data.results[data.requests[i].requestTypeId-1].type
         arr.requestType = requestType
-        arr.fulfilmentType = data.requests[i].fulfilmentType
+        arr.fulfilmentType = data.requests[i].fulfilmentType.replace(/_/g, ' ').toString()
+        .toLowerCase()
+        .split(' ')
+        .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
+        .join(' ')
+        .trim();
         arr.description = data.requests[i].description
+        arr.shownFulfilment = []
+        for(let j = 0; j < fulfilmentChecklistEnum.length; j++) {
+          if (Object.keys(fulfilmentChecklistEnum[j]).toString() === data.requests[i].fulfilmentType) {
+            arr.fulfilmentChecklist = Object.values(fulfilmentChecklistEnum[j])[0]
+             for(let k = 0; k < arr.fulfilmentChecklist.length; k++) {
+              const obj = {}
+              const key = arr.fulfilmentChecklist[k]
+              const item = Object.values(shownFulfilmentObj)[Object.keys(shownFulfilmentObj).indexOf(arr.fulfilmentChecklist[k])]
+              obj[key] = item
+              arr.shownFulfilment.push(obj)
+             }
+            break
+          }
+        }
+        // completedFulfilmentItems are those that are ticked in the UI
+        arr.completedFulfilmentItems = data.requests[i].completedFulfilmentItems
+        // push request objects into requestArray
         requestArray.push(arr)
       }
       caseDetails.requests = requestArray
       
+      
+      console.log('caseDetails.requests', requestArray)
       // fetchData() for case, ben, ref and comments
     })
+  
   return {props, caseDetails}
   }
 }
@@ -346,9 +407,12 @@ export default {
   align-items: stretch;
 }
 .title {
+  font-family: Roboto;
+  font-style: normal;
   text-align: left;
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
   width: 90%;
 }
 .alignRight {
