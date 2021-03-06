@@ -151,6 +151,12 @@
               
             </div>
           <div class="border">
+            <div class="sectionBodyLeft">Request Type</div>
+            <div class="sectionBodyLeft">Fulfilment</div>
+            <div class="sectionBodyLeft">Description</div>
+            <br />
+          </div>
+          <div class="border">
             <br />
             <div class="sectionHeadingf">COMMENTS & DOCUMENTS</div>
             <br />

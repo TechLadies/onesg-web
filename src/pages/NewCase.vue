@@ -7,7 +7,7 @@
       </div>
       <div v-if="stage === 1"><Referee :referee="referee" /></div>
       <div v-if="stage === 2">
-        <CaseDetails :caseDetail="caseDetail" />
+        <CaseDetail :caseDetail="caseDetail" />
       </div>
 
       <div class="arrow">
@@ -69,14 +69,14 @@ import { useStore } from 'vuex'
 import { onMounted } from 'vue'
 import Beneficiary from '../components/Beneficiary.vue'
 import Referee from '../components/Referee.vue'
-import CaseDetails from '../components/CaseDetails.vue'
+import CaseDetail from '../components/CaseDetail.vue'
 
 export default {
   name: 'Secure',
   components: {
     Beneficiary,
     Referee,
-    CaseDetails,
+    CaseDetail,
   },
   setup() {
     const stage = ref(0)
@@ -101,34 +101,50 @@ export default {
     })
     const caseDetail = reactive({
       // all these properties should match with DB, check with backend team
-      appliedOn: '',
       amountRequested: '',
       pointOfContact: '',
       refereeId: '',
       beneficiaryId: '',
       createdBy: '1',
       updatedBy: '2',
-      // requests: [],
+      requests: [],
     })
     console.log(caseDetail)
     const logout = (e) => {
       console.log(e)
       store.dispatch('doLogin', null)
     }
-    const caseDetails = (e) => {
+    const details = (e) => {
       router.push('/details/' + e.detail.row.caseNumber)
     }
     const createNew = async () => {
       caseDetail.beneficiaryId = beneficiary.id
       caseDetail.refereeId = referee.id
 
-      alert(JSON.stringify(caseDetail))
+      // alert(JSON.stringify(caseDetail))
       console.log('test', beneficiary)
 
       try {
-        const body = caseDetail
+        caseDetail.requests = caseDetail.requests.filter((request) => request.requestTypeId > 0) // -1 = add new type, 0 = not selected
+        let body = { ...caseDetail }
+
+        // API is now requests so this conversion can be removed
+        // body = {
+        //   request: [...body.requests],
+        //   ...body,
+        // }
+        // delete body.requests
+
+        console.log('case details', body)
+
         const abc = await http('POST', `${VITE_API_URL}/v1/cases`, body)
+
+        console.log('posting case details', abc)
+
         beneficiary = {}
+
+        caseDetail.requests = []
+        // change to specific case detail page
         stage.value = 0
       } catch (e) {
         console.log('error', e)
@@ -157,6 +173,7 @@ export default {
           )
           stage.value++
         } catch (e) {
+          console.log(e)
           alert(
             e?.data?.error?.message ||
               'There is an error. Please contact admin.'
@@ -213,10 +230,10 @@ export default {
       beneficiary,
       referee,
       caseDetail,
+      details,
       upsertBeneficiary,
       upsertReferee,
       insertDetails,
-      caseDetails,
     }
   },
 }
@@ -224,7 +241,7 @@ export default {
 
 <style scoped>
 .main {
-  margin-left: 6%;
+  margin-left: 10%;
   margin-right: 20%;
   text-align: left;
   padding: 0px 0px 0px 20px;

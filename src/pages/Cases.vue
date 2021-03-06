@@ -20,7 +20,7 @@
         @checked="checked"
         @triggered="triggered"
         @cmd="cmd"
-        @get-case.capture="caseDetails"
+        @get-case.capture="tails"
         style="--bwc-table-height: calc(100vh - 360px); --bwc-table-width: 100%"
         class="sticky-header sticky-column"
       >
@@ -161,11 +161,13 @@ export default {
 
     const fetchData = async () => {
       console.log(`FetchingData`)
-      const res = await axios.get(`${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=10&sort=${sortKey.value}:${sortDir.value}&include_entities=beneficiary,referee,request
+      const res = await axios.get(`${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=10&sort=${
+        sortKey.value ? sortKey.value + ':' + sortDir.value : ''
+      }
+&include_entities=beneficiary,referee,request
 ${state.url}`)
 
       const fetchedData = res.data.results
-      console.log(`fetcheddata results`, fetchedData)
 
       // For each data, transform it to the desired shape
       const transformedData = fetchedData.map((data) => {
@@ -205,12 +207,12 @@ ${state.url}`)
       console.log('Dashboard mounted!')
       fetchData()
     })
-    const caseDetails = (e) => {
+    const caseDetail = (e) => {
       router.push('/details/' + e.detail.row.caseNumber)
     }
 
     return {
-      caseDetails,
+      caseDetail,
       page,
       pageSize,
       pageSizeList,
