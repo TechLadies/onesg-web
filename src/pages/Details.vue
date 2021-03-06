@@ -257,7 +257,7 @@ export default {
   
   setup(props) {
     // const xx = props
-    console.log(props) // { user: '' }
+    // console.log(props) // { user: '' }
 
     const refereeStatus = reactive([{//key: the array
     }])
@@ -390,12 +390,6 @@ export default {
         `${VITE_API_URL}/v1/cases/${props.caseId}/comments`
       );
       caseDetails.comments = comments.data.comments
-      console.log('caseDetails.comments',  caseDetails.comments)
-
-
-      caseDetails.requests = requestArray
-      console.log('caseDetails.requests', requestArray)
-      // fetchData() for case, ben, ref and comments
     })
   
   return {props, caseDetails}
