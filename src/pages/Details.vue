@@ -131,13 +131,16 @@
                 {{details.fulfilmentType}}<br>
                 <b>Description</b> <br>
                 {{details.description}}<br>
-                <b>Request Type</b> <br>
-                <div v-for='items in details.fulfilmentChecklist' :key='items.id'> 
-                  <div v-if='details.completedFulfilmentItems.includes(items)'>
-                      <input type='checkbox' checked=true> {{items}}<br>
+                <b>Checkbox</b> <br>
+                
+                <!--<div v-for='items in details.fulfilmentChecklist' :key='items.id'>-->
+                  <!--<div v-if='details.completedFulfilmentItems.includes(items)'>-->
+                <div v-for='(item,name) in details.shownFulfilment' :key='item.id'> 
+                  <div v-if='details.completedFulfilmentItems.includes(name)'>
+                      <input type='checkbox' checked=true> {{item}}<br>
                   </div>
                   <div v-else>
-                    <input type='checkbox'> {{items}}<br>
+                    <input type='checkbox'> {{item}}<br>
                   </div>
                 </div>
               </div>
@@ -335,7 +338,7 @@ export default {
       let shownFulfilmentObj = 
       {
         'ITEMS_PURCHASED': 'Items procured',
-        'PURCHASE_AND_REIMBURSEMENT': 'Purchase & Reimbursement form sent to Treasurer',
+        'PURCHASE_AND_REIMBURSEMENT': 'Purchase & reimbursement form sent to Treasurer',
         'REIMBURSEMENT_PAID': 'Reimbursement paid',
         'DELIVERED_TO_BENEFICIARY': 'Delivered to beneficiary',
         'REFERRED_TO_PARTNER': 'Referred to partner',
@@ -355,17 +358,17 @@ export default {
         .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
         .join(' ')
         .trim();
-        arr.description = data.requests[i].description
-        arr.shownFulfilment = []
+        arr.description = (data.requests[i].description === null) ? '-' : data.requests[i].description;
+        arr.shownFulfilment = {}
         for(let j = 0; j < fulfilmentChecklistEnum.length; j++) {
           if (Object.keys(fulfilmentChecklistEnum[j]).toString() === data.requests[i].fulfilmentType) {
             arr.fulfilmentChecklist = Object.values(fulfilmentChecklistEnum[j])[0]
              for(let k = 0; k < arr.fulfilmentChecklist.length; k++) {
-              const obj = {}
+              
               const key = arr.fulfilmentChecklist[k]
-              const item = Object.values(shownFulfilmentObj)[Object.keys(shownFulfilmentObj).indexOf(arr.fulfilmentChecklist[k])]
-              obj[key] = item
-              arr.shownFulfilment.push(obj)
+              const item = shownFulfilmentObj[key]
+              
+              arr.shownFulfilment[key] = item
              }
             break
           }
@@ -375,9 +378,9 @@ export default {
         // push request objects into requestArray
         requestArray.push(arr)
       }
+
+
       caseDetails.requests = requestArray
-      
-      
       console.log('caseDetails.requests', requestArray)
       // fetchData() for case, ben, ref and comments
     })
