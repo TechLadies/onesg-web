@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .js,.vue",
     "dev": "vite",
     "build1": "vite build",
-    "build": "echo do nothing else"
+    "build": "echo do nothing"
   },
   "dependencies": {
     "axios": "^0.21.0",
