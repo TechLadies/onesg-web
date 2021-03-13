@@ -412,7 +412,6 @@ export default {
       relatedCases.splice(index, 1)
       caseDetails.relatedCases = relatedCases
       caseDetails.relatedCasesLength = (!caseDetails.relatedCases === true) ? 0 : relatedCases.length
-      console.log('here', !caseDetails.relatedCases.length)
     })
   return {props, caseDetails}
   }
