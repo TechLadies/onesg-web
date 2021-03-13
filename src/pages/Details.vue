@@ -63,7 +63,7 @@
             </div>
           </div>
           <div class="border">
-            <div class="sectionHeading">REFEREE</div>
+            <div class="sectionHeading">REFERENCE</div>
               <div class="sectionBody">
                 <div class="contentLeft">
                   <ul>
@@ -96,7 +96,7 @@
               </div>
           </div>
           <div class="border">
-            <div class="sectionHeading">Referee Status</div>
+            <div class="sectionHeading">Reference Status</div>
             <div class="sectionHeading">
               <div class="select">
                 <select>
