@@ -143,14 +143,16 @@
                 </div>
               </div>
             </div>
+          
           <div class="border">
             <br />
             <div class="sectionHeadingf">COMMENTS & DOCUMENTS</div>
             <br />
             <div class="sectionBodyLeft">
               <div v-for='items in caseDetails.comments' :key='items.id'> 
-                {{items['message']}}<br>
-                {{items['author']}}
+                <div class="commentsMessage">{{items['message']}}</div>
+                <div class="commentsInfo">{{items['author']}} • 29 Dec 2019, 14:24</div>
+                <br>
                 </div>
             </div>
 
@@ -489,5 +491,23 @@ export default {
 .contentRight {
   text-align: left;
   width: 50%;
+}
+
+.commentsMessage{
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: #12121A;
+}
+
+.commentsInfo {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  color: #9292AD;
 }
 </style>
