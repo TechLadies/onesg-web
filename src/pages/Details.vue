@@ -130,7 +130,7 @@
                 {{details.fulfilmentType}}<br>
                 <b>Description</b> <br>
                 {{details.description}}<br>
-                <b>Checkbox</b> <br>
+                
                 
                 <div v-for='(item,name) in details.shownFulfilment' :key='item.id'> 
                   <div v-if='details.completedFulfilmentItems.includes(name)'>
