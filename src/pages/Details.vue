@@ -100,9 +100,10 @@
             <div class="sectionHeading">
               <div class="select">
                 <select>
-                  <option>Unverified</option>
-                  <option>Pending</option>
-                  <option>Verified</option>
+                  <option value={{caseDetails.refereeStatus}}>{{caseDetails.refereeStatus}}</option>
+                  <option v-if="caseDetails.refereeStatus!=='Unverified'">Unverified</option>
+                  <option v-if="caseDetails.refereeStatus!=='Pending'">Pending</option>
+                  <option v-if="caseDetails.refereeStatus!=='Verified'">Verified</option>
                 </select>
               </div>
             </div>
@@ -112,7 +113,9 @@
               <br />
               <br />
               <div class="sectionHeading">
-                <input class="input" type="text" placeholder="S$" />
+                <div class="placeholder" data-placeholder="S$">
+                  <input class="input" type="text" v-model="caseDetails.amountGranted"/>
+                </div>
               </div>
               <br />
               <br />
@@ -280,6 +283,16 @@ export default {
       caseDetails.refereePhone = (data.referee === null) ? '-' : data.referee.phone;
       caseDetails.refereeEmail = (data.referee === null) ? '-' : data.referee.email;
 
+      // for referee status
+      // const grantedAmount = (!data.amountGranted) ? 0 : data.amountGranted;
+      caseDetails.amountGranted = (!data.amountGranted) ? 0 : data.amountGranted;
+      const refereeStatus = {
+        'VERIFIED': 'Verified',
+        'PENDING': 'Pending',
+        'UNVERIFIED': 'Unverified'
+      }
+      caseDetails.refereeStatus = refereeStatus[data.referenceStatus]
+
       // for beneficiary
       caseDetails.beneficiaryName = data.beneficiary.name;
       caseDetails.beneficiaryPhone = data.beneficiary.phone;
@@ -382,6 +395,7 @@ export default {
         `${VITE_API_URL}/v1/cases/${props.caseId}/comments`
       );
       caseDetails.comments = comments.data.comments
+      console.log('caseDetails', caseDetails)
     })
   
   return {props, caseDetails}
@@ -491,6 +505,30 @@ export default {
 .contentRight {
   text-align: left;
   width: 50%;
+}
+
+.placeholder {
+    position: relative;
+}
+
+.placeholder::after {
+    position: absolute;
+    left: 5px;
+    top: 9px;
+    content: attr(data-placeholder);
+    opacity: 0.6;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.input {
+  padding-left: 25px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #9292AD;
 }
 
 .commentsMessage{
