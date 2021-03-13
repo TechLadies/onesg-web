@@ -223,6 +223,10 @@
         industry.
       </div>
       <br />
+      <div class="sectionHeadingWhite">RELATED CASES ({{caseDetails.relatedCasesLength}})</div>
+        <div class="sectionBodyLeft" v-for='cases in caseDetails.relatedCases' :key='cases.id'>
+          <a v-bind:href="cases"># {{cases}}</a><br>
+        </div>
     </div>
   </div>
 </template>
@@ -313,7 +317,7 @@ export default {
         if (i < data.beneficiary.paymentType.length - 1) {
           caseDetails.beneficiaryPaymentType += ', '
         }
-      }
+      };
 
       // for requests
       // to retrieve request types
@@ -354,7 +358,7 @@ export default {
         'DELIVERED_TO_BENEFICIARY': 'Delivered to beneficiary',
         'PURCHASE_VOUCHER': 'Purchase voucher & supporting documents sent to Treasurer', 
         'PAYMENT_PROCESSED': 'Payment processed'
-      }
+      };
 
       for(let i = 0; i < data.requests.length; i++) {
         const arr = {}
@@ -382,22 +386,34 @@ export default {
           }
         }
         // completedFulfilmentItems are those that are ticked in the UI
-        arr.completedFulfilmentItems = data.requests[i].completedFulfilmentItems
+        arr.completedFulfilmentItems = data.requests[i].completedFulfilmentItems;
         // push request objects into requestArray
-        requestArray.push(arr)
+        requestArray.push(arr);
       }
 
-      caseDetails.requests = requestArray
+      caseDetails.requests = requestArray;
 
       // for comments
       // to retrieve comments
       const comments = await axios.get(
         `${VITE_API_URL}/v1/cases/${props.caseId}/comments`
       );
-      caseDetails.comments = comments.data.comments
-      console.log('caseDetails', caseDetails)
+      caseDetails.comments = comments.data.comments;
+      console.log('caseDetails', caseDetails);
+
+      // for related cases
+      // to retrieve relatedCases
+      const cases = await axios.get(
+        `${VITE_API_URL}/v1/beneficiaries/${data.beneficiaryId}/cases`
+      );
+      // remove current caseNumber from list of relatedCases
+      const relatedCases = cases.data.beneficiaryCases.caseNumbers;
+      const index = relatedCases.indexOf(props.caseId)
+      relatedCases.splice(index, 1)
+      caseDetails.relatedCases = relatedCases
+      caseDetails.relatedCasesLength = (!caseDetails.relatedCases === true) ? 0 : relatedCases.length
+      console.log('here', !caseDetails.relatedCases.length)
     })
-  
   return {props, caseDetails}
   }
 }
@@ -449,6 +465,16 @@ export default {
 .body {
   display: flex;
 }
+
+a {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: #1E1ECC;
+}
+
 .details {
   width: 30%;
 }
