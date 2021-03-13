@@ -1,9 +1,5 @@
 <template>
   <div class="parent">
-
-    <!-- <script type="text/javascript">
-    const CaseNumber = 
-    </script> -->
     <div class="left">
       <div class="top">
         <div class="title">Case #{{caseDetails.caseNumber}}</div>
@@ -70,7 +66,7 @@
                     Name
                   </ul>
                   <ul>
-                    Occupation
+                    Organisation
                   </ul>
                   <ul>
                     Phone
@@ -239,10 +235,6 @@ import dayjs from 'dayjs'
 
 console.log(dayjs('2019-01-25').format('DD/MM/YYYY'))
 
-
-// TODO: Temporarily moved this function here because couldn't get js export import files working.
-// Should figure out and move api services to separate folder/file
-
 export default {
   name: 'Details',
   props: {
@@ -253,13 +245,6 @@ export default {
   },
   
   setup(props) {
-    // const xx = props
-    // console.log(props) // { user: '' }
-
-    const refereeStatus = reactive([{//key: the array
-    }])
-    const amountGranted = reactive([{//key: the array
-    }])
     
     let caseDetails = reactive({})
     let requestArray = reactive([])
