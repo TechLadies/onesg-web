@@ -20,7 +20,7 @@
         @checked="checked"
         @triggered="triggered"
         @cmd="cmd"
-        @get-case.capture="tails"
+        @get-case.capture="caseDetail"
         style="--bwc-table-height: calc(100vh - 360px); --bwc-table-width: 100%"
         class="sticky-header sticky-column"
       >

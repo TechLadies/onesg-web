@@ -26,7 +26,7 @@
                 </ul>
 
                 <ul>
-                  Date of application
+                  Applied on
                 </ul>
 
                 <ul>
@@ -64,36 +64,36 @@
           </div>
           <div class="border">
             <div class="sectionHeading">REFEREE</div>
-            <div class="sectionBody">
-              <div class="contentLeft">
-                <ul>
-                  Name
-                </ul>
-                <ul>
-                  Occupation
-                </ul>
-                <ul>
-                  Phone
-                </ul>
-                <ul>
-                  Email
-                </ul>
+              <div class="sectionBody">
+                <div class="contentLeft">
+                  <ul>
+                    Name
+                  </ul>
+                  <ul>
+                    Occupation
+                  </ul>
+                  <ul>
+                    Phone
+                  </ul>
+                  <ul>
+                    Email
+                  </ul>
+                </div>
+                <div class="contentRight">
+                  <ul>
+                    {{caseDetails.refereeName}} <!--referee-->
+                  </ul>
+                  <ul>
+                    {{caseDetails.refereeOccupation}}
+                  </ul>
+                  <ul>
+                    {{caseDetails.refereePhone}}
+                  </ul>
+                  <ul>
+                    {{caseDetails.refereeEmail}}
+                  </ul>
+                </div>
               </div>
-              <div class="contentRight">
-                <ul>
-                  {{caseDetails.refereeName}} <!--referee-->
-                </ul>
-                <ul>
-                  {{caseDetails.refereeOccupation}}
-                </ul>
-                <ul>
-                  {{caseDetails.refereePhone}}
-                </ul>
-                <ul>
-                  {{caseDetails.refereeEmail}}
-                </ul>
-              </div>
-            </div>
           </div>
           <div class="border">
             <div class="sectionHeading">Referee Status</div>
@@ -133,8 +133,6 @@
                 {{details.description}}<br>
                 <b>Checkbox</b> <br>
                 
-                <!--<div v-for='items in details.fulfilmentChecklist' :key='items.id'>-->
-                  <!--<div v-if='details.completedFulfilmentItems.includes(items)'>-->
                 <div v-for='(item,name) in details.shownFulfilment' :key='item.id'> 
                   <div v-if='details.completedFulfilmentItems.includes(name)'>
                       <input type='checkbox' checked=true> {{item}}<br>
@@ -144,25 +142,15 @@
                   </div>
                 </div>
               </div>
-              
-              <!--<div class="sectionBodyLeft">Request Type</div>
-              <div class="sectionBodyLeft">Fulfillment</div>
-              <div class="sectionBodyLeft">Description</div>-->
-              
             </div>
-          <div class="border">
-            <div class="sectionBodyLeft">Request Type</div>
-            <div class="sectionBodyLeft">Fulfilment</div>
-            <div class="sectionBodyLeft">Description</div>
-            <br />
-          </div>
           <div class="border">
             <br />
             <div class="sectionHeadingf">COMMENTS & DOCUMENTS</div>
             <br />
             <div class="sectionBodyLeft">
               <div v-for='items in caseDetails.comments' :key='items.id'> 
-                {{items['message']}}
+                {{items['message']}}<br>
+                {{items['author']}}
                 </div>
             </div>
 
@@ -383,6 +371,8 @@ export default {
         // push request objects into requestArray
         requestArray.push(arr)
       }
+
+      caseDetails.requests = requestArray
 
       // for comments
       // to retrieve comments
