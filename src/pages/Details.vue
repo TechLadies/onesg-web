@@ -149,8 +149,9 @@
             <br />
             <div class="sectionBodyLeft">
               <div v-for='items in caseDetails.comments' :key='items.id'> 
+                
                 <div class="commentsMessage">{{items['message']}}</div>
-                <div class="commentsInfo">{{items['author']}} • 29 Dec 2019, 14:24</div>
+                <div class="commentsInfo">{{items.staffs.username}} • {{items.createdAt.replace('T', ' ').substring(0, 16)}}</div>
                 <br>
                 </div>
             </div>
@@ -381,7 +382,7 @@ export default {
       // for comments
       // to retrieve comments
       const comments = await axios.get(
-        `${VITE_API_URL}/v1/cases/${props.caseId}/comments`
+        `${VITE_API_URL}/v1/cases/${data.id}/comments`
       );
       caseDetails.comments = comments.data.comments;
       console.log('caseDetails', caseDetails);
@@ -391,6 +392,7 @@ export default {
       const cases = await axios.get(
         `${VITE_API_URL}/v1/beneficiaries/${data.beneficiaryId}/cases`
       );
+
       // remove current caseNumber from list of relatedCases
       const relatedCases = cases.data.beneficiaryCases.caseNumbers;
       const index = relatedCases.indexOf(props.caseId)
