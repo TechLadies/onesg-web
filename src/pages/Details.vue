@@ -219,7 +219,7 @@
         industry.
       </div>
       <br />
-      <div class="sectionHeadingWhite">RELATED CASES ({{caseDetails.relatedCasesLength}})</div>
+      <div class="sectionHeadingWhite">RELATED CASES ({{(caseDetails.relatedCases) ? caseDetails.relatedCases.length : 0 }})</div>
         <div class="sectionBodyLeft" v-for='relatedCase in caseDetails.relatedCases' :key='relatedCase.id'>
           <a v-on:click='goToCase(relatedCase)' ># {{relatedCase}}</a><br>
         </div>
@@ -290,13 +290,12 @@ export default {
       caseDetails.beneficiaryPaymentType = '';
       for(let i = 0; i < data.beneficiary.paymentType.length; i++) {
         if (data.beneficiary.paymentType[i] === 'PAYNOW') {
-          const paymentType = 'PayNow'
-          caseDetails.beneficiaryPaymentType += paymentType
+          caseDetails.beneficiaryPaymentType += 'PayNow'
         }
         if (data.beneficiary.paymentType[i] === 'BANK_TRANSFER') {
-          const paymentType = 'Bank Transfer'
-          caseDetails.beneficiaryPaymentType += paymentType
+          caseDetails.beneficiaryPaymentType += 'Bank Transfer'
         }
+        // if there are both PayNow and Bank Transfer, add a comma after the first payment type
         if (i < data.beneficiary.paymentType.length - 1) {
           caseDetails.beneficiaryPaymentType += ', '
         }
@@ -344,34 +343,35 @@ export default {
       };
 
       for(let i = 0; i < data.requests.length; i++) {
-        const arr = {}
+        const request = {}
         const requestType = reqType.data.results[data.requests[i].requestTypeId-1].type
-        arr.requestType = requestType
-        arr.fulfilmentType = data.requests[i].fulfilmentType.replace(/_/g, ' ').toString()
+        request.requestType = requestType
+        // replace _ in fulfilment type with space and capitalize the first letter of each word
+        request.fulfilmentType = data.requests[i].fulfilmentType.replace(/_/g, ' ').toString()
         .toLowerCase()
         .split(' ')
         .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
         .join(' ')
         .trim();
-        arr.description = (data.requests[i].description === null) ? '-' : data.requests[i].description;
-        arr.shownFulfilment = {}
+        request.description = (data.requests[i].description === null) ? '-' : data.requests[i].description;
+        request.shownFulfilment = {}
         for(let j = 0; j < fulfilmentChecklistEnum.length; j++) {
           if (Object.keys(fulfilmentChecklistEnum[j]).toString() === data.requests[i].fulfilmentType) {
-            arr.fulfilmentChecklist = Object.values(fulfilmentChecklistEnum[j])[0]
-             for(let k = 0; k < arr.fulfilmentChecklist.length; k++) {
+            request.fulfilmentChecklist = Object.values(fulfilmentChecklistEnum[j])[0]
+             for(let k = 0; k < request.fulfilmentChecklist.length; k++) {
               
-              const key = arr.fulfilmentChecklist[k]
+              const key = request.fulfilmentChecklist[k]
               const item = shownFulfilmentObj[key]
               
-              arr.shownFulfilment[key] = item
+              request.shownFulfilment[key] = item
              }
             break
           }
         }
         // completedFulfilmentItems are those that are ticked in the UI
-        arr.completedFulfilmentItems = data.requests[i].completedFulfilmentItems;
+        request.completedFulfilmentItems = data.requests[i].completedFulfilmentItems;
         // push request objects into requestArray
-        requestArray.push(arr);
+        requestArray.push(request);
       }
 
       caseDetails.requests = requestArray;
@@ -394,7 +394,6 @@ export default {
       const index = relatedCases.indexOf(props.caseId)
       relatedCases.splice(index, 1)
       caseDetails.relatedCases = relatedCases
-      caseDetails.relatedCasesLength = (!caseDetails.relatedCases === true) ? 0 : relatedCases.length
     })
 
     const goToCase = (caseId) => {
