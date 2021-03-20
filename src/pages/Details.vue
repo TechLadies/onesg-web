@@ -3,7 +3,6 @@
     <div class="left">
       <div class="top">
         <div class="title">Case #{{caseDetails.caseNumber}}</div>
-        <div v-bind="test" />
         <div class="alignRight">
           <button @click="showModal = true" class="blueButton">
             {{caseDetails.caseStatus}} <i class="fa fa-caret-down"></i>
