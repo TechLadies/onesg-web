@@ -354,6 +354,8 @@ export default {
         .join(' ')
         .trim();
         request.description = (data.requests[i].description === null) ? '-' : data.requests[i].description;
+
+        // TODO: refactor. shownFulfillment object does not have to be part of requestArray since it is not part of the requests record. the full fulfillment checklist items could be created without it being part of the requestArray. 
         request.shownFulfilment = {}
         for(let j = 0; j < fulfilmentChecklistEnum.length; j++) {
           if (Object.keys(fulfilmentChecklistEnum[j]).toString() === data.requests[i].fulfilmentType) {
