@@ -2,10 +2,10 @@
   <div class="parent">
     <div class="left">
       <div class="top">
-        <div class="title">Case EF 2020-0104</div>
+        <div class="title">Case #{{caseDetails.caseNumber}}</div>
         <div class="alignRight">
           <button @click="showModal = true" class="blueButton">
-            New <i class="fa fa-caret-down"></i>
+            {{caseDetails.caseStatus}} <i class="fa fa-caret-down"></i>
           </button>
         </div>
       </div>
@@ -21,7 +21,7 @@
                 </ul>
 
                 <ul>
-                  Date of application
+                  Applied on
                 </ul>
 
                 <ul>
@@ -37,55 +37,68 @@
               </div>
               <div class="contentRight">
                 <ul>
-                  Rachel
+                  {{caseDetails.poc}}
                 </ul>
 
                 <ul>
-                  21/08/2020
+                  {{caseDetails.appliedOn}}
                 </ul>
 
                 <ul>
-                  S$1
+                  {{caseDetails.amountRequested}}
                 </ul>
 
                 <ul>
                   Yes
                 </ul>
                 <ul>
-                  21/08/2021
+                  {{caseDetails.lastUpdated}}
                 </ul>
               </div>
             </div>
           </div>
           <div class="border">
-            <div class="sectionHeading">REFEREE</div>
-            <div class="sectionBody">
-              <div class="contentLeft">
-                <ul>
-                  Name
-                </ul>
-                <ul>
-                  Occupation
-                </ul>
-                <ul>
-                  Phone
-                </ul>
-                <ul>
-                  Email
-                </ul>
+            <div class="sectionHeading">REFERENCE</div>
+              <div class="sectionBody">
+                <div class="contentLeft">
+                  <ul>
+                    Name
+                  </ul>
+                  <ul>
+                    Organisation
+                  </ul>
+                  <ul>
+                    Phone
+                  </ul>
+                  <ul>
+                    Email
+                  </ul>
+                </div>
+                <div class="contentRight">
+                  <ul>
+                    {{caseDetails.refereeName}} <!--referee-->
+                  </ul>
+                  <ul>
+                    {{caseDetails.refereeOccupation}}
+                  </ul>
+                  <ul>
+                    {{caseDetails.refereePhone}}
+                  </ul>
+                  <ul>
+                    {{caseDetails.refereeEmail}}
+                  </ul>
+                </div>
               </div>
-              <div class="contentRight"></div>
-            </div>
           </div>
           <div class="border">
-            <div class="sectionHeading">Referee Status</div>
+            <div class="sectionHeading">Reference Status</div>
             <div class="sectionHeading">
               <div class="select">
                 <select>
-                  <option>Unverified</option>
-                  <option>Option 1</option>
-                  <option>Option 2</option>
-                  <option>Option 3</option>
+                  <option value={{caseDetails.refereeStatus}}>{{caseDetails.refereeStatus}}</option>
+                  <option v-if="caseDetails.refereeStatus!=='Unverified'">Unverified</option>
+                  <option v-if="caseDetails.refereeStatus!=='Pending'">Pending</option>
+                  <option v-if="caseDetails.refereeStatus!=='Verified'">Verified</option>
                 </select>
               </div>
             </div>
@@ -95,7 +108,9 @@
               <br />
               <br />
               <div class="sectionHeading">
-                <input class="input" type="text" placeholder="S$" />
+                <div class="placeholder" data-placeholder="S$">
+                  <input class="input" type="text" v-model="caseDetails.amountGranted"/>
+                </div>
               </div>
               <br />
               <br />
@@ -106,21 +121,38 @@
         </div>
         <div class="requests border">
           <div class="sectionHeading">REQUEST(S)</div>
-          <div class="border">
-            <div class="sectionBodyLeft">Request Type</div>
-            <div class="sectionBodyLeft">Fulfilment</div>
-            <div class="sectionBodyLeft">Description</div>
-            <br />
-          </div>
+            <div class="border" v-for='details in caseDetails.requests' :key='details.id'>
+              <div class="sectionBodyLeft" >
+                <b>Request Type</b> <br>
+                {{details.requestType}}<br>
+                <b>Fulfilment</b> <br>
+                {{details.fulfilmentType}}<br>
+                <b>Description</b> <br>
+                {{details.description}}<br>
+                
+                
+                <div v-for='(item,name) in details.shownFulfilment' :key='item.id'> 
+                  <div v-if='details.completedFulfilmentItems.includes(name)'>
+                      <input type='checkbox' checked=true> {{item}}<br>
+                  </div>
+                  <div v-else>
+                    <input type='checkbox'> {{item}}<br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
           <div class="border">
             <br />
             <div class="sectionHeadingf">COMMENTS & DOCUMENTS</div>
             <br />
             <div class="sectionBodyLeft">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s when an unknown printer took a galley of type
-              and scrambled it to make a type specimen book it has?
+              <div v-for='items in caseDetails.comments' :key='items.id'> 
+                
+                <div class="commentsMessage">{{items['message']}}</div>
+                <div class="commentsInfo">{{items.staffs.username}} • {{items.createdAt.replace('T', ' ').substring(0, 16)}}</div>
+                <br>
+                </div>
             </div>
 
             <br />
@@ -155,7 +187,29 @@
             Payment type
           </ul>
         </div>
-        <div class="contentRight"></div>
+        <div class="contentRight">
+          <ul>
+            {{caseDetails.beneficiaryName}} <!--beneficiary-->
+          </ul>
+          <ul>
+            {{caseDetails.beneficiaryPhone}}
+          </ul>
+          <ul>
+            {{caseDetails.beneficiaryEmail}}
+          </ul>
+          <ul>
+            {{caseDetails.beneficiaryPhone}}
+          </ul>
+          <ul>
+            {{caseDetails.beneficiaryHouseholdIncome}}
+          </ul>
+          <ul>
+            {{caseDetails.beneficiaryHouseholdSize}}
+          </ul>
+          <ul>
+            {{caseDetails.beneficiaryPaymentType}}
+          </ul>
+        </div>
         <br />
       </div>
       <div class="sectionHeadingWhite">NOTES</div>
@@ -165,19 +219,20 @@
         industry.
       </div>
       <br />
+      <div class="sectionHeadingWhite">RELATED CASES ({{(caseDetails.relatedCases) ? caseDetails.relatedCases.length : 0 }})</div>
+        <div class="sectionBodyLeft" v-for='relatedCase in caseDetails.relatedCases' :key='relatedCase.id'>
+          <a v-on:click='goToCase(relatedCase)' ># {{relatedCase}}</a><br>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
+import { VITE_API_URL } from '/config.js'
 import { onMounted, ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import axios from 'axios'
 import dayjs from 'dayjs'
-
-console.log(dayjs('2019-01-25').format('DD/MM/YYYY'))
-
-// TODO: Temporarily moved this function here because couldn't get js export import files working.
-// Should figure out and move api services to separate folder/file
 
 export default {
   name: 'Details',
@@ -187,42 +242,168 @@ export default {
       required: true,
     },
   },
+  
   setup(props) {
-    console.log(props) // { user: '' }
-
-    // const fetchData = async () => {
-    //   const res = await axios.get(
-    //     'https://701425e7-05f7-4da8-9fb7-5a4bdc002cfc.mock.pstmn.io/v1/cases?with_paging=true&page=${page}&per_page=5&sort=caseId:desc&include_entities=beneficiary,referee,staff,request'
-    //   )
-    //   const fetchedData = res.data.results
-    //   console.log('fetchedData', fetchedData)
-
-    //   // For each data, transform it to the desired shape
-    //   const transformedData = fetchedData.map((data) => {
-    //     return {
-    //       id: data.caseId,
-    //       beneficiaryName: data.beneficiary.name ? data.beneficiaryName : '-',
-    //       caseNumber: data.caseId ? data.caseId : '-',
-    //       applicationDate: dayjs(data.appliedOn).format('DD/MM/YYYY'),
-    //       pointOfContact: data.pointOfContact ? data.pointOfContact : '-',
-    //       refereeName: data.referee.name ? data.referee.name : '-',
-    //       organisation: data.referee.organisation
-    //         ? data.referee.organisation
-    //         : '-',
-    //       lastUpdate: dayjs(data.updatedAt).format('DD/MM/YYYY'),
-    //     }
-    //   })
-    //   // Assign it to Vue data
-    //   table.fetchedItems = transformedData
-    // }
-
+    const router = useRouter()
+    let caseDetails = reactive({})
+    let requestArray = reactive([])
     onMounted(async () => {
-      console.log('Dashboard mounted!')
-      //   fetchData()
+      console.log('Case details page mounted!');
+
+      const res = await axios.get(
+        `${VITE_API_URL}/v1/cases?case_number=${props.caseId}&include_entities=beneficiary,referee,request`
+      );
+      const data = res.data.results[0]
+      // for case status on top
+      caseDetails.caseStatus = data.caseStatus;
+
+      // for details
+      caseDetails.caseNumber = data.caseNumber;
+      caseDetails.poc = data.pointOfContact || '-';
+      caseDetails.appliedOn = data.appliedOn;
+      caseDetails.amountRequested = 'S$' + data.amountRequested;
+      caseDetails.lastUpdated = data.updatedAt.toString().slice(0,10);
+
+      // for referee
+      caseDetails.refereeName = (data.referee === null) ? '-' : data.referee.name;
+      caseDetails.refereeOccupation = '-' // there is no referee occupation?
+      caseDetails.refereePhone = (data.referee === null) ? '-' : data.referee.phone;
+      caseDetails.refereeEmail = (data.referee === null) ? '-' : data.referee.email;
+
+      // for referee status
+      // const grantedAmount = (!data.amountGranted) ? 0 : data.amountGranted;
+      caseDetails.amountGranted = (!data.amountGranted) ? 0 : data.amountGranted;
+      const refereeStatus = {
+        'VERIFIED': 'Verified',
+        'PENDING': 'Pending',
+        'UNVERIFIED': 'Unverified'
+      }
+      caseDetails.refereeStatus = refereeStatus[data.referenceStatus]
+
+      // for beneficiary
+      caseDetails.beneficiaryName = data.beneficiary.name;
+      caseDetails.beneficiaryPhone = data.beneficiary.phone;
+      caseDetails.beneficiaryEmail = data.beneficiary.email;
+      caseDetails.beneficiaryOccupation = data.beneficiary.occupation;
+      caseDetails.beneficiaryHouseholdIncome = 'S$' + data.beneficiary.householdIncome;
+      caseDetails.beneficiaryHouseholdSize = data.beneficiary.householdSize;
+      caseDetails.beneficiaryPaymentType = '';
+      for(let i = 0; i < data.beneficiary.paymentType.length; i++) {
+        if (data.beneficiary.paymentType[i] === 'PAYNOW') {
+          caseDetails.beneficiaryPaymentType += 'PayNow'
+        }
+        if (data.beneficiary.paymentType[i] === 'BANK_TRANSFER') {
+          caseDetails.beneficiaryPaymentType += 'Bank Transfer'
+        }
+        // if there are both PayNow and Bank Transfer, add a comma after the first payment type
+        if (i < data.beneficiary.paymentType.length - 1) {
+          caseDetails.beneficiaryPaymentType += ', '
+        }
+      };
+
+      // for requests
+      // to retrieve request types
+      const reqType = await axios.get(
+        `${VITE_API_URL}/v1/request-types`
+      );
+      
+
+      // checklist items associated with fulfilment type
+      let fulfilmentChecklistEnum = [
+        {
+          IN_KIND_DONATION: [
+            'ITEMS_PURCHASED',
+            'PURCHASE_AND_REIMBURSEMENT',
+            'REIMBURSEMENT_PAID',
+            'DELIVERED_TO_BENEFICIARY',
+          ],
+        },
+        {
+          PARTNER_REFERRAL: [
+            'REFERRED_TO_PARTNER',
+            'REFERRAL_APPROVED',
+            'DELIVERED_TO_BENEFICIARY',
+          ],
+        },
+        { THIRD_PARTY_PAYMENT: ['PURCHASE_VOUCHER', 'PAYMENT_PROCESSED'] },
+        { CASH_TRANSFER: ['PURCHASE_VOUCHER', 'PAYMENT_PROCESSED'] },
+      ];
+      
+      let shownFulfilmentObj = 
+      {
+        'ITEMS_PURCHASED': 'Items procured',
+        'PURCHASE_AND_REIMBURSEMENT': 'Purchase & reimbursement form sent to Treasurer',
+        'REIMBURSEMENT_PAID': 'Reimbursement paid',
+        'DELIVERED_TO_BENEFICIARY': 'Delivered to beneficiary',
+        'REFERRED_TO_PARTNER': 'Referred to partner',
+        'REFERRAL_APPROVED': 'Referral approved',
+        'DELIVERED_TO_BENEFICIARY': 'Delivered to beneficiary',
+        'PURCHASE_VOUCHER': 'Purchase voucher & supporting documents sent to Treasurer', 
+        'PAYMENT_PROCESSED': 'Payment processed'
+      };
+
+      for(let i = 0; i < data.requests.length; i++) {
+        const request = {}
+        const requestType = reqType.data.results[data.requests[i].requestTypeId-1].type
+        request.requestType = requestType
+        // replace _ in fulfilment type with space and capitalize the first letter of each word
+        request.fulfilmentType = data.requests[i].fulfilmentType.replace(/_/g, ' ').toString()
+        .toLowerCase()
+        .split(' ')
+        .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
+        .join(' ')
+        .trim();
+        request.description = (data.requests[i].description === null) ? '-' : data.requests[i].description;
+
+        // TODO: refactor. shownFulfillment object does not have to be part of requestArray since it is not part of the requests record. the full fulfillment checklist items could be created without it being part of the requestArray. 
+        request.shownFulfilment = {}
+        for(let j = 0; j < fulfilmentChecklistEnum.length; j++) {
+          if (Object.keys(fulfilmentChecklistEnum[j]).toString() === data.requests[i].fulfilmentType) {
+            request.fulfilmentChecklist = Object.values(fulfilmentChecklistEnum[j])[0]
+             for(let k = 0; k < request.fulfilmentChecklist.length; k++) {
+              
+              const key = request.fulfilmentChecklist[k]
+              const item = shownFulfilmentObj[key]
+              
+              request.shownFulfilment[key] = item
+             }
+            break
+          }
+        }
+        // completedFulfilmentItems are those that are ticked in the UI
+        request.completedFulfilmentItems = data.requests[i].completedFulfilmentItems;
+        // push request objects into requestArray
+        requestArray.push(request);
+      }
+
+      caseDetails.requests = requestArray;
+
+      // for comments
+      // to retrieve comments
+      const comments = await axios.get(
+        `${VITE_API_URL}/v1/cases/${data.id}/comments`
+      );
+      caseDetails.comments = comments.data.comments;
+
+      // for related cases
+      // to retrieve relatedCases
+      const cases = await axios.get(
+        `${VITE_API_URL}/v1/beneficiaries/${data.beneficiaryId}/cases`
+      );
+
+      // remove current caseNumber from list of relatedCases
+      const relatedCases = cases.data.beneficiaryCases.caseNumbers;
+      const index = relatedCases.indexOf(props.caseId)
+      relatedCases.splice(index, 1)
+      caseDetails.relatedCases = relatedCases
     })
 
-    return {}
-  },
+    const goToCase = (caseId) => {
+      router.push('/details/' + caseId)
+    }
+
+  return {props, caseDetails, goToCase}
+  }
 }
 </script>
 
@@ -246,9 +427,12 @@ export default {
   align-items: stretch;
 }
 .title {
+  font-family: Roboto;
+  font-style: normal;
   text-align: left;
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
   width: 90%;
 }
 .alignRight {
@@ -269,6 +453,16 @@ export default {
 .body {
   display: flex;
 }
+
+a {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: #1E1ECC;
+}
+
 .details {
   width: 30%;
 }
@@ -325,5 +519,47 @@ export default {
 .contentRight {
   text-align: left;
   width: 50%;
+}
+
+.placeholder {
+    position: relative;
+}
+
+.placeholder::after {
+    position: absolute;
+    left: 5px;
+    top: 9px;
+    content: attr(data-placeholder);
+    opacity: 0.6;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.input {
+  padding-left: 25px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #9292AD;
+}
+
+.commentsMessage{
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: #12121A;
+}
+
+.commentsInfo {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  color: #9292AD;
 }
 </style>
