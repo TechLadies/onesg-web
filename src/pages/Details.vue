@@ -234,8 +234,6 @@ import { useRouter } from 'vue-router'
 import axios from 'axios'
 import dayjs from 'dayjs'
 
-console.log(dayjs('2019-01-25').format('DD/MM/YYYY'))
-
 export default {
   name: 'Details',
   props: {
@@ -250,13 +248,12 @@ export default {
     let caseDetails = reactive({})
     let requestArray = reactive([])
     onMounted(async () => {
-      console.log('Dashboard mounted!');
+      console.log('Case details page mounted!');
 
       const res = await axios.get(
         `${VITE_API_URL}/v1/cases?case_number=${props.caseId}&include_entities=beneficiary,referee,request`
       );
       const data = res.data.results[0]
-      console.log('data', data)
       // for case status on top
       caseDetails.caseStatus = data.caseStatus;
 
@@ -385,7 +382,6 @@ export default {
         `${VITE_API_URL}/v1/cases/${data.id}/comments`
       );
       caseDetails.comments = comments.data.comments;
-      console.log('caseDetails', caseDetails);
 
       // for related cases
       // to retrieve relatedCases
