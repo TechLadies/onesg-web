@@ -221,8 +221,8 @@
       </div>
       <br />
       <div class="sectionHeadingWhite">RELATED CASES ({{caseDetails.relatedCasesLength}})</div>
-        <div class="sectionBodyLeft" v-for='cases in caseDetails.relatedCases' :key='cases.id'>
-          <a v-bind:href="cases"># {{cases}}</a><br>
+        <div class="sectionBodyLeft" v-for='relatedCase in caseDetails.relatedCases' :key='relatedCase.id'>
+          <a v-on:click='goToCase(relatedCase)' ># {{relatedCase}}</a><br>
         </div>
     </div>
   </div>
@@ -231,6 +231,7 @@
 <script>
 import { VITE_API_URL } from '/config.js'
 import { onMounted, ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import axios from 'axios'
 import dayjs from 'dayjs'
 
@@ -246,7 +247,10 @@ export default {
   },
   
   setup(props) {
-    
+    console.log('in setup')
+    console.log('props', props)
+
+    const router = useRouter()
     let caseDetails = reactive({})
     let requestArray = reactive([])
     onMounted(async () => {
@@ -400,7 +404,12 @@ export default {
       caseDetails.relatedCases = relatedCases
       caseDetails.relatedCasesLength = (!caseDetails.relatedCases === true) ? 0 : relatedCases.length
     })
-  return {props, caseDetails}
+
+    const goToCase = (caseId) => {
+      router.push('/details/' + caseId)
+    }
+
+  return {props, caseDetails, goToCase}
   }
 }
 </script>
