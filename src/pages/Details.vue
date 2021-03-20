@@ -247,9 +247,6 @@ export default {
   },
   
   setup(props) {
-    console.log('in setup')
-    console.log('props', props)
-
     const router = useRouter()
     let caseDetails = reactive({})
     let requestArray = reactive([])
