@@ -3,59 +3,87 @@
     <div class="left">
       <div class="top">
         <div class="title">Case #{{caseDetails.caseNumber}}
-        
           <button @click="showModal = true" class="blueButton">
             {{caseDetails.caseStatus}} <i class="fa fa-caret-down"></i>
           </button>
         </div>
       </div>
-
+    
       <div class="body">
         <div class="details">
           <div class="border">
             <div class="sectionHeading">DETAILS</div>
-            <div class="sectionBody">
-              <div class="contentLeft">
-                <ul>
-                  P.O.C.
-                </ul>
-
-                <ul>
-                  Applied on
-                </ul>
-
-                <ul>
-                  Amount Requested
-                </ul>
-
-                <ul>
-                  Approval
-                </ul>
-                <ul>
-                  Last updated
-                </ul>
+              <div class="sectionBody">
+                <table id="sectionBodyTable">
+                  <tbody>
+                    <tr>
+                      <td class="columnLeft">P.O.C.</td>
+                      <td class="columnRight">{{caseDetails.poc}}</td>
+                    </tr>
+                    <tr>
+                      <td class="columnLeft">Applied On</td>
+                      <td class="columnRight">{{caseDetails.appliedOn}}</td>
+                    </tr>
+                    <tr>
+                      <td class="columnLeft">Amount Requested</td>
+                      <td class="columnRight">{{caseDetails.amountRequested}}</td>
+                    </tr>
+                    <tr>
+                      <td class="columnLeft">Approval</td>
+                      <td class="columnRight">Yes</td>
+                    </tr>
+                    <tr>
+                      <td class="columnLeft">Last updated</td>
+                      <td class="columnRight">{{caseDetails.lastUpdated}}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <div class="contentRight">
-                <ul>
-                  {{caseDetails.poc}}
-                </ul>
+              <!--<div class="sectionBody">
+                <div class="contentLeft">
+                  <ul>
+                    P.O.C.
+                  </ul>
+                
+                  <ul>
+                    Applied on
+                  </ul>
+                
+                  <ul>
+                    Amount Requested
+                  </ul>
+                
+                  <ul>
+                    Approval
+                  </ul>
+                
+                  <ul>
+                    Last updated
+                  </ul>
+                </div>
+               
+                <div class="contentRight">
+                  <ul>
+                    {{caseDetails.poc}}
+                  </ul>
 
-                <ul>
-                  {{caseDetails.appliedOn}}
-                </ul>
+                  <ul>
+                    {{caseDetails.appliedOn}}
+                  </ul>
 
-                <ul>
-                  {{caseDetails.amountRequested}}
-                </ul>
+                  <ul>
+                    {{caseDetails.amountRequested}}
+                  </ul>
 
-                <ul>
-                  Yes
-                </ul>
-                <ul>
-                  {{caseDetails.lastUpdated}}
-                </ul>
-              </div>
-            </div>
+                  <ul>
+                    Yes
+                  </ul>
+                  <ul>
+                    {{caseDetails.lastUpdated}}
+                  </ul>
+                </div>
+              </div>-->
+            
           </div>
           <div class="border">
             <div class="sectionHeading">REFERENCE</div>
@@ -420,8 +448,7 @@ export default {
 
 .left {
   width: 75%;
-  margin-left: 10%;
-  padding-right: 0%;
+  margin-left: 10vh;
 }
 
 .right {
@@ -456,6 +483,7 @@ export default {
 
 .body {
   display: flex;
+  margin-left: -20px;
 }
 
 a {
@@ -476,19 +504,20 @@ a {
 }
 
 .border {
-  border: 0.01px solid #dedede;
-  box-shadow: 0.02 0.02 0.02 0.02;
+  border: 0.01px solid #E6E6F0;
   padding: 10px 10px 10px 10px;
 }
 
 .sectionHeading {
   font-size: 14px;
+  font-style: normal;
   text-align: left;
   font-weight: 500;
-  padding-top: 5%;
-  padding-bottom: 5%;
-  padding-left: 0%;
-  color: rgb(48, 46, 46);
+  color: #59596E;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-left: 10px;
+  padding: 0px 0px 15px;
 }
 .sectionHeadingWhite {
   font-size: 14px;
@@ -507,7 +536,38 @@ a {
   padding-left: 15px;
   padding-right: 10px;
   display: flex;
+  line-height: 25px;
 }
+
+#sectionBodyTable {
+  font-size: 12px;
+  padding-left: 15px;
+  padding-right: 10px;
+  line-height: 15px;
+}
+
+#sectionBodyTable td {
+  background: #FAFAFC;
+  height: 32px;
+}
+
+#sectionBodyTable .columnLeft {
+  text-align: right;
+  width: 400px;
+  color: #59596E;
+  padding-right: 5px;
+  vertical-align: middle;
+}
+
+#sectionBodyTable .columnRight {
+  text-align: left;
+  width: 400px;
+  color: #12121A;
+  padding-left: 5px;
+  vertical-align: middle;
+}
+
+
 .sectionBodyLeft {
   padding-right: 5px;
   font-size: 12px;
@@ -519,10 +579,12 @@ a {
   text-align: right;
   width: 50%;
   padding-right: 10px;
+  border: 1px solid red;
 }
 .contentRight {
   text-align: left;
   width: 50%;
+  border: 1px solid blue;
 }
 
 .placeholder {
