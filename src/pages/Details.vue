@@ -2,8 +2,8 @@
   <div class="parent">
     <div class="left">
       <div class="top">
-        <div class="title">Case #{{caseDetails.caseNumber}}</div>
-        <div class="alignRight">
+        <div class="title">Case #{{caseDetails.caseNumber}}
+        
           <button @click="showModal = true" class="blueButton">
             {{caseDetails.caseStatus}} <i class="fa fa-caret-down"></i>
           </button>
@@ -409,10 +409,13 @@ export default {
 
 <style scoped>
 .parent {
+  background: #FAFAFC;
   display: flex;
 }
 .top {
   display: flex;
+  height: 56px;
+  margin: auto;
 }
 
 .left {
@@ -432,22 +435,23 @@ export default {
   text-align: left;
   font-size: 20px;
   font-weight: 500;
-  line-height: 30px;
-  width: 90%;
-}
-.alignRight {
-  float: right;
-  margin-right: 7%;
-  padding-bottom: 20px;
+  line-height: 40px;
+  width: 100%;
+  margin: auto;
 }
 
 .blueButton {
   background-color: #0032c8;
   color: white;
-  margin-left: 50%;
-  padding: 15px 2px 15px 2px;
-  width: 100px;
-  font-size: 14px;
+  padding: 8px 17px 8px 17px;
+  width: 142px;
+  height: 40px;
+  font-size: 16px;
+  border: 1px solid #0032c8;
+  box-sizing: border-box;
+  border-radius: 4px;
+  float: right;
+  margin-right: 10px;
 }
 
 .body {
