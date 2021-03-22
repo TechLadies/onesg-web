@@ -168,36 +168,36 @@ export default {
     // Fetch Request type -- end //
 
     async function getRequestTypes() {
-      const expireTime = 1000 * 5
+      const expireTime = 1000
       // TODO: set a cache expiry key also, maybe 1 hour.json() so that we dont serve stale  data
       const id = props.item.requestTypeId
       const requestTypesCache = JSON.parse(localStorage.getItem('requestTypes'))
+      const res = await fetch(`${VITE_API_URL}/v1/request-types`, {
+        method: 'get',
+      })
+
+      const json = await res.json()
+      const arr = json.results
+      let output = {}
+      arr.forEach((obj) => {
+        output[obj.id] = obj.type
+      })
+      console.log(`output`, output)
       // if  cache exists, return from cache
-      if (requestTypesCache) {
+      if (requestTypesCache === output) {
+        console.log(`requestTypesCache`, requestTypesCache)
         result.value = requestTypesCache[id]
       } else {
         // if no cache, save to cache
-        const res = await fetch(`${VITE_API_URL}/v1/request-types`, {
-          method: 'get',
-        })
-
-        const json = await res.json()
-        const arr = json.results
-        let output = {}
-        arr.forEach((obj) => {
-          output[obj.id] = obj.type
-        })
         localStorage.setItem('requestTypes', JSON.stringify(output))
         localStorage.setItem('storedData', JSON.stringify({ time: new Date() }))
-
         const test = JSON.parse(localStorage.getItem('requestTypes'))
         result.value = test[id]
-        setTimeout(function () {
-          localStorage.clear()
-        }, expireTime)
-
         return result
       }
+      setTimeout(function () {
+        localStorage.clear()
+      }, expireTime)
     }
 
     console.log(
