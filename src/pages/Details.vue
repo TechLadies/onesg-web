@@ -272,7 +272,7 @@ import { VITE_API_URL } from '/config.js'
 import { onMounted, ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
-import dayjs from 'dayjs'
+import RequestList from '../components/RequestList.vue'
 
 export default {
   name: 'Details',
@@ -287,7 +287,6 @@ export default {
   setup(props) {
     const router = useRouter()
     let caseDetails = reactive({})
-    let requestArray = reactive([])
     console.log('props in Details.vue', props) // { user: '' }
     const items = ref([])
     const reqTypeItems = ref([])
