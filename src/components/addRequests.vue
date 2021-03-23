@@ -69,7 +69,6 @@
 <script>
 import { ref, onMounted, reactive, watch } from 'vue'
 import { VITE_API_URL } from '/config.js'
-import Swal from 'sweetalert2'
 
 export default {
   name: '#add-requests',
@@ -125,6 +124,7 @@ export default {
 
       //Fetch fulfilmentType --start//
       const fulfilmentKey = options.find(({ text }) => text === selected.value)
+
       //Fetch fulfilmentType --end//
 
       try {
@@ -167,19 +167,16 @@ export default {
             emit('close-modal', false)
             emit('re-fresh', this.json)
             Swal.fire({
-              title: 'Error!',
-              text: 'New Request Added. ',
-              icon: 'error',
-              confirmButtonText: 'Cool',
+              html: '<p style="color:white">New request added.</p> ',
+              timer: 4000,
+              showCloseButton: false,
+              showConfirmButton: false,
+              position: 'top',
+              background: '#219653',
             })
           }
           if (res.status === 422) {
-            Swal.fire({
-              title: 'Error!',
-              text: 'Fulfilment type and/or Request type must be selected',
-              icon: 'error',
-              confirmButtonText: 'Cool',
-            })
+            alert('Fulfilment type and/or Request type must be selected.')
           }
         } else {
           // if request type comes from the array
@@ -200,19 +197,18 @@ export default {
             emit('close-modal', false)
             emit('re-fresh', this.json)
             Swal.fire({
-              title: 'Error!',
-              text: 'New Request Added. ',
-              icon: 'error',
-              confirmButtonText: 'Cool',
+              html: '<p style="color:white">New request added.</p> ',
+              timer: 4000,
+              showCloseButton: false,
+              showConfirmButton: false,
+              position: 'top',
+              background: '#219653',
+              width: 221,
+              toast: true,
             })
           }
           if (res.status === 422) {
-            Swal.fire({
-              title: 'Error!',
-              text: 'Fulfilment type and/or Request type must be selected',
-              icon: 'error',
-              confirmButtonText: 'Cool',
-            })
+            alert('Fulfilment type and/or Request type must be selected.')
           }
         }
       } catch (err) {
