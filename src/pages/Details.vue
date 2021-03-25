@@ -92,34 +92,44 @@
               <br />
           </div>
         </div>
-        <div class="requests border">
+        <div class="requests">
           <div class="sectionHeading">REQUEST(S)</div>
-            <div class="border" v-for='details in caseDetails.requests' :key='details.id'>
-              <div class="sectionBodyLeft" >
-                <b>Request Type</b> <br>
-                {{details.requestType}}<br>
-                <b>Fulfilment</b> <br>
-                {{details.fulfilmentType}}<br>
-                <b>Description</b> <br>
-                {{details.description}}<br>
-                
-                
-                <div v-for='(item,name) in details.shownFulfilment' :key='item.id'> 
-                  <div v-if='details.completedFulfilmentItems.includes(name)'>
-                      <input type='checkbox' checked=true> {{item}}<br>
-                  </div>
-                  <div v-else>
-                    <input type='checkbox'> {{item}}<br>
-                  </div>
-                </div>
-              </div>
-            </div>
-          
+            <div class="requestTypeContent" v-for='details in caseDetails.requests' :key='details.id'>
+              <table class="requestTypeTable">
+                <tr>
+                  <td style="width:20%">
+                    <header>Request Type&#10;</header>
+                    {{details.requestType}}
+                  </td>
+                  <td style="width:25%">
+                    <header>Fulfilment&#10;</header>
+                    {{details.fulfilmentType}}
+                  </td>
+                  <td rowspan="2" style="width:45%">
+                    <!-- to check with which checkbox to tick -->
+                    <div v-for='(item,name) in details.shownFulfilment' :key='item.id'> 
+                      <div v-if='details.completedFulfilmentItems.includes(name)'>
+                          <input type='checkbox' checked=true> {{item}}<br>
+                      </div>
+                      <div v-else>
+                        <input type='checkbox'> {{item}}<br>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <header>Description&#10;</header>
+                    {{details.description}}
+                  </td>
+                </tr>
+              </table>
+              <br>
+          </div>
+        
           <div class="border">
-            <br />
-            <div class="sectionHeadingf">COMMENTS & DOCUMENTS</div>
-            <br />
-            <div class="sectionBodyLeft">
+            <div class="sectionHeading">COMMENTS & DOCUMENTS</div>
+            <div class="sectionBodyText">
               <div v-for='items in caseDetails.comments' :key='items.id'> 
                 
                 <div class="commentsMessage">{{items['message']}}</div>
@@ -398,13 +408,13 @@ export default {
 }
 
 .blueButton {
-  background-color: #0032c8;
+  background-color: #1E1ECC;
   color: white;
   padding: 8px 17px 8px 17px;
   width: 142px;
   height: 40px;
   font-size: 16px;
-  border: 1px solid #0032c8;
+  border: 1px solid #1E1ECC;
   box-sizing: border-box;
   border-radius: 4px;
   float: right;
@@ -431,10 +441,42 @@ a {
 
 .requests {
   width: 70%;
+  height: auto;
+  border: 1px solid #E6E6F0;
+  background-color: #fff;
+  height: calc(100vh - 50px);
+
+}
+.requestTypeContent {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.requestTypeTable {
+  width: 100%;
+  border: 1px solid #E6E6F0;
+  box-sizing: border-box;
+  filter: drop-shadow(0px 1px 2px rgba(10, 10, 10, 0.05));
+  border-radius: 4px;
+  border-collapse: separate !important;
+}
+.requestTypeTable td {
+  font-size: 16px;
+  line-height: 24px;
+  text-align: left;
+  margin: auto;
+  padding: 12px;
+}
+.requestTypeTable td header {
+  font-size: 14px;
+  line-height: 20px;
+  color: #59596E;
 }
 
 .border {
-  border: 0.01px solid #E6E6F0;
+  border: 1px solid #E6E6F0;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
 }
 
 .sectionHeading {
@@ -518,6 +560,10 @@ a {
 #sectionBodySub {
   padding-left: 10px;
   padding-right: 10px;
+}
+.sectionBodyText {
+  padding-left: 20px;
+  text-align: left;
 }
 
 
