@@ -170,14 +170,14 @@
           </div>
 
       <div class="sectionHeadingWhite">NOTES</div>
-
-      <div class="sectionBodyLeft">
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry.
-      </div>
+        <div class="sectionBodyWhite">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry.
+        </div>
       <br />
+      
       <div class="sectionHeadingWhite">RELATED CASES ({{(caseDetails.relatedCases) ? caseDetails.relatedCases.length : 0 }})</div>
-        <div class="sectionBodyLeft" v-for='relatedCase in caseDetails.relatedCases' :key='relatedCase.id'>
+        <div class="sectionBodyWhite" v-for='relatedCase in caseDetails.relatedCases' :key='relatedCase.id'>
           <a v-on:click='goToCase(relatedCase)' ># {{relatedCase}}</a><br>
         </div>
     </div>
@@ -368,7 +368,6 @@ export default {
 .parent {
   background: #FAFAFC;
   display: flex;
-  border: 1px solid black;
 }
 .top {
   display: flex;
@@ -452,6 +451,7 @@ a {
 .sectionHeadingSub {
   font-size: 14px;
   text-align: left;
+  text-transform: capitalize;
   color: #12121A;
   margin-left: 10px;
   padding: 15px 10px 10px 10px;
@@ -460,22 +460,36 @@ a {
 .sectionHeadingWhite {
   font-size: 14px;
   text-align: left;
+  text-transform: uppercase;
   font-weight: 500;
-  padding-top: 5%;
-  padding-bottom: 5%;
-  padding-left: 5%;
+  line-height: 36px;
+  padding-left: 15px;
+  width: 90%;
+  margin: auto;
+  vertical-align: middle;
   background-color: white;
-  color: rgb(48, 46, 46);
+  color: #59596E;
+}
+.sectionBodyWhite {
+  text-align: left;
+  font-size: 14px;
+  line-height: 20px;
+  padding-top: 15px;
+  width: 80%;
+  margin: auto;
+  color: #12121A;
 }
 
+
+/* for Details, Reference and Reference Status */
 .sectionBody {
   font-size: 12px;
   text-align: center;
   padding-left: 15px;
   padding-right: 10px;
+  padding-bottom: 20px;
   display: flex;
   line-height: 25px;
-  padding: 0px 0px 20px;
 }
 
 #sectionBodyTable {
@@ -484,11 +498,9 @@ a {
   padding-right: 10px;
   line-height: 15px;
 }
-
 #sectionBodyTable td {
   height: 32px;
 }
-
 #sectionBodyTable .columnLeft {
   text-align: right;
   width: 50%;
@@ -496,7 +508,6 @@ a {
   padding-right: 5px;
   vertical-align: middle;
 }
-
 #sectionBodyTable .columnRight {
   text-align: left;
   width: 400px;
@@ -504,13 +515,12 @@ a {
   padding-left: 5px;
   vertical-align: middle;
 }
-
 #sectionBodySub {
   padding-left: 10px;
   padding-right: 10px;
 }
 
-/* for Details, Reference and Reference Status */
+
 .sectionBodyLeft {
   padding-right: 5px;
   font-size: 12px;
