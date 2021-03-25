@@ -14,6 +14,7 @@
           <div class="border">
             <div class="sectionHeading">DETAILS</div>
               <div class="sectionBody">
+                <!--- table is for the content --->
                 <table id="sectionBodyTable">
                   <tbody>
                     <tr>
@@ -448,7 +449,7 @@ export default {
 
 .left {
   width: 75%;
-  margin-left: 10vh;
+  margin-left: 100px;
 }
 
 .right {
@@ -505,7 +506,6 @@ a {
 
 .border {
   border: 0.01px solid #E6E6F0;
-  padding: 10px 10px 10px 10px;
 }
 
 .sectionHeading {
@@ -517,8 +517,9 @@ a {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   margin-left: 10px;
-  padding: 0px 0px 15px;
+  padding: 15px 10px 10px 10px;
 }
+
 .sectionHeadingWhite {
   font-size: 14px;
   text-align: left;
@@ -537,6 +538,7 @@ a {
   padding-right: 10px;
   display: flex;
   line-height: 25px;
+  padding: 0px 0px 20px;
 }
 
 #sectionBodyTable {
