@@ -379,22 +379,17 @@ export default {
   background: #FAFAFC;
   display: flex;
 }
+.border {
+  border: 1px solid #E6E6F0;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+/* for top part Case #EF and button */
 .top {
   display: flex;
   height: 56px;
   margin: auto;
-}
-
-.left {
-  width: 75%;
-  height: 100vh;
-  margin-left: 100px;
-}
-
-.right {
-  width: 25%;
-  background-color: #f2f2ff;
-  align-items: stretch;
 }
 .title {
   font-family: Roboto;
@@ -406,7 +401,6 @@ export default {
   width: 100%;
   margin: auto;
 }
-
 .blueButton {
   background-color: #1E1ECC;
   color: white;
@@ -421,31 +415,65 @@ export default {
   margin-right: 10px;
 }
 
+
+/* left and body is for details, reference, reference status, requests and comments */
+.left {
+  width: 75%;
+  height: 100vh;
+  margin-left: 100px;
+}
 .body {
   display: flex;
   margin-left: -20px;
 }
-
-a {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 20px;
-  color: #1E1ECC;
-}
-
+/* details is for details, reference and reference status */
 .details {
   width: 30%;
 }
 
+
+/* placeholder is for "S$" in Amount Granted 
+input is for the input field in Amount Granted */
+.placeholder {
+    position: relative;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.placeholder::after {
+    position: absolute;
+    left: 15px;
+    top: 9px;
+    content: attr(data-placeholder);
+    opacity: 0.6;
+    font-size: 16px;
+    line-height: 24px;
+}
+.input {
+  padding-left: 30px;
+  font-family: Roboto;
+  font-size: 16px;
+  line-height: 24px;
+  color: #9292AD;
+}
+/* select is for drop down in Reference Status */
+.select {
+  position: relative;
+  width: 95%;
+  align-items: center;
+}
+.select select {
+  width: 100%;
+}
+
+
+/* for request(s) */
 .requests {
   width: 70%;
   height: auto;
   border: 1px solid #E6E6F0;
+  border-right: none;
   background-color: #fff;
   height: calc(100vh - 50px);
-
 }
 .requestTypeContent {
   padding-left: 15px;
@@ -472,13 +500,48 @@ a {
   color: #59596E;
 }
 
-.border {
-  border: 1px solid #E6E6F0;
-  border-bottom: none;
-  border-left: none;
-  border-right: none;
+
+/* commentsMessage and commentsInfo in Comments & Documents */
+.commentsMessage{
+  font-family: Roboto;
+  font-size: 14px;
+  line-height: 20px;
+  color: #12121A;
+}
+.commentsInfo {
+  font-family: Roboto;
+  font-size: 12px;
+  line-height: 18px;
+  color: #9292AD;
 }
 
+
+/* right is for beneficiary, notes and related cases */
+.right {
+  width: 25%;
+  background-color: #f2f2ff;
+  border: 1px solid #E6E6F0;
+  align-items: stretch;
+}
+
+
+/* beneficiaryName is for beneficiary */
+#beneficiaryName {
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 30px;
+  color: #363636;
+}
+
+
+/* sectionHeading is headers that are capitalised, 
+sectionHeadingSub is for Reference Status, Amount Granted and Case Tags 
+sectionHeadingWhite is for Notes and Related Cases*/
 .sectionHeading {
   font-size: 14px;
   text-align: left;
@@ -489,7 +552,6 @@ a {
   margin-left: 10px;
   padding: 15px 10px 10px 10px;
 }
-
 .sectionHeadingSub {
   font-size: 14px;
   text-align: left;
@@ -498,7 +560,6 @@ a {
   margin-left: 10px;
   padding: 15px 10px 10px 10px;
 }
-
 .sectionHeadingWhite {
   font-size: 14px;
   text-align: left;
@@ -523,7 +584,10 @@ a {
 }
 
 
-/* for Details, Reference and Reference Status */
+/* sectionBody is to contain the tables in details, reference and beneficiary 
+sectionBodyTable is the table in details, reference and beneficiary 
+sectionBodySub is for drop down and inptu field in Reference Status and Amount Granted
+sectionBodyText is for Comments & Documents */
 .sectionBody {
   font-size: 12px;
   text-align: center;
@@ -533,7 +597,6 @@ a {
   display: flex;
   line-height: 25px;
 }
-
 #sectionBodyTable {
   font-size: 12px;
   padding-left: 15px;
@@ -567,90 +630,10 @@ a {
 }
 
 
-.sectionBodyLeft {
-  padding-right: 5px;
-  font-size: 12px;
-  text-align: left;
-  padding-left: 15px;
-  padding-right: 10px;
-}
-
-.select {
-  position: relative;
-  width: 95%;
-  align-items: center;
-}
-.select select {
-  width: 100%;
-}
-
-/* can remove .contentLeft */
-.contentLeft {
-  text-align: right;
-  width: 50%;
-  padding-right: 10px;
-  border: 1px solid red;
-}
-/* can remove .contentRight */
-.contentRight {
-  text-align: left;
-  width: 50%;
-  border: 1px solid blue;
-}
-
-.placeholder {
-    position: relative;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.placeholder::after {
-    position: absolute;
-    left: 15px;
-    top: 9px;
-    content: attr(data-placeholder);
-    opacity: 0.6;
-    font-size: 16px;
-    line-height: 24px;
-}
-
-.input {
-  padding-left: 30px;
+a {
   font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 24px;
-  color: #9292AD;
-}
-
-#beneficiaryName {
-  text-align: center;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 10px;
-  font-family: Roboto;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 30px;
-  color: #363636;
-}
-
-.commentsMessage{
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
   font-size: 14px;
   line-height: 20px;
-  color: #12121A;
-}
-
-.commentsInfo {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  color: #9292AD;
+  color: #1E1ECC;
 }
 </style>
