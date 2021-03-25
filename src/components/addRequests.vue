@@ -12,7 +12,7 @@
           ></button>
         </header>
         <section class="modal-card-body">
-          <!---------- Form input  --------->
+          <!-- Form input  -->
           <div id="v-model-select-dynamic">
             <p class="modal-requesttype">Request Types</p>
             <select v-model="requestTypeId" id="result" class="req-select">

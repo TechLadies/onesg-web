@@ -1,5 +1,5 @@
 <template>
-  <!-- ---Pop UpModal ----->
+  <!--Pop UpModal -->
   <div>
     <div class="words" @click="trigger = true">
       <link

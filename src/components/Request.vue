@@ -30,7 +30,7 @@
         Rejected
       </div>
       <div v-if="item.requestStatus == 'ACCEPTED'">
-        <!---Checkboxes --->
+        <!--Checkboxes-->
         <div class="form-box">
           <form v-if="item.fulfilmentType == 'PARTNER_REFERRAL'">
             <div
@@ -85,7 +85,7 @@
           </form>
         </div>
       </div>
-      <!---Trash button --->
+      <!--Trash button -->
       <div v-if="active">
         <div class="dustbin">
           <link
@@ -143,7 +143,6 @@ export default {
   },
   props: {
     item: { type: Object, required: true },
-    // reqTypeItem: { type: Object, required: true },
   },
 
   setup(props) {
