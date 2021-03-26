@@ -377,6 +377,7 @@ export default {
 <style scoped>
 .parent {
   background: #FAFAFC;
+  height: 100%;
   display: flex;
 }
 .border {
@@ -419,7 +420,6 @@ export default {
 /* left and body is for details, reference, reference status, requests and comments */
 .left {
   width: 75%;
-  height: 100vh;
   margin-left: 100px;
 }
 .body {
@@ -429,6 +429,7 @@ export default {
 /* details is for details, reference and reference status */
 .details {
   width: 30%;
+  height: 100%;
 }
 
 
@@ -468,12 +469,12 @@ input is for the input field in Amount Granted */
 
 /* for request(s) */
 .requests {
+  position: relative;
+  min-height: calc(100vh - 56px);
   width: 70%;
-  height: auto;
   border: 1px solid #E6E6F0;
   border-right: none;
   background-color: #fff;
-  height: calc(100vh - 50px);
 }
 .requestTypeContent {
   padding-left: 15px;
@@ -518,10 +519,10 @@ input is for the input field in Amount Granted */
 
 /* right is for beneficiary, notes and related cases */
 .right {
+  min-height: calc(100vh - 56px);
   width: 25%;
   background-color: #f2f2ff;
-  border: 1px solid #E6E6F0;
-  align-items: stretch;
+  border-left: 1px solid #E6E6F0;
 }
 
 
