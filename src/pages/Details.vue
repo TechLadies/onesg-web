@@ -626,6 +626,7 @@ sectionBodyText is for Comments & Documents */
 }
 .sectionBodyText {
   padding-left: 20px;
+  padding-right: 10px;
   text-align: left;
 }
 
