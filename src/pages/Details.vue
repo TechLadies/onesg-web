@@ -489,14 +489,15 @@ input is for the input field in Amount Granted */
   border-collapse: separate !important;
 }
 .requestTypeTable td {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 24px;
   text-align: left;
   margin: auto;
-  padding: 12px;
+  padding: 18px;
+  color: #12121A;
 }
 .requestTypeTable td header {
-  font-size: 14px;
+  font-size: 12px;
   line-height: 20px;
   color: #59596E;
 }
