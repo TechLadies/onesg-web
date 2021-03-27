@@ -482,7 +482,7 @@ input is for the input field in Amount Granted */
 /* for request(s) */
 .requests {
   position: relative;
-  min-height: calc(100vh - 56px);
+  min-height: calc(100vh);
   width: 70%;
   border: 1px solid #E6E6F0;
   border-right: none;
