@@ -108,7 +108,7 @@
                   <td rowspan="2" style="width:45%">
                     <!-- to check with which checkbox to tick -->
                     <div v-for='(item,name) in details.shownFulfilment' :key='item.id'> 
-                      <div v-if='details.completedFulfilmentItems.includes(name)'>
+                      <div v-if="details.completedFulfilmentItems &&details.completedFulfilmentItems.includes(name)">
                           <input type='checkbox' checked=true> {{item}}<br>
                       </div>
                       <div v-else>
@@ -209,53 +209,56 @@ export default {
       required: true,
     },
   },
-  
+
   setup(props) {
     const router = useRouter()
     let caseDetails = reactive({})
     let requestArray = reactive([])
     onMounted(async () => {
-      console.log('Case details page mounted!');
+      console.log('Case details page mounted!')
 
       const res = await axios.get(
         `${VITE_API_URL}/v1/cases?case_number=${props.caseId}&include_entities=beneficiary,referee,request`
-      );
+      )
       const data = res.data.results[0]
       // for case status on top
-      caseDetails.caseStatus = data.caseStatus;
+      caseDetails.caseStatus = data.caseStatus
 
       // for details
-      caseDetails.caseNumber = data.caseNumber;
-      caseDetails.poc = data.pointOfContact || '-';
-      caseDetails.appliedOn = data.appliedOn;
-      caseDetails.amountRequested = 'S$' + data.amountRequested;
-      caseDetails.lastUpdated = data.updatedAt.toString().slice(0,10);
+      caseDetails.caseNumber = data.caseNumber
+      caseDetails.poc = data.pointOfContact || '-'
+      caseDetails.appliedOn = data.appliedOn
+      caseDetails.amountRequested = 'S$' + data.amountRequested
+      caseDetails.lastUpdated = data.updatedAt.toString().slice(0, 10)
 
       // for referee
-      caseDetails.refereeName = (data.referee === null) ? '-' : data.referee.name;
+      caseDetails.refereeName = data.referee === null ? '-' : data.referee.name
       caseDetails.refereeOccupation = '-' // there is no referee occupation?
-      caseDetails.refereePhone = (data.referee === null) ? '-' : data.referee.phone;
-      caseDetails.refereeEmail = (data.referee === null) ? '-' : data.referee.email;
+      caseDetails.refereePhone =
+        data.referee === null ? '-' : data.referee.phone
+      caseDetails.refereeEmail =
+        data.referee === null ? '-' : data.referee.email
 
       // for referee status
       // const grantedAmount = (!data.amountGranted) ? 0 : data.amountGranted;
-      caseDetails.amountGranted = (!data.amountGranted) ? 0 : data.amountGranted;
+      caseDetails.amountGranted = !data.amountGranted ? 0 : data.amountGranted
       const refereeStatus = {
-        'VERIFIED': 'Verified',
-        'PENDING': 'Pending',
-        'UNVERIFIED': 'Unverified'
+        VERIFIED: 'Verified',
+        PENDING: 'Pending',
+        UNVERIFIED: 'Unverified',
       }
       caseDetails.refereeStatus = refereeStatus[data.referenceStatus]
 
       // for beneficiary
-      caseDetails.beneficiaryName = data.beneficiary.name;
-      caseDetails.beneficiaryPhone = data.beneficiary.phone;
-      caseDetails.beneficiaryEmail = data.beneficiary.email;
-      caseDetails.beneficiaryOccupation = data.beneficiary.occupation;
-      caseDetails.beneficiaryHouseholdIncome = 'S$' + data.beneficiary.householdIncome;
-      caseDetails.beneficiaryHouseholdSize = data.beneficiary.householdSize;
-      caseDetails.beneficiaryPaymentType = '';
-      for(let i = 0; i < data.beneficiary.paymentType.length; i++) {
+      caseDetails.beneficiaryName = data.beneficiary.name
+      caseDetails.beneficiaryPhone = data.beneficiary.phone
+      caseDetails.beneficiaryEmail = data.beneficiary.email
+      caseDetails.beneficiaryOccupation = data.beneficiary.occupation
+      caseDetails.beneficiaryHouseholdIncome =
+        'S$' + data.beneficiary.householdIncome
+      caseDetails.beneficiaryHouseholdSize = data.beneficiary.householdSize
+      caseDetails.beneficiaryPaymentType = ''
+      for (let i = 0; i < data.beneficiary.paymentType.length; i++) {
         if (data.beneficiary.paymentType[i] === 'PAYNOW') {
           caseDetails.beneficiaryPaymentType += 'PayNow'
         }
@@ -266,14 +269,11 @@ export default {
         if (i < data.beneficiary.paymentType.length - 1) {
           caseDetails.beneficiaryPaymentType += ', '
         }
-      };
+      }
 
       // for requests
       // to retrieve request types
-      const reqType = await axios.get(
-        `${VITE_API_URL}/v1/request-types`
-      );
-      
+      const reqType = await axios.get(`${VITE_API_URL}/v1/request-types`)
 
       // checklist items associated with fulfilment type
       let fulfilmentChecklistEnum = [
@@ -294,72 +294,84 @@ export default {
         },
         { THIRD_PARTY_PAYMENT: ['PURCHASE_VOUCHER', 'PAYMENT_PROCESSED'] },
         { CASH_TRANSFER: ['PURCHASE_VOUCHER', 'PAYMENT_PROCESSED'] },
-      ];
-      
-      let shownFulfilmentObj = 
-      {
-        'ITEMS_PURCHASED': 'Items procured',
-        'PURCHASE_AND_REIMBURSEMENT': 'Purchase & reimbursement form sent to Treasurer',
-        'REIMBURSEMENT_PAID': 'Reimbursement paid',
-        'DELIVERED_TO_BENEFICIARY': 'Delivered to beneficiary',
-        'REFERRED_TO_PARTNER': 'Referred to partner',
-        'REFERRAL_APPROVED': 'Referral approved',
-        'DELIVERED_TO_BENEFICIARY': 'Delivered to beneficiary',
-        'PURCHASE_VOUCHER': 'Purchase voucher & supporting documents sent to Treasurer', 
-        'PAYMENT_PROCESSED': 'Payment processed'
-      };
+      ]
 
-      for(let i = 0; i < data.requests.length; i++) {
+      let shownFulfilmentObj = {
+        ITEMS_PURCHASED: 'Items procured',
+        PURCHASE_AND_REIMBURSEMENT:
+          'Purchase & reimbursement form sent to Treasurer',
+        REIMBURSEMENT_PAID: 'Reimbursement paid',
+        DELIVERED_TO_BENEFICIARY: 'Delivered to beneficiary',
+        REFERRED_TO_PARTNER: 'Referred to partner',
+        REFERRAL_APPROVED: 'Referral approved',
+        DELIVERED_TO_BENEFICIARY: 'Delivered to beneficiary',
+        PURCHASE_VOUCHER:
+          'Purchase voucher & supporting documents sent to Treasurer',
+        PAYMENT_PROCESSED: 'Payment processed',
+      }
+
+      for (let i = 0; i < data.requests.length; i++) {
         const request = {}
-        const requestType = reqType.data.results[data.requests[i].requestTypeId-1].type
+        const requestType =
+          reqType.data.results[data.requests[i].requestTypeId - 1].type
         request.requestType = requestType
         // replace _ in fulfilment type with space and capitalize the first letter of each word
-        request.fulfilmentType = data.requests[i].fulfilmentType.replace(/_/g, ' ').toString()
-        .toLowerCase()
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
-        .join(' ')
-        .trim();
-        request.description = (data.requests[i].description === null) ? '-' : data.requests[i].description;
+        request.fulfilmentType = data.requests[i].fulfilmentType
+          .replace(/_/g, ' ')
+          .toString()
+          .toLowerCase()
+          .split(' ')
+          .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
+          .join(' ')
+          .trim()
+        request.description =
+          data.requests[i].description === null
+            ? '-'
+            : data.requests[i].description
 
-        // TODO: refactor. shownFulfillment object does not have to be part of requestArray since it is not part of the requests record. the full fulfillment checklist items could be created without it being part of the requestArray. 
+        // TODO: refactor. shownFulfillment object does not have to be part of requestArray since it is not part of the requests record. the full fulfillment checklist items could be created without it being part of the requestArray.
         request.shownFulfilment = {}
-        for(let j = 0; j < fulfilmentChecklistEnum.length; j++) {
-          if (Object.keys(fulfilmentChecklistEnum[j]).toString() === data.requests[i].fulfilmentType) {
-            request.fulfilmentChecklist = Object.values(fulfilmentChecklistEnum[j])[0]
-             for(let k = 0; k < request.fulfilmentChecklist.length; k++) {
-              
+        for (let j = 0; j < fulfilmentChecklistEnum.length; j++) {
+          if (
+            Object.keys(fulfilmentChecklistEnum[j]).toString() ===
+            data.requests[i].fulfilmentType
+          ) {
+            request.fulfilmentChecklist = Object.values(
+              fulfilmentChecklistEnum[j]
+            )[0]
+            for (let k = 0; k < request.fulfilmentChecklist.length; k++) {
               const key = request.fulfilmentChecklist[k]
               const item = shownFulfilmentObj[key]
-              
+
               request.shownFulfilment[key] = item
-             }
+            }
             break
           }
         }
         // completedFulfilmentItems are those that are ticked in the UI
-        request.completedFulfilmentItems = data.requests[i].completedFulfilmentItems;
+        request.completedFulfilmentItems =
+          data.requests[i].completedFulfilmentItems
         // push request objects into requestArray
-        requestArray.push(request);
+        requestArray.push(request)
       }
 
-      caseDetails.requests = requestArray;
+      caseDetails.requests = requestArray
 
       // for comments
       // to retrieve comments
       const comments = await axios.get(
         `${VITE_API_URL}/v1/cases/${data.id}/comments`
-      );
-      caseDetails.comments = comments.data.comments;
+      )
+      caseDetails.comments = comments.data.comments
 
       // for related cases
       // to retrieve relatedCases
       const cases = await axios.get(
         `${VITE_API_URL}/v1/beneficiaries/${data.beneficiaryId}/cases`
-      );
+      )
 
       // remove current caseNumber from list of relatedCases
-      const relatedCases = cases.data.beneficiaryCases.caseNumbers;
+      const relatedCases = cases.data.beneficiaryCases.caseNumbers
       const index = relatedCases.indexOf(props.caseId)
       relatedCases.splice(index, 1)
       caseDetails.relatedCases = relatedCases
@@ -369,8 +381,8 @@ export default {
       router.push('/details/' + caseId)
     }
 
-  return {props, caseDetails, goToCase}
-  }
+    return { props, caseDetails, goToCase }
+  },
 }
 </script>
 
@@ -634,7 +646,6 @@ sectionBodyText is for Comments & Documents */
 
 
 a {
-  font-family: Roboto;
   font-size: 14px;
   line-height: 20px;
   color: #1E1ECC;
