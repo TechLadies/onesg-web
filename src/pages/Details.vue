@@ -66,7 +66,7 @@
                 </table>
               </div>
           </div>
-          <div class="border">
+          <div class="referenceStatusBorder">
             <div class="sectionHeadingSub">Reference Status</div>
               <div id="sectionBodySub">
                 <div class="select">
@@ -127,7 +127,7 @@
               <br>
           </div>
         
-          <div class="border">
+          <div class="commentsBorder">
             <div class="sectionHeading">COMMENTS & DOCUMENTS</div>
             <div class="sectionBodyText">
               <div v-for='items in caseDetails.comments' :key='items.id'> 
@@ -505,7 +505,7 @@ input is for the input field in Amount Granted */
   line-height: 24px;
   text-align: left;
   margin: auto;
-  padding: 18px;
+  padding: 15px 15px 15px;
   color: #12121A;
 }
 .requestTypeTable td header {
@@ -513,6 +513,7 @@ input is for the input field in Amount Granted */
   line-height: 20px;
   color: #59596E;
 }
+
 
 
 /* commentsMessage and commentsInfo in Comments & Documents */
@@ -527,6 +528,25 @@ input is for the input field in Amount Granted */
   font-size: 12px;
   line-height: 18px;
   color: #9292AD;
+}
+
+.referenceStatusBorder {
+  position: relative;
+  top: 21px;
+  width: 100%;
+  border: 1px solid #E6E6F0;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+.commentsBorder {
+  position: absolute;
+  top: 442px;
+  width: 100%;
+  border: 1px solid #E6E6F0;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
 }
 
 
