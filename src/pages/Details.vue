@@ -2,10 +2,10 @@
   <div class="parent">
     <div class="left">
       <div class="top">
-        <div class="title">Case #{{caseDetails.caseNumber}}</div>
+        <div class="title">Case #{{ caseDetails.caseNumber }}</div>
         <div class="alignRight">
           <button @click="showModal = true" class="blueButton">
-            {{caseDetails.caseStatus}} <i class="fa fa-caret-down"></i>
+            {{ caseDetails.caseStatus }} <i class="fa fa-caret-down"></i>
           </button>
         </div>
       </div>
@@ -37,68 +37,93 @@
               </div>
               <div class="contentRight">
                 <ul>
-                  {{caseDetails.poc}}
+                  {{
+                    caseDetails.poc
+                  }}
                 </ul>
 
                 <ul>
-                  {{caseDetails.appliedOn}}
+                  {{
+                    caseDetails.appliedOn
+                  }}
                 </ul>
 
                 <ul>
-                  {{caseDetails.amountRequested}}
+                  {{
+                    caseDetails.amountRequested
+                  }}
                 </ul>
 
                 <ul>
                   Yes
                 </ul>
                 <ul>
-                  {{caseDetails.lastUpdated}}
+                  {{
+                    caseDetails.lastUpdated
+                  }}
                 </ul>
               </div>
             </div>
           </div>
           <div class="border">
             <div class="sectionHeading">REFERENCE</div>
-              <div class="sectionBody">
-                <div class="contentLeft">
-                  <ul>
-                    Name
-                  </ul>
-                  <ul>
-                    Organisation
-                  </ul>
-                  <ul>
-                    Phone
-                  </ul>
-                  <ul>
-                    Email
-                  </ul>
-                </div>
-                <div class="contentRight">
-                  <ul>
-                    {{caseDetails.refereeName}} <!--referee-->
-                  </ul>
-                  <ul>
-                    {{caseDetails.refereeOccupation}}
-                  </ul>
-                  <ul>
-                    {{caseDetails.refereePhone}}
-                  </ul>
-                  <ul>
-                    {{caseDetails.refereeEmail}}
-                  </ul>
-                </div>
+            <div class="sectionBody">
+              <div class="contentLeft">
+                <ul>
+                  Name
+                </ul>
+                <ul>
+                  Organisation
+                </ul>
+                <ul>
+                  Phone
+                </ul>
+                <ul>
+                  Email
+                </ul>
               </div>
+              <div class="contentRight">
+                <ul>
+                  {{
+                    caseDetails.refereeName
+                  }}
+                  <!--referee-->
+                </ul>
+                <ul>
+                  {{
+                    caseDetails.refereeOccupation
+                  }}
+                </ul>
+                <ul>
+                  {{
+                    caseDetails.refereePhone
+                  }}
+                </ul>
+                <ul>
+                  {{
+                    caseDetails.refereeEmail
+                  }}
+                </ul>
+              </div>
+            </div>
           </div>
           <div class="border">
             <div class="sectionHeading">Reference Status</div>
             <div class="sectionHeading">
               <div class="select">
                 <select>
-                  <option value={{caseDetails.refereeStatus}}>{{caseDetails.refereeStatus}}</option>
-                  <option v-if="caseDetails.refereeStatus!=='Unverified'">Unverified</option>
-                  <option v-if="caseDetails.refereeStatus!=='Pending'">Pending</option>
-                  <option v-if="caseDetails.refereeStatus!=='Verified'">Verified</option>
+                  <option value="{{caseDetails.refereeStatus}}">
+                    {{ caseDetails.refereeStatus }}
+                  </option>
+                  <option v-if="caseDetails.refereeStatus !== 'Unverified'">
+                    Unverified
+                  </option>
+                  <option v-if="caseDetails.refereeStatus !== 'Pending'">
+                    Pending
+                  </option>
+                  <option v-if="caseDetails.refereeStatus !== 'Verified'">
+                    Verified
+                  </option>
                 </select>
               </div>
             </div>
@@ -109,7 +134,11 @@
               <br />
               <div class="sectionHeading">
                 <div class="placeholder" data-placeholder="S$">
-                  <input class="input" type="text" v-model="caseDetails.amountGranted"/>
+                  <input
+                    class="input"
+                    type="text"
+                    v-model="caseDetails.amountGranted"
+                  />
                 </div>
               </div>
               <br />
@@ -121,38 +150,49 @@
         </div>
         <div class="requests border">
           <div class="sectionHeading">REQUEST(S)</div>
-            <div class="border" v-for='details in caseDetails.requests' :key='details.id'>
-              <div class="sectionBodyLeft" >
-                <b>Request Type</b> <br>
-                {{details.requestType}}<br>
-                <b>Fulfilment</b> <br>
-                {{details.fulfilmentType}}<br>
-                <b>Description</b> <br>
-                {{details.description}}<br>
-                
-                
-                <div v-for='(item,name) in details.shownFulfilment' :key='item.id'> 
-                  <div v-if='details.completedFulfilmentItems.includes(name)'>
-                      <input type='checkbox' checked=true> {{item}}<br>
-                  </div>
-                  <div v-else>
-                    <input type='checkbox'> {{item}}<br>
-                  </div>
+          <div
+            class="border"
+            v-for="details in caseDetails.requests"
+            :key="details.id"
+          >
+            <div class="sectionBodyLeft">
+              <b>Request Type</b> <br />
+              {{ details.requestType }}<br />
+              <b>Fulfilment</b> <br />
+              {{ details.fulfilmentType }}<br />
+              <b>Description</b> <br />
+              {{ details.description }}<br />
+
+              <div
+                v-for="(item, name) in details.shownFulfilment"
+                :key="item.id"
+              >
+                <div
+                  v-if="
+                    details.completedFulfilmentItems &&
+                    details.completedFulfilmentItems.includes(name)
+                  "
+                >
+                  <input type="checkbox" checked="true" /> {{ item }}<br />
                 </div>
+                <div v-else><input type="checkbox" /> {{ item }}<br /></div>
               </div>
             </div>
-          
+          </div>
+
           <div class="border">
             <br />
             <div class="sectionHeadingf">COMMENTS & DOCUMENTS</div>
             <br />
             <div class="sectionBodyLeft">
-              <div v-for='items in caseDetails.comments' :key='items.id'> 
-                
-                <div class="commentsMessage">{{items['message']}}</div>
-                <div class="commentsInfo">{{items.staffs.username}} • {{items.createdAt.replace('T', ' ').substring(0, 16)}}</div>
-                <br>
+              <div v-for="items in caseDetails.comments" :key="items.id">
+                <div class="commentsMessage">{{ items['message'] }}</div>
+                <div class="commentsInfo">
+                  {{ items.staffs.username }} •
+                  {{ items.createdAt.replace('T', ' ').substring(0, 16) }}
                 </div>
+                <br />
+              </div>
             </div>
 
             <br />
@@ -189,25 +229,40 @@
         </div>
         <div class="contentRight">
           <ul>
-            {{caseDetails.beneficiaryName}} <!--beneficiary-->
+            {{
+              caseDetails.beneficiaryName
+            }}
+            <!--beneficiary-->
           </ul>
           <ul>
-            {{caseDetails.beneficiaryPhone}}
+            {{
+              caseDetails.beneficiaryPhone
+            }}
           </ul>
           <ul>
-            {{caseDetails.beneficiaryEmail}}
+            {{
+              caseDetails.beneficiaryEmail
+            }}
           </ul>
           <ul>
-            {{caseDetails.beneficiaryPhone}}
+            {{
+              caseDetails.beneficiaryPhone
+            }}
           </ul>
           <ul>
-            {{caseDetails.beneficiaryHouseholdIncome}}
+            {{
+              caseDetails.beneficiaryHouseholdIncome
+            }}
           </ul>
           <ul>
-            {{caseDetails.beneficiaryHouseholdSize}}
+            {{
+              caseDetails.beneficiaryHouseholdSize
+            }}
           </ul>
           <ul>
-            {{caseDetails.beneficiaryPaymentType}}
+            {{
+              caseDetails.beneficiaryPaymentType
+            }}
           </ul>
         </div>
         <br />
@@ -219,10 +274,19 @@
         industry.
       </div>
       <br />
-      <div class="sectionHeadingWhite">RELATED CASES ({{(caseDetails.relatedCases) ? caseDetails.relatedCases.length : 0 }})</div>
-        <div class="sectionBodyLeft" v-for='relatedCase in caseDetails.relatedCases' :key='relatedCase.id'>
-          <a v-on:click='goToCase(relatedCase)' ># {{relatedCase}}</a><br>
-        </div>
+      <div class="sectionHeadingWhite">
+        RELATED CASES ({{
+          caseDetails.relatedCases ? caseDetails.relatedCases.length : 0
+        }})
+      </div>
+      <div
+        class="sectionBodyLeft"
+        v-for="relatedCase in caseDetails.relatedCases"
+        :key="relatedCase.id"
+      >
+        <a v-on:click="goToCase(relatedCase)"># {{ relatedCase }}</a
+        ><br />
+      </div>
     </div>
   </div>
 </template>
@@ -242,53 +306,56 @@ export default {
       required: true,
     },
   },
-  
+
   setup(props) {
     const router = useRouter()
     let caseDetails = reactive({})
     let requestArray = reactive([])
     onMounted(async () => {
-      console.log('Case details page mounted!');
+      console.log('Case details page mounted!')
 
       const res = await axios.get(
         `${VITE_API_URL}/v1/cases?case_number=${props.caseId}&include_entities=beneficiary,referee,request`
-      );
+      )
       const data = res.data.results[0]
       // for case status on top
-      caseDetails.caseStatus = data.caseStatus;
+      caseDetails.caseStatus = data.caseStatus
 
       // for details
-      caseDetails.caseNumber = data.caseNumber;
-      caseDetails.poc = data.pointOfContact || '-';
-      caseDetails.appliedOn = data.appliedOn;
-      caseDetails.amountRequested = 'S$' + data.amountRequested;
-      caseDetails.lastUpdated = data.updatedAt.toString().slice(0,10);
+      caseDetails.caseNumber = data.caseNumber
+      caseDetails.poc = data.pointOfContact || '-'
+      caseDetails.appliedOn = data.appliedOn
+      caseDetails.amountRequested = 'S$' + data.amountRequested
+      caseDetails.lastUpdated = data.updatedAt.toString().slice(0, 10)
 
       // for referee
-      caseDetails.refereeName = (data.referee === null) ? '-' : data.referee.name;
+      caseDetails.refereeName = data.referee === null ? '-' : data.referee.name
       caseDetails.refereeOccupation = '-' // there is no referee occupation?
-      caseDetails.refereePhone = (data.referee === null) ? '-' : data.referee.phone;
-      caseDetails.refereeEmail = (data.referee === null) ? '-' : data.referee.email;
+      caseDetails.refereePhone =
+        data.referee === null ? '-' : data.referee.phone
+      caseDetails.refereeEmail =
+        data.referee === null ? '-' : data.referee.email
 
       // for referee status
       // const grantedAmount = (!data.amountGranted) ? 0 : data.amountGranted;
-      caseDetails.amountGranted = (!data.amountGranted) ? 0 : data.amountGranted;
+      caseDetails.amountGranted = !data.amountGranted ? 0 : data.amountGranted
       const refereeStatus = {
-        'VERIFIED': 'Verified',
-        'PENDING': 'Pending',
-        'UNVERIFIED': 'Unverified'
+        VERIFIED: 'Verified',
+        PENDING: 'Pending',
+        UNVERIFIED: 'Unverified',
       }
       caseDetails.refereeStatus = refereeStatus[data.referenceStatus]
 
       // for beneficiary
-      caseDetails.beneficiaryName = data.beneficiary.name;
-      caseDetails.beneficiaryPhone = data.beneficiary.phone;
-      caseDetails.beneficiaryEmail = data.beneficiary.email;
-      caseDetails.beneficiaryOccupation = data.beneficiary.occupation;
-      caseDetails.beneficiaryHouseholdIncome = 'S$' + data.beneficiary.householdIncome;
-      caseDetails.beneficiaryHouseholdSize = data.beneficiary.householdSize;
-      caseDetails.beneficiaryPaymentType = '';
-      for(let i = 0; i < data.beneficiary.paymentType.length; i++) {
+      caseDetails.beneficiaryName = data.beneficiary.name
+      caseDetails.beneficiaryPhone = data.beneficiary.phone
+      caseDetails.beneficiaryEmail = data.beneficiary.email
+      caseDetails.beneficiaryOccupation = data.beneficiary.occupation
+      caseDetails.beneficiaryHouseholdIncome =
+        'S$' + data.beneficiary.householdIncome
+      caseDetails.beneficiaryHouseholdSize = data.beneficiary.householdSize
+      caseDetails.beneficiaryPaymentType = ''
+      for (let i = 0; i < data.beneficiary.paymentType.length; i++) {
         if (data.beneficiary.paymentType[i] === 'PAYNOW') {
           caseDetails.beneficiaryPaymentType += 'PayNow'
         }
@@ -299,14 +366,11 @@ export default {
         if (i < data.beneficiary.paymentType.length - 1) {
           caseDetails.beneficiaryPaymentType += ', '
         }
-      };
+      }
 
       // for requests
       // to retrieve request types
-      const reqType = await axios.get(
-        `${VITE_API_URL}/v1/request-types`
-      );
-      
+      const reqType = await axios.get(`${VITE_API_URL}/v1/request-types`)
 
       // checklist items associated with fulfilment type
       let fulfilmentChecklistEnum = [
@@ -327,72 +391,84 @@ export default {
         },
         { THIRD_PARTY_PAYMENT: ['PURCHASE_VOUCHER', 'PAYMENT_PROCESSED'] },
         { CASH_TRANSFER: ['PURCHASE_VOUCHER', 'PAYMENT_PROCESSED'] },
-      ];
-      
-      let shownFulfilmentObj = 
-      {
-        'ITEMS_PURCHASED': 'Items procured',
-        'PURCHASE_AND_REIMBURSEMENT': 'Purchase & reimbursement form sent to Treasurer',
-        'REIMBURSEMENT_PAID': 'Reimbursement paid',
-        'DELIVERED_TO_BENEFICIARY': 'Delivered to beneficiary',
-        'REFERRED_TO_PARTNER': 'Referred to partner',
-        'REFERRAL_APPROVED': 'Referral approved',
-        'DELIVERED_TO_BENEFICIARY': 'Delivered to beneficiary',
-        'PURCHASE_VOUCHER': 'Purchase voucher & supporting documents sent to Treasurer', 
-        'PAYMENT_PROCESSED': 'Payment processed'
-      };
+      ]
 
-      for(let i = 0; i < data.requests.length; i++) {
+      let shownFulfilmentObj = {
+        ITEMS_PURCHASED: 'Items procured',
+        PURCHASE_AND_REIMBURSEMENT:
+          'Purchase & reimbursement form sent to Treasurer',
+        REIMBURSEMENT_PAID: 'Reimbursement paid',
+        DELIVERED_TO_BENEFICIARY: 'Delivered to beneficiary',
+        REFERRED_TO_PARTNER: 'Referred to partner',
+        REFERRAL_APPROVED: 'Referral approved',
+        DELIVERED_TO_BENEFICIARY: 'Delivered to beneficiary',
+        PURCHASE_VOUCHER:
+          'Purchase voucher & supporting documents sent to Treasurer',
+        PAYMENT_PROCESSED: 'Payment processed',
+      }
+
+      for (let i = 0; i < data.requests.length; i++) {
         const request = {}
-        const requestType = reqType.data.results[data.requests[i].requestTypeId-1].type
+        const requestType =
+          reqType.data.results[data.requests[i].requestTypeId - 1].type
         request.requestType = requestType
         // replace _ in fulfilment type with space and capitalize the first letter of each word
-        request.fulfilmentType = data.requests[i].fulfilmentType.replace(/_/g, ' ').toString()
-        .toLowerCase()
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
-        .join(' ')
-        .trim();
-        request.description = (data.requests[i].description === null) ? '-' : data.requests[i].description;
+        request.fulfilmentType = data.requests[i].fulfilmentType
+          .replace(/_/g, ' ')
+          .toString()
+          .toLowerCase()
+          .split(' ')
+          .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
+          .join(' ')
+          .trim()
+        request.description =
+          data.requests[i].description === null
+            ? '-'
+            : data.requests[i].description
 
-        // TODO: refactor. shownFulfillment object does not have to be part of requestArray since it is not part of the requests record. the full fulfillment checklist items could be created without it being part of the requestArray. 
+        // TODO: refactor. shownFulfillment object does not have to be part of requestArray since it is not part of the requests record. the full fulfillment checklist items could be created without it being part of the requestArray.
         request.shownFulfilment = {}
-        for(let j = 0; j < fulfilmentChecklistEnum.length; j++) {
-          if (Object.keys(fulfilmentChecklistEnum[j]).toString() === data.requests[i].fulfilmentType) {
-            request.fulfilmentChecklist = Object.values(fulfilmentChecklistEnum[j])[0]
-             for(let k = 0; k < request.fulfilmentChecklist.length; k++) {
-              
+        for (let j = 0; j < fulfilmentChecklistEnum.length; j++) {
+          if (
+            Object.keys(fulfilmentChecklistEnum[j]).toString() ===
+            data.requests[i].fulfilmentType
+          ) {
+            request.fulfilmentChecklist = Object.values(
+              fulfilmentChecklistEnum[j]
+            )[0]
+            for (let k = 0; k < request.fulfilmentChecklist.length; k++) {
               const key = request.fulfilmentChecklist[k]
               const item = shownFulfilmentObj[key]
-              
+
               request.shownFulfilment[key] = item
-             }
+            }
             break
           }
         }
         // completedFulfilmentItems are those that are ticked in the UI
-        request.completedFulfilmentItems = data.requests[i].completedFulfilmentItems;
+        request.completedFulfilmentItems =
+          data.requests[i].completedFulfilmentItems
         // push request objects into requestArray
-        requestArray.push(request);
+        requestArray.push(request)
       }
 
-      caseDetails.requests = requestArray;
+      caseDetails.requests = requestArray
 
       // for comments
       // to retrieve comments
       const comments = await axios.get(
         `${VITE_API_URL}/v1/cases/${data.id}/comments`
-      );
-      caseDetails.comments = comments.data.comments;
+      )
+      caseDetails.comments = comments.data.comments
 
       // for related cases
       // to retrieve relatedCases
       const cases = await axios.get(
         `${VITE_API_URL}/v1/beneficiaries/${data.beneficiaryId}/cases`
-      );
+      )
 
       // remove current caseNumber from list of relatedCases
-      const relatedCases = cases.data.beneficiaryCases.caseNumbers;
+      const relatedCases = cases.data.beneficiaryCases.caseNumbers
       const index = relatedCases.indexOf(props.caseId)
       relatedCases.splice(index, 1)
       caseDetails.relatedCases = relatedCases
@@ -402,8 +478,8 @@ export default {
       router.push('/details/' + caseId)
     }
 
-  return {props, caseDetails, goToCase}
-  }
+    return { props, caseDetails, goToCase }
+  },
 }
 </script>
 
@@ -460,7 +536,7 @@ a {
   font-weight: normal;
   font-size: 14px;
   line-height: 20px;
-  color: #1E1ECC;
+  color: #1e1ecc;
 }
 
 .details {
@@ -522,17 +598,17 @@ a {
 }
 
 .placeholder {
-    position: relative;
+  position: relative;
 }
 
 .placeholder::after {
-    position: absolute;
-    left: 5px;
-    top: 9px;
-    content: attr(data-placeholder);
-    opacity: 0.6;
-    font-size: 16px;
-    line-height: 24px;
+  position: absolute;
+  left: 5px;
+  top: 9px;
+  content: attr(data-placeholder);
+  opacity: 0.6;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .input {
@@ -542,16 +618,16 @@ a {
   font-weight: normal;
   font-size: 16px;
   line-height: 24px;
-  color: #9292AD;
+  color: #9292ad;
 }
 
-.commentsMessage{
+.commentsMessage {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
   line-height: 20px;
-  color: #12121A;
+  color: #12121a;
 }
 
 .commentsInfo {
@@ -560,6 +636,6 @@ a {
   font-weight: normal;
   font-size: 12px;
   line-height: 18px;
-  color: #9292AD;
+  color: #9292ad;
 }
 </style>
