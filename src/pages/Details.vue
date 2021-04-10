@@ -2,197 +2,140 @@
   <div class="parent">
     <div class="left">
       <div class="top">
-        <div class="title">Case #{{ caseDetails.caseNumber }}</div>
-        <div class="alignRight">
+        <div class="title">Case #{{caseDetails.caseNumber}}
           <button @click="showModal = true" class="blueButton">
-            {{ caseDetails.caseStatus }} <i class="fa fa-caret-down"></i>
+            {{caseDetails.caseStatus}} <i class="fa fa-caret-down"></i>
           </button>
         </div>
       </div>
-
+    
       <div class="body">
         <div class="details">
           <div class="border">
             <div class="sectionHeading">DETAILS</div>
-            <div class="sectionBody">
-              <div class="contentLeft">
-                <ul>
-                  P.O.C.
-                </ul>
-
-                <ul>
-                  Applied on
-                </ul>
-
-                <ul>
-                  Amount Requested
-                </ul>
-
-                <ul>
-                  Approval
-                </ul>
-                <ul>
-                  Last updated
-                </ul>
+              <div class="sectionBody">
+                <!--- table is for the content --->
+                <table id="sectionBodyTable">
+                  <tbody>
+                    <tr>
+                      <td class="columnLeft">P.O.C.</td>
+                      <td class="columnRight">{{caseDetails.poc}}</td>
+                    </tr>
+                    <tr>
+                      <td class="columnLeft">Applied On</td>
+                      <td class="columnRight">{{caseDetails.appliedOn}}</td>
+                    </tr>
+                    <tr>
+                      <td class="columnLeft">Amount Requested</td>
+                      <td class="columnRight">{{caseDetails.amountRequested}}</td>
+                    </tr>
+                    <tr>
+                      <td class="columnLeft">Approval</td>
+                      <td class="columnRight">Yes</td>
+                    </tr>
+                    <tr>
+                      <td class="columnLeft">Last updated</td>
+                      <td class="columnRight">{{caseDetails.lastUpdated}}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <div class="contentRight">
-                <ul>
-                  {{
-                    caseDetails.poc
-                  }}
-                </ul>
-
-                <ul>
-                  {{
-                    caseDetails.appliedOn
-                  }}
-                </ul>
-
-                <ul>
-                  {{
-                    caseDetails.amountRequested
-                  }}
-                </ul>
-
-                <ul>
-                  Yes
-                </ul>
-                <ul>
-                  {{
-                    caseDetails.lastUpdated
-                  }}
-                </ul>
-              </div>
-            </div>
           </div>
           <div class="border">
             <div class="sectionHeading">REFERENCE</div>
-            <div class="sectionBody">
-              <div class="contentLeft">
-                <ul>
-                  Name
-                </ul>
-                <ul>
-                  Organisation
-                </ul>
-                <ul>
-                  Phone
-                </ul>
-                <ul>
-                  Email
-                </ul>
+              <div class="sectionBody">
+                <table id="sectionBodyTable">
+                  <tbody>
+                    <tr>
+                      <td class="columnLeft">Name</td>
+                      <td class="columnRight">{{caseDetails.refereeName}}</td>
+                    </tr>
+                    <tr>
+                      <td class="columnLeft">Organisation</td>
+                      <td class="columnRight">{{caseDetails.refereeOccupation}}</td>
+                    </tr>
+                    <tr>
+                      <td class="columnLeft">Phone</td>
+                      <td class="columnRight">{{caseDetails.refereePhone}}</td>
+                    </tr>
+                    <tr>
+                      <td class="columnLeft">Email</td>
+                      <td class="columnRight">{{caseDetails.refereeEmail}}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <div class="contentRight">
-                <ul>
-                  {{
-                    caseDetails.refereeName
-                  }}
-                  <!--referee-->
-                </ul>
-                <ul>
-                  {{
-                    caseDetails.refereeOccupation
-                  }}
-                </ul>
-                <ul>
-                  {{
-                    caseDetails.refereePhone
-                  }}
-                </ul>
-                <ul>
-                  {{
-                    caseDetails.refereeEmail
-                  }}
-                </ul>
-              </div>
-            </div>
           </div>
-          <div class="border">
-            <div class="sectionHeading">Reference Status</div>
-            <div class="sectionHeading">
-              <div class="select">
-                <select>
-                  <option value="{{caseDetails.refereeStatus}}">
-                    {{ caseDetails.refereeStatus }}
-                  </option>
-                  <option v-if="caseDetails.refereeStatus !== 'Unverified'">
-                    Unverified
-                  </option>
-                  <option v-if="caseDetails.refereeStatus !== 'Pending'">
-                    Pending
-                  </option>
-                  <option v-if="caseDetails.refereeStatus !== 'Verified'">
-                    Verified
-                  </option>
-                </select>
-              </div>
-            </div>
-
-            <div class="sectionBody">
-              <div class="sectionHeading">Amount Granted</div>
-              <br />
-              <br />
-              <div class="sectionHeading">
-                <div class="placeholder" data-placeholder="S$">
-                  <input
-                    class="input"
-                    type="text"
-                    v-model="caseDetails.amountGranted"
-                  />
+          <div class="referenceStatusBorder">
+            <div class="sectionHeadingSub">Reference Status</div>
+              <div id="sectionBodySub">
+                <div class="select">
+                  <select>
+                    <option value={{caseDetails.refereeStatus}}>{{caseDetails.refereeStatus}}</option>
+                    <option v-if="caseDetails.refereeStatus!=='Unverified'">Unverified</option>
+                    <option v-if="caseDetails.refereeStatus!=='Pending'">Pending</option>
+                    <option v-if="caseDetails.refereeStatus!=='Verified'">Verified</option>
+                  </select>
                 </div>
               </div>
+
+              <div class="sectionHeadingSub">Amount Granted</div>
+                <div id="sectionBodySub">
+                  <div class="placeholder" data-placeholder="S$">
+                    <input class="input" type="text" v-model="caseDetails.amountGranted"/>
+                  </div>
+                </div>
+
+              <div class="sectionHeadingSub">Case Tags</div>
               <br />
               <br />
               <br />
-              <br />
-            </div>
           </div>
         </div>
-        <div class="requests border">
+        <div class="requests">
           <div class="sectionHeading">REQUEST(S)</div>
-          <div
-            class="border"
-            v-for="details in caseDetails.requests"
-            :key="details.id"
-          >
-            <div class="sectionBodyLeft">
-              <b>Request Type</b> <br />
-              {{ details.requestType }}<br />
-              <b>Fulfilment</b> <br />
-              {{ details.fulfilmentType }}<br />
-              <b>Description</b> <br />
-              {{ details.description }}<br />
-
-              <div
-                v-for="(item, name) in details.shownFulfilment"
-                :key="item.id"
-              >
-                <div
-                  v-if="
-                    details.completedFulfilmentItems &&
-                    details.completedFulfilmentItems.includes(name)
-                  "
-                >
-                  <input type="checkbox" checked="true" /> {{ item }}<br />
-                </div>
-                <div v-else><input type="checkbox" /> {{ item }}<br /></div>
-              </div>
-            </div>
+            <div class="requestTypeContent" v-for='details in caseDetails.requests' :key='details.id'>
+              <table class="requestTypeTable">
+                <tr>
+                  <td style="width:20%">
+                    <header>Request Type&#10;</header>
+                    {{details.requestType}}
+                  </td>
+                  <td style="width:25%">
+                    <header>Fulfilment&#10;</header>
+                    {{details.fulfilmentType}}
+                  </td>
+                  <td rowspan="2" style="width:45%">
+                    <!-- to check with which checkbox to tick -->
+                    <div v-for='(item,name) in details.shownFulfilment' :key='item.id'> 
+                      <div v-if="details.completedFulfilmentItems &&details.completedFulfilmentItems.includes(name)">
+                          <input type='checkbox' checked=true> {{item}}<br>
+                      </div>
+                      <div v-else>
+                        <input type='checkbox'> {{item}}<br>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <header>Description&#10;</header>
+                    {{details.description}}
+                  </td>
+                </tr>
+              </table>
+              <br>
           </div>
-
-          <div class="border">
-            <br />
-            <div class="sectionHeadingf">COMMENTS & DOCUMENTS</div>
-            <br />
-            <div class="sectionBodyLeft">
-              <div v-for="items in caseDetails.comments" :key="items.id">
-                <div class="commentsMessage">{{ items['message'] }}</div>
-                <div class="commentsInfo">
-                  {{ items.staffs.username }} •
-                  {{ items.createdAt.replace('T', ' ').substring(0, 16) }}
+        
+          <div class="commentsBorder">
+            <div class="sectionHeading">COMMENTS & DOCUMENTS</div>
+            <div class="sectionBodyText">
+              <div v-for='items in caseDetails.comments' :key='items.id'> 
+                
+                <div class="commentsMessage">{{items['message']}}</div>
+                <div class="commentsInfo">{{items.staffs.username}} • {{items.createdAt.replace('T', ' ').substring(0, 16)}}</div>
+                <br>
                 </div>
-                <br />
-              </div>
             </div>
 
             <br />
@@ -203,90 +146,50 @@
 
     <div class="right">
       <div class="sectionHeading">BENEFICIARY</div>
-      <div class="sectionBody">
-        <div class="contentLeft">
-          <ul>
-            Name
-          </ul>
-          <ul>
-            Phone
-          </ul>
-          <ul>
-            Email
-          </ul>
-          <ul>
-            Occupation
-          </ul>
-          <ul>
-            Household income
-          </ul>
-          <ul>
-            Household size
-          </ul>
-          <ul>
-            Payment type
-          </ul>
-        </div>
-        <div class="contentRight">
-          <ul>
-            {{
-              caseDetails.beneficiaryName
-            }}
-            <!--beneficiary-->
-          </ul>
-          <ul>
-            {{
-              caseDetails.beneficiaryPhone
-            }}
-          </ul>
-          <ul>
-            {{
-              caseDetails.beneficiaryEmail
-            }}
-          </ul>
-          <ul>
-            {{
-              caseDetails.beneficiaryPhone
-            }}
-          </ul>
-          <ul>
-            {{
-              caseDetails.beneficiaryHouseholdIncome
-            }}
-          </ul>
-          <ul>
-            {{
-              caseDetails.beneficiaryHouseholdSize
-            }}
-          </ul>
-          <ul>
-            {{
-              caseDetails.beneficiaryPaymentType
-            }}
-          </ul>
-        </div>
-        <br />
-      </div>
-      <div class="sectionHeadingWhite">NOTES</div>
+        <div id="beneficiaryName">{{caseDetails.beneficiaryName}}</div>
+          <div class="sectionBody">
+            
+              <table id="sectionBodyTable">
+                <tbody>
+                  <tr>
+                    <td class="columnLeft">Phone</td>
+                    <td class="columnRight">{{caseDetails.beneficiaryPhone}}</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Email</td>
+                    <td class="columnRight">{{caseDetails.beneficiaryEmail}}</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Occupation</td>
+                    <td class="columnRight">{{caseDetails.beneficiaryOccupation}}</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Household Income</td>
+                    <td class="columnRight">{{caseDetails.beneficiaryHouseholdIncome}}</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Household Size</td>
+                    <td class="columnRight">{{caseDetails.beneficiaryHouseholdSize}}</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Payment Type</td>
+                    <td class="columnRight">{{caseDetails.beneficiaryPaymentType}}</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
 
-      <div class="sectionBodyLeft">
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry.
-      </div>
+      <div class="sectionHeadingWhite">NOTES</div>
+        <div class="sectionBodyWhite">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry.
+        </div>
       <br />
-      <div class="sectionHeadingWhite">
-        RELATED CASES ({{
-          caseDetails.relatedCases ? caseDetails.relatedCases.length : 0
-        }})
-      </div>
-      <div
-        class="sectionBodyLeft"
-        v-for="relatedCase in caseDetails.relatedCases"
-        :key="relatedCase.id"
-      >
-        <a v-on:click="goToCase(relatedCase)"># {{ relatedCase }}</a
-        ><br />
-      </div>
+      
+      <div class="sectionHeadingWhite">RELATED CASES ({{(caseDetails.relatedCases) ? caseDetails.relatedCases.length : 0 }})</div>
+        <div class="sectionBodyWhite" v-for='relatedCase in caseDetails.relatedCases' :key='relatedCase.id'>
+          <a v-on:click='goToCase(relatedCase)' ># {{relatedCase}}</a><br>
+        </div>
     </div>
   </div>
 </template>
@@ -485,22 +388,21 @@ export default {
 
 <style scoped>
 .parent {
+  background: #FAFAFC;
+  height: 100%;
   display: flex;
 }
+.border {
+  border: 1px solid #E6E6F0;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+/* for top part Case #EF and button */
 .top {
   display: flex;
-}
-
-.left {
-  width: 75%;
-  margin-left: 10%;
-  padding-right: 0%;
-}
-
-.right {
-  width: 25%;
-  background-color: #f2f2ff;
-  align-items: stretch;
+  height: 56px;
+  margin: auto;
 }
 .title {
   font-family: Roboto;
@@ -508,134 +410,264 @@ export default {
   text-align: left;
   font-size: 20px;
   font-weight: 500;
-  line-height: 30px;
-  width: 90%;
+  line-height: 40px;
+  width: 100%;
+  margin: auto;
 }
-.alignRight {
-  float: right;
-  margin-right: 7%;
-  padding-bottom: 20px;
-}
-
 .blueButton {
-  background-color: #0032c8;
+  background-color: #1E1ECC;
   color: white;
-  margin-left: 50%;
-  padding: 15px 2px 15px 2px;
-  width: 100px;
-  font-size: 14px;
+  padding: 8px 17px 8px 17px;
+  width: 142px;
+  height: 40px;
+  font-size: 16px;
+  border: 1px solid #1E1ECC;
+  box-sizing: border-box;
+  border-radius: 4px;
+  float: right;
+  margin-right: 10px;
 }
 
+
+/* left and body is for details, reference, reference status, requests and comments */
+.left {
+  width: 75%;
+  margin-left: 100px;
+}
 .body {
   display: flex;
+  margin-left: -20px;
 }
-
-a {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 20px;
-  color: #1e1ecc;
-}
-
+/* details is for details, reference and reference status */
 .details {
   width: 30%;
+  height: 100%;
 }
 
+
+/* placeholder is for "S$" in Amount Granted 
+input is for the input field in Amount Granted */
+.placeholder {
+    position: relative;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.placeholder::after {
+    position: absolute;
+    left: 15px;
+    top: 9px;
+    content: attr(data-placeholder);
+    opacity: 0.6;
+    font-size: 16px;
+    line-height: 24px;
+}
+.input {
+  padding-left: 30px;
+  font-family: Roboto;
+  font-size: 16px;
+  line-height: 24px;
+  color: #9292AD;
+}
+/* select is for drop down in Reference Status */
+.select {
+  position: relative;
+  width: 95%;
+  align-items: center;
+}
+.select select {
+  width: 100%;
+}
+
+
+/* for request(s) */
 .requests {
+  position: relative;
+  min-height: calc(100vh);
   width: 70%;
+  border: 1px solid #E6E6F0;
+  border-right: none;
+  background-color: #fff;
+}
+.requestTypeContent {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.requestTypeTable {
+  width: 100%;
+  border: 1px solid #E6E6F0;
+  box-sizing: border-box;
+  filter: drop-shadow(0px 1px 2px rgba(10, 10, 10, 0.05));
+  border-radius: 4px;
+  border-collapse: separate !important;
+}
+.requestTypeTable td {
+  font-size: 14px;
+  line-height: 24px;
+  text-align: left;
+  margin: auto;
+  padding: 15px 15px 15px;
+  color: #12121A;
+}
+.requestTypeTable td header {
+  font-size: 12px;
+  line-height: 20px;
+  color: #59596E;
 }
 
-.border {
-  border: 0.01px solid #dedede;
-  box-shadow: 0.02 0.02 0.02 0.02;
-  padding: 10px 10px 10px 10px;
+
+
+/* commentsMessage and commentsInfo in Comments & Documents */
+.commentsMessage{
+  font-family: Roboto;
+  font-size: 14px;
+  line-height: 20px;
+  color: #12121A;
+}
+.commentsInfo {
+  font-family: Roboto;
+  font-size: 12px;
+  line-height: 18px;
+  color: #9292AD;
 }
 
+.referenceStatusBorder {
+  position: relative;
+  top: 21px;
+  width: 100%;
+  border: 1px solid #E6E6F0;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+.commentsBorder {
+  position: absolute;
+  top: 442px;
+  width: 100%;
+  border: 1px solid #E6E6F0;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+
+
+/* right is for beneficiary, notes and related cases */
+.right {
+  min-height: calc(100vh - 56px);
+  width: 25%;
+  background-color: #f2f2ff;
+  border-left: 1px solid #E6E6F0;
+}
+
+
+/* beneficiaryName is for beneficiary */
+#beneficiaryName {
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 30px;
+  color: #363636;
+}
+
+
+/* sectionHeading is headers that are capitalised, 
+sectionHeadingSub is for Reference Status, Amount Granted and Case Tags 
+sectionHeadingWhite is for Notes and Related Cases*/
 .sectionHeading {
   font-size: 14px;
   text-align: left;
   font-weight: 500;
-  padding-top: 5%;
-  padding-bottom: 5%;
-  padding-left: 0%;
-  color: rgb(48, 46, 46);
+  color: #59596E;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-left: 10px;
+  padding: 15px 10px 10px 10px;
+}
+.sectionHeadingSub {
+  font-size: 14px;
+  text-align: left;
+  text-transform: capitalize;
+  color: #12121A;
+  margin-left: 10px;
+  padding: 15px 10px 10px 10px;
 }
 .sectionHeadingWhite {
   font-size: 14px;
   text-align: left;
+  text-transform: uppercase;
   font-weight: 500;
-  padding-top: 5%;
-  padding-bottom: 5%;
-  padding-left: 5%;
+  line-height: 36px;
+  padding-left: 15px;
+  width: 90%;
+  margin: auto;
+  vertical-align: middle;
   background-color: white;
-  color: rgb(48, 46, 46);
+  color: #59596E;
+}
+.sectionBodyWhite {
+  text-align: left;
+  font-size: 14px;
+  line-height: 20px;
+  padding-top: 15px;
+  width: 80%;
+  margin: auto;
+  color: #12121A;
 }
 
+
+/* sectionBody is to contain the tables in details, reference and beneficiary 
+sectionBodyTable is the table in details, reference and beneficiary 
+sectionBodySub is for drop down and inptu field in Reference Status and Amount Granted
+sectionBodyText is for Comments & Documents */
 .sectionBody {
   font-size: 12px;
   text-align: center;
   padding-left: 15px;
   padding-right: 10px;
+  padding-bottom: 20px;
   display: flex;
+  line-height: 25px;
 }
-.sectionBodyLeft {
-  padding-right: 5px;
+#sectionBodyTable {
   font-size: 12px;
-  text-align: left;
   padding-left: 15px;
   padding-right: 10px;
+  line-height: 15px;
 }
-.contentLeft {
+#sectionBodyTable td {
+  height: 32px;
+}
+#sectionBodyTable .columnLeft {
   text-align: right;
   width: 50%;
+  color: #59596E;
+  padding-right: 5px;
+  vertical-align: middle;
+}
+#sectionBodyTable .columnRight {
+  text-align: left;
+  width: 400px;
+  color: #12121A;
+  padding-left: 5px;
+  vertical-align: middle;
+}
+#sectionBodySub {
+  padding-left: 10px;
   padding-right: 10px;
 }
-.contentRight {
+.sectionBodyText {
+  padding-left: 20px;
+  padding-right: 10px;
   text-align: left;
-  width: 50%;
 }
 
-.placeholder {
-  position: relative;
-}
 
-.placeholder::after {
-  position: absolute;
-  left: 5px;
-  top: 9px;
-  content: attr(data-placeholder);
-  opacity: 0.6;
-  font-size: 16px;
-  line-height: 24px;
-}
-
-.input {
-  padding-left: 25px;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 24px;
-  color: #9292ad;
-}
-
-.commentsMessage {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
+a {
   font-size: 14px;
   line-height: 20px;
-  color: #12121a;
-}
-
-.commentsInfo {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  color: #9292ad;
+  color: #1E1ECC;
 }
 </style>
