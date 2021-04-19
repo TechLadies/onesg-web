@@ -11,7 +11,6 @@
   /*margin-top: 60px;*/
   font-weight: 400;
 }
-
 </style>
 <script>
 import { useStore } from 'vuex'

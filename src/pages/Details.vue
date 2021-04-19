@@ -2,140 +2,132 @@
   <div class="parent">
     <div class="left">
       <div class="top">
-        <div class="title">Case #{{caseDetails.caseNumber}}
+        <div class="title">Case #{{ caseDetails.caseNumber }}</div>
+        <div class="alignRight">
           <button @click="showModal = true" class="blueButton">
-            {{caseDetails.caseStatus}} <i class="fa fa-caret-down"></i>
+            {{ caseDetails.caseStatus }} <i class="fa fa-caret-down"></i>
           </button>
         </div>
       </div>
-    
+
       <div class="body">
         <div class="details">
           <div class="border">
             <div class="sectionHeading">DETAILS</div>
-              <div class="sectionBody">
-                <!--- table is for the content --->
-                <table id="sectionBodyTable">
-                  <tbody>
-                    <tr>
-                      <td class="columnLeft">P.O.C.</td>
-                      <td class="columnRight">{{caseDetails.poc}}</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Applied On</td>
-                      <td class="columnRight">{{caseDetails.appliedOn}}</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Amount Requested</td>
-                      <td class="columnRight">{{caseDetails.amountRequested}}</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Approval</td>
-                      <td class="columnRight">Yes</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Last updated</td>
-                      <td class="columnRight">{{caseDetails.lastUpdated}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div class="sectionBody">
+              <!--- table is for the content --->
+              <table id="sectionBodyTable">
+                <tbody>
+                  <tr>
+                    <td class="columnLeft">P.O.C.</td>
+                    <td class="columnRight">{{ caseDetails.poc }}</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Applied On</td>
+                    <td class="columnRight">{{ caseDetails.appliedOn }}</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Amount Requested</td>
+                    <td class="columnRight">
+                      {{ caseDetails.amountRequested }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Approval</td>
+                    <td class="columnRight">Yes</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Last updated</td>
+                    <td class="columnRight">{{ caseDetails.lastUpdated }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
           <div class="border">
             <div class="sectionHeading">REFERENCE</div>
-              <div class="sectionBody">
-                <table id="sectionBodyTable">
-                  <tbody>
-                    <tr>
-                      <td class="columnLeft">Name</td>
-                      <td class="columnRight">{{caseDetails.refereeName}}</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Organisation</td>
-                      <td class="columnRight">{{caseDetails.refereeOccupation}}</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Phone</td>
-                      <td class="columnRight">{{caseDetails.refereePhone}}</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Email</td>
-                      <td class="columnRight">{{caseDetails.refereeEmail}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div class="sectionBody">
+              <table id="sectionBodyTable">
+                <tbody>
+                  <tr>
+                    <td class="columnLeft">Name</td>
+                    <td class="columnRight">{{ caseDetails.refereeName }}</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Organisation</td>
+                    <td class="columnRight">
+                      {{ caseDetails.refereeOccupation }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Phone</td>
+                    <td class="columnRight">{{ caseDetails.refereePhone }}</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Email</td>
+                    <td class="columnRight">{{ caseDetails.refereeEmail }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
           <div class="referenceStatusBorder">
             <div class="sectionHeadingSub">Reference Status</div>
-              <div id="sectionBodySub">
-                <div class="select">
-                  <select>
-                    <option value={{caseDetails.refereeStatus}}>{{caseDetails.refereeStatus}}</option>
-                    <option v-if="caseDetails.refereeStatus!=='Unverified'">Unverified</option>
-                    <option v-if="caseDetails.refereeStatus!=='Pending'">Pending</option>
-                    <option v-if="caseDetails.refereeStatus!=='Verified'">Verified</option>
-                  </select>
-                </div>
+            <div id="sectionBodySub">
+              <div class="select">
+                <select>
+                  <option value="{{caseDetails.refereeStatus}}">
+                    {{ caseDetails.refereeStatus }}
+                  </option>
+                  <option v-if="caseDetails.refereeStatus !== 'Unverified'">
+                    Unverified
+                  </option>
+                  <option v-if="caseDetails.refereeStatus !== 'Pending'">
+                    Pending
+                  </option>
+                  <option v-if="caseDetails.refereeStatus !== 'Verified'">
+                    Verified
+                  </option>
+                </select>
               </div>
+            </div>
 
-              <div class="sectionHeadingSub">Amount Granted</div>
-                <div id="sectionBodySub">
-                  <div class="placeholder" data-placeholder="S$">
-                    <input class="input" type="text" v-model="caseDetails.amountGranted"/>
-                  </div>
-                </div>
+            <div class="sectionHeadingSub">Amount Granted</div>
+            <div id="sectionBodySub">
+              <div class="placeholder" data-placeholder="S$">
+                <input
+                  class="input"
+                  type="text"
+                  v-model="caseDetails.amountGranted"
+                />
+              </div>
+            </div>
 
-              <div class="sectionHeadingSub">Case Tags</div>
-              <br />
-              <br />
-              <br />
+            <div class="sectionHeadingSub">Case Tags</div>
+            <br />
+            <br />
+            <br />
           </div>
         </div>
         <div class="requests">
           <div class="sectionHeading">REQUEST(S)</div>
-            <div class="requestTypeContent" v-for='details in caseDetails.requests' :key='details.id'>
-              <table class="requestTypeTable">
-                <tr>
-                  <td style="width:20%">
-                    <header>Request Type&#10;</header>
-                    {{details.requestType}}
-                  </td>
-                  <td style="width:25%">
-                    <header>Fulfilment&#10;</header>
-                    {{details.fulfilmentType}}
-                  </td>
-                  <td rowspan="2" style="width:45%">
-                    <!-- to check with which checkbox to tick -->
-                    <div v-for='(item,name) in details.shownFulfilment' :key='item.id'> 
-                      <div v-if="details.completedFulfilmentItems &&details.completedFulfilmentItems.includes(name)">
-                          <input type='checkbox' checked=true> {{item}}<br>
-                      </div>
-                      <div v-else>
-                        <input type='checkbox'> {{item}}<br>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <header>Description&#10;</header>
-                    {{details.description}}
-                  </td>
-                </tr>
-              </table>
-              <br>
-          </div>
-        
+          <RequestList
+            :parentData="request"
+            v-if="loadData"
+            @re-fresh="reFresh"
+            :refreshData="refreshData"
+          />
           <div class="commentsBorder">
             <div class="sectionHeading">COMMENTS & DOCUMENTS</div>
             <div class="sectionBodyText">
-              <div v-for='items in caseDetails.comments' :key='items.id'> 
-                
-                <div class="commentsMessage">{{items['message']}}</div>
-                <div class="commentsInfo">{{items.staffs.username}} • {{items.createdAt.replace('T', ' ').substring(0, 16)}}</div>
-                <br>
+              <div v-for="items in caseDetails.comments" :key="items.id">
+                <div class="commentsMessage">{{ items['message'] }}</div>
+                <div class="commentsInfo">
+                  {{ items.staffs.username }} •
+                  {{ items.createdAt.replace('T', ' ').substring(0, 16) }}
                 </div>
+                <br />
+              </div>
             </div>
 
             <br />
@@ -146,50 +138,66 @@
 
     <div class="right">
       <div class="sectionHeading">BENEFICIARY</div>
-        <div id="beneficiaryName">{{caseDetails.beneficiaryName}}</div>
-          <div class="sectionBody">
-            
-              <table id="sectionBodyTable">
-                <tbody>
-                  <tr>
-                    <td class="columnLeft">Phone</td>
-                    <td class="columnRight">{{caseDetails.beneficiaryPhone}}</td>
-                  </tr>
-                  <tr>
-                    <td class="columnLeft">Email</td>
-                    <td class="columnRight">{{caseDetails.beneficiaryEmail}}</td>
-                  </tr>
-                  <tr>
-                    <td class="columnLeft">Occupation</td>
-                    <td class="columnRight">{{caseDetails.beneficiaryOccupation}}</td>
-                  </tr>
-                  <tr>
-                    <td class="columnLeft">Household Income</td>
-                    <td class="columnRight">{{caseDetails.beneficiaryHouseholdIncome}}</td>
-                  </tr>
-                  <tr>
-                    <td class="columnLeft">Household Size</td>
-                    <td class="columnRight">{{caseDetails.beneficiaryHouseholdSize}}</td>
-                  </tr>
-                  <tr>
-                    <td class="columnLeft">Payment Type</td>
-                    <td class="columnRight">{{caseDetails.beneficiaryPaymentType}}</td>
-                  </tr>
-                </tbody>
-              </table>
-          </div>
+      <div id="beneficiaryName">{{ caseDetails.beneficiaryName }}</div>
+      <div class="sectionBody">
+        <table id="sectionBodyTable">
+          <tbody>
+            <tr>
+              <td class="columnLeft">Phone</td>
+              <td class="columnRight">{{ caseDetails.beneficiaryPhone }}</td>
+            </tr>
+            <tr>
+              <td class="columnLeft">Email</td>
+              <td class="columnRight">{{ caseDetails.beneficiaryEmail }}</td>
+            </tr>
+            <tr>
+              <td class="columnLeft">Occupation</td>
+              <td class="columnRight">
+                {{ caseDetails.beneficiaryOccupation }}
+              </td>
+            </tr>
+            <tr>
+              <td class="columnLeft">Household Income</td>
+              <td class="columnRight">
+                {{ caseDetails.beneficiaryHouseholdIncome }}
+              </td>
+            </tr>
+            <tr>
+              <td class="columnLeft">Household Size</td>
+              <td class="columnRight">
+                {{ caseDetails.beneficiaryHouseholdSize }}
+              </td>
+            </tr>
+            <tr>
+              <td class="columnLeft">Payment Type</td>
+              <td class="columnRight">
+                {{ caseDetails.beneficiaryPaymentType }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div class="sectionHeadingWhite">NOTES</div>
-        <div class="sectionBodyWhite">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
-        </div>
+      <div class="sectionBodyWhite">
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry.
+      </div>
       <br />
-      
-      <div class="sectionHeadingWhite">RELATED CASES ({{(caseDetails.relatedCases) ? caseDetails.relatedCases.length : 0 }})</div>
-        <div class="sectionBodyWhite" v-for='relatedCase in caseDetails.relatedCases' :key='relatedCase.id'>
-          <a v-on:click='goToCase(relatedCase)' ># {{relatedCase}}</a><br>
-        </div>
+
+      <div class="sectionHeadingWhite">
+        RELATED CASES ({{
+          caseDetails.relatedCases ? caseDetails.relatedCases.length : 0
+        }})
+      </div>
+      <div
+        class="sectionBodyWhite"
+        v-for="relatedCase in caseDetails.relatedCases"
+        :key="relatedCase.id"
+      >
+        <a v-on:click="goToCase(relatedCase)"># {{ relatedCase }}</a
+        ><br />
+      </div>
     </div>
   </div>
 </template>
@@ -199,10 +207,11 @@ import { VITE_API_URL } from '/config.js'
 import { onMounted, ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
-import dayjs from 'dayjs'
+import RequestList from '../components/RequestList.vue'
 
 export default {
   name: 'Details',
+  components: { RequestList },
   props: {
     caseId: {
       type: String,
@@ -213,10 +222,45 @@ export default {
   setup(props) {
     const router = useRouter()
     let caseDetails = reactive({})
-    let requestArray = reactive([])
+    console.log('props in Details.vue', props) // { user: '' }
+    const items = ref([])
+    const reqTypeItems = ref([])
+    const request = ref([])
+    const loadData = ref(false)
+    const refreshData = ref({})
+    // for requests
+    //fetchData--start//
+    async function fetchData() {
+      try {
+        const promises = await Promise.all([
+          fetch(
+            `${VITE_API_URL}/v1/cases?include_entities=beneficiary,request,referee&case_number=${props.caseId}`
+          ),
+          fetch(`${VITE_API_URL}/v1/request-types`),
+        ]).then((responses) => Promise.all(responses.map((r) => r.json())))
+        items.value = promises[0].results
+        reqTypeItems.value = promises[1].results
+        request.value = promises[0].results[0].requests
+      } catch (err) {
+        console.log('err', err)
+      }
+    }
+
+    function reFresh(json) {
+      refreshData.value = json.requests
+      const newData = Object.keys(refreshData.value)
+      const requestArray = request.value
+      if (newData.length !== 0) {
+        requestArray.unshift(refreshData.value)
+      }
+    }
+
+    // Push request
+
     onMounted(async () => {
       console.log('Case details page mounted!')
-
+      fetchData()
+      loadData.value = true
       const res = await axios.get(
         `${VITE_API_URL}/v1/cases?case_number=${props.caseId}&include_entities=beneficiary,referee,request`
       )
@@ -271,92 +315,6 @@ export default {
         }
       }
 
-      // for requests
-      // to retrieve request types
-      const reqType = await axios.get(`${VITE_API_URL}/v1/request-types`)
-
-      // checklist items associated with fulfilment type
-      let fulfilmentChecklistEnum = [
-        {
-          IN_KIND_DONATION: [
-            'ITEMS_PURCHASED',
-            'PURCHASE_AND_REIMBURSEMENT',
-            'REIMBURSEMENT_PAID',
-            'DELIVERED_TO_BENEFICIARY',
-          ],
-        },
-        {
-          PARTNER_REFERRAL: [
-            'REFERRED_TO_PARTNER',
-            'REFERRAL_APPROVED',
-            'DELIVERED_TO_BENEFICIARY',
-          ],
-        },
-        { THIRD_PARTY_PAYMENT: ['PURCHASE_VOUCHER', 'PAYMENT_PROCESSED'] },
-        { CASH_TRANSFER: ['PURCHASE_VOUCHER', 'PAYMENT_PROCESSED'] },
-      ]
-
-      let shownFulfilmentObj = {
-        ITEMS_PURCHASED: 'Items procured',
-        PURCHASE_AND_REIMBURSEMENT:
-          'Purchase & reimbursement form sent to Treasurer',
-        REIMBURSEMENT_PAID: 'Reimbursement paid',
-        DELIVERED_TO_BENEFICIARY: 'Delivered to beneficiary',
-        REFERRED_TO_PARTNER: 'Referred to partner',
-        REFERRAL_APPROVED: 'Referral approved',
-        DELIVERED_TO_BENEFICIARY: 'Delivered to beneficiary',
-        PURCHASE_VOUCHER:
-          'Purchase voucher & supporting documents sent to Treasurer',
-        PAYMENT_PROCESSED: 'Payment processed',
-      }
-
-      for (let i = 0; i < data.requests.length; i++) {
-        const request = {}
-        const requestType =
-          reqType.data.results[data.requests[i].requestTypeId - 1].type
-        request.requestType = requestType
-        // replace _ in fulfilment type with space and capitalize the first letter of each word
-        request.fulfilmentType = data.requests[i].fulfilmentType
-          .replace(/_/g, ' ')
-          .toString()
-          .toLowerCase()
-          .split(' ')
-          .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
-          .join(' ')
-          .trim()
-        request.description =
-          data.requests[i].description === null
-            ? '-'
-            : data.requests[i].description
-
-        // TODO: refactor. shownFulfillment object does not have to be part of requestArray since it is not part of the requests record. the full fulfillment checklist items could be created without it being part of the requestArray.
-        request.shownFulfilment = {}
-        for (let j = 0; j < fulfilmentChecklistEnum.length; j++) {
-          if (
-            Object.keys(fulfilmentChecklistEnum[j]).toString() ===
-            data.requests[i].fulfilmentType
-          ) {
-            request.fulfilmentChecklist = Object.values(
-              fulfilmentChecklistEnum[j]
-            )[0]
-            for (let k = 0; k < request.fulfilmentChecklist.length; k++) {
-              const key = request.fulfilmentChecklist[k]
-              const item = shownFulfilmentObj[key]
-
-              request.shownFulfilment[key] = item
-            }
-            break
-          }
-        }
-        // completedFulfilmentItems are those that are ticked in the UI
-        request.completedFulfilmentItems =
-          data.requests[i].completedFulfilmentItems
-        // push request objects into requestArray
-        requestArray.push(request)
-      }
-
-      caseDetails.requests = requestArray
-
       // for comments
       // to retrieve comments
       const comments = await axios.get(
@@ -381,19 +339,30 @@ export default {
       router.push('/details/' + caseId)
     }
 
-    return { props, caseDetails, goToCase }
+    return {
+      props,
+      caseDetails,
+      goToCase,
+      fetchData,
+      items,
+      request,
+      loadData,
+      reqTypeItems,
+      reFresh,
+      refreshData,
+    }
   },
 }
 </script>
 
 <style scoped>
 .parent {
-  background: #FAFAFC;
+  background: #fafafc;
   height: 100%;
   display: flex;
 }
 .border {
-  border: 1px solid #E6E6F0;
+  border: 1px solid #e6e6f0;
   border-bottom: none;
   border-left: none;
   border-right: none;
@@ -415,19 +384,18 @@ export default {
   margin: auto;
 }
 .blueButton {
-  background-color: #1E1ECC;
+  background-color: #1e1ecc;
   color: white;
   padding: 8px 17px 8px 17px;
   width: 142px;
   height: 40px;
   font-size: 16px;
-  border: 1px solid #1E1ECC;
+  border: 1px solid #1e1ecc;
   box-sizing: border-box;
   border-radius: 4px;
   float: right;
   margin-right: 10px;
 }
-
 
 /* left and body is for details, reference, reference status, requests and comments */
 .left {
@@ -444,29 +412,38 @@ export default {
   height: 100%;
 }
 
+/* for request(s) */
+.requests {
+  position: relative;
+  min-height: calc(100vh);
+  width: 70%;
+  border: 1px solid #e6e6f0;
+  border-right: none;
+  background-color: #fff;
+}
 
 /* placeholder is for "S$" in Amount Granted 
 input is for the input field in Amount Granted */
 .placeholder {
-    position: relative;
-    padding-left: 5px;
-    padding-right: 5px;
+  position: relative;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .placeholder::after {
-    position: absolute;
-    left: 15px;
-    top: 9px;
-    content: attr(data-placeholder);
-    opacity: 0.6;
-    font-size: 16px;
-    line-height: 24px;
+  position: absolute;
+  left: 15px;
+  top: 9px;
+  content: attr(data-placeholder);
+  opacity: 0.6;
+  font-size: 16px;
+  line-height: 24px;
 }
 .input {
   padding-left: 30px;
   font-family: Roboto;
   font-size: 16px;
   line-height: 24px;
-  color: #9292AD;
+  color: #9292ad;
 }
 /* select is for drop down in Reference Status */
 .select {
@@ -478,63 +455,25 @@ input is for the input field in Amount Granted */
   width: 100%;
 }
 
-
-/* for request(s) */
-.requests {
-  position: relative;
-  min-height: calc(100vh);
-  width: 70%;
-  border: 1px solid #E6E6F0;
-  border-right: none;
-  background-color: #fff;
-}
-.requestTypeContent {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.requestTypeTable {
-  width: 100%;
-  border: 1px solid #E6E6F0;
-  box-sizing: border-box;
-  filter: drop-shadow(0px 1px 2px rgba(10, 10, 10, 0.05));
-  border-radius: 4px;
-  border-collapse: separate !important;
-}
-.requestTypeTable td {
-  font-size: 14px;
-  line-height: 24px;
-  text-align: left;
-  margin: auto;
-  padding: 15px 15px 15px;
-  color: #12121A;
-}
-.requestTypeTable td header {
-  font-size: 12px;
-  line-height: 20px;
-  color: #59596E;
-}
-
-
-
 /* commentsMessage and commentsInfo in Comments & Documents */
-.commentsMessage{
+.commentsMessage {
   font-family: Roboto;
   font-size: 14px;
   line-height: 20px;
-  color: #12121A;
+  color: #12121a;
 }
 .commentsInfo {
   font-family: Roboto;
   font-size: 12px;
   line-height: 18px;
-  color: #9292AD;
+  color: #9292ad;
 }
 
 .referenceStatusBorder {
   position: relative;
   top: 21px;
   width: 100%;
-  border: 1px solid #E6E6F0;
+  border: 1px solid #e6e6f0;
   border-bottom: none;
   border-left: none;
   border-right: none;
@@ -543,21 +482,19 @@ input is for the input field in Amount Granted */
   position: absolute;
   top: 442px;
   width: 100%;
-  border: 1px solid #E6E6F0;
+  border: 1px solid #e6e6f0;
   border-bottom: none;
   border-left: none;
   border-right: none;
 }
-
 
 /* right is for beneficiary, notes and related cases */
 .right {
   min-height: calc(100vh - 56px);
   width: 25%;
   background-color: #f2f2ff;
-  border-left: 1px solid #E6E6F0;
+  border-left: 1px solid #e6e6f0;
 }
-
 
 /* beneficiaryName is for beneficiary */
 #beneficiaryName {
@@ -572,7 +509,6 @@ input is for the input field in Amount Granted */
   color: #363636;
 }
 
-
 /* sectionHeading is headers that are capitalised, 
 sectionHeadingSub is for Reference Status, Amount Granted and Case Tags 
 sectionHeadingWhite is for Notes and Related Cases*/
@@ -580,7 +516,7 @@ sectionHeadingWhite is for Notes and Related Cases*/
   font-size: 14px;
   text-align: left;
   font-weight: 500;
-  color: #59596E;
+  color: #59596e;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   margin-left: 10px;
@@ -590,7 +526,7 @@ sectionHeadingWhite is for Notes and Related Cases*/
   font-size: 14px;
   text-align: left;
   text-transform: capitalize;
-  color: #12121A;
+  color: #12121a;
   margin-left: 10px;
   padding: 15px 10px 10px 10px;
 }
@@ -605,7 +541,7 @@ sectionHeadingWhite is for Notes and Related Cases*/
   margin: auto;
   vertical-align: middle;
   background-color: white;
-  color: #59596E;
+  color: #59596e;
 }
 .sectionBodyWhite {
   text-align: left;
@@ -614,9 +550,8 @@ sectionHeadingWhite is for Notes and Related Cases*/
   padding-top: 15px;
   width: 80%;
   margin: auto;
-  color: #12121A;
+  color: #12121a;
 }
-
 
 /* sectionBody is to contain the tables in details, reference and beneficiary 
 sectionBodyTable is the table in details, reference and beneficiary 
@@ -643,14 +578,14 @@ sectionBodyText is for Comments & Documents */
 #sectionBodyTable .columnLeft {
   text-align: right;
   width: 50%;
-  color: #59596E;
+  color: #59596e;
   padding-right: 5px;
   vertical-align: middle;
 }
 #sectionBodyTable .columnRight {
   text-align: left;
   width: 400px;
-  color: #12121A;
+  color: #12121a;
   padding-left: 5px;
   vertical-align: middle;
 }
@@ -664,10 +599,9 @@ sectionBodyText is for Comments & Documents */
   text-align: left;
 }
 
-
 a {
   font-size: 14px;
   line-height: 20px;
-  color: #1E1ECC;
+  color: #1e1ecc;
 }
 </style>

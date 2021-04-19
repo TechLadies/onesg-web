@@ -125,7 +125,9 @@ export default {
       console.log('test', beneficiary)
 
       try {
-        caseDetail.requests = caseDetail.requests.filter((request) => request.requestTypeId > 0) // -1 = add new type, 0 = not selected
+        caseDetail.requests = caseDetail.requests.filter(
+          (request) => request.requestTypeId > 0
+        ) // -1 = add new type, 0 = not selected
         let body = { ...caseDetail }
 
         // API is now requests so this conversion can be removed
