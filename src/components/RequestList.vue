@@ -73,9 +73,8 @@ export default {
   position: absolute;
   width: 29px;
   height: 20px;
-  left: 70%;
-  top: 150px; /*
-Roboto 14px Regular CAPS */
+  left: 80%;
+  bottom: 95%;
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
