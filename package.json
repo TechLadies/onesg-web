@@ -14,11 +14,8 @@
     "axios": "^0.21.0",
     "bulma": "^0.9.1",
     "dayjs": "^1.9.6",
-<<<<<<< HEAD
     "sweetalert2": "^10.15.6",
-=======
     "express": "^4.17.1",
->>>>>>> develop
     "vite": "^1.0.0-rc.1",
     "vue": "^3.0.0-rc.1",
     "vue-router": "^4.0.0-beta.13",

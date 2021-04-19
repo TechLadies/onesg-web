@@ -9,88 +9,104 @@
           </button>
         </div>
       </div>
-    
+
       <div class="body">
         <div class="details">
           <div class="border">
             <div class="sectionHeading">DETAILS</div>
-              <div class="sectionBody">
-                <!--- table is for the content --->
-                <table id="sectionBodyTable">
-                  <tbody>
-                    <tr>
-                      <td class="columnLeft">P.O.C.</td>
-                      <td class="columnRight">{{caseDetails.poc}}</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Applied On</td>
-                      <td class="columnRight">{{caseDetails.appliedOn}}</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Amount Requested</td>
-                      <td class="columnRight">{{caseDetails.amountRequested}}</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Approval</td>
-                      <td class="columnRight">Yes</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Last updated</td>
-                      <td class="columnRight">{{caseDetails.lastUpdated}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div class="sectionBody">
+              <!--- table is for the content --->
+              <table id="sectionBodyTable">
+                <tbody>
+                  <tr>
+                    <td class="columnLeft">P.O.C.</td>
+                    <td class="columnRight">{{ caseDetails.poc }}</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Applied On</td>
+                    <td class="columnRight">{{ caseDetails.appliedOn }}</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Amount Requested</td>
+                    <td class="columnRight">
+                      {{ caseDetails.amountRequested }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Approval</td>
+                    <td class="columnRight">Yes</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Last updated</td>
+                    <td class="columnRight">{{ caseDetails.lastUpdated }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
           <div class="border">
             <div class="sectionHeading">REFERENCE</div>
-              <div class="sectionBody">
-                <table id="sectionBodyTable">
-                  <tbody>
-                    <tr>
-                      <td class="columnLeft">Name</td>
-                      <td class="columnRight">{{caseDetails.refereeName}}</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Organisation</td>
-                      <td class="columnRight">{{caseDetails.refereeOccupation}}</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Phone</td>
-                      <td class="columnRight">{{caseDetails.refereePhone}}</td>
-                    </tr>
-                    <tr>
-                      <td class="columnLeft">Email</td>
-                      <td class="columnRight">{{caseDetails.refereeEmail}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div class="sectionBody">
+              <table id="sectionBodyTable">
+                <tbody>
+                  <tr>
+                    <td class="columnLeft">Name</td>
+                    <td class="columnRight">{{ caseDetails.refereeName }}</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Organisation</td>
+                    <td class="columnRight">
+                      {{ caseDetails.refereeOccupation }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Phone</td>
+                    <td class="columnRight">{{ caseDetails.refereePhone }}</td>
+                  </tr>
+                  <tr>
+                    <td class="columnLeft">Email</td>
+                    <td class="columnRight">{{ caseDetails.refereeEmail }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
           <div class="referenceStatusBorder">
             <div class="sectionHeadingSub">Reference Status</div>
-              <div id="sectionBodySub">
-                <div class="select">
-                  <select>
-                    <option value={{caseDetails.refereeStatus}}>{{caseDetails.refereeStatus}}</option>
-                    <option v-if="caseDetails.refereeStatus!=='Unverified'">Unverified</option>
-                    <option v-if="caseDetails.refereeStatus!=='Pending'">Pending</option>
-                    <option v-if="caseDetails.refereeStatus!=='Verified'">Verified</option>
-                  </select>
-                </div>
+            <div id="sectionBodySub">
+              <div class="select">
+                <select>
+                  <option value="{{caseDetails.refereeStatus}}">
+                    {{ caseDetails.refereeStatus }}
+                  </option>
+                  <option v-if="caseDetails.refereeStatus !== 'Unverified'">
+                    Unverified
+                  </option>
+                  <option v-if="caseDetails.refereeStatus !== 'Pending'">
+                    Pending
+                  </option>
+                  <option v-if="caseDetails.refereeStatus !== 'Verified'">
+                    Verified
+                  </option>
+                </select>
               </div>
+            </div>
 
-              <div class="sectionHeadingSub">Amount Granted</div>
-                <div id="sectionBodySub">
-                  <div class="placeholder" data-placeholder="S$">
-                    <input class="input" type="text" v-model="caseDetails.amountGranted"/>
-                  </div>
-                </div>
+            <div class="sectionHeadingSub">Amount Granted</div>
+            <div id="sectionBodySub">
+              <div class="placeholder" data-placeholder="S$">
+                <input
+                  class="input"
+                  type="text"
+                  v-model="caseDetails.amountGranted"
+                />
+              </div>
+            </div>
 
-              <div class="sectionHeadingSub">Case Tags</div>
-              <br />
-              <br />
-              <br />
+            <div class="sectionHeadingSub">Case Tags</div>
+            <br />
+            <br />
+            <br />
           </div>
         </div>
         <div class="requests">
@@ -104,12 +120,14 @@
           <div class="commentsBorder">
             <div class="sectionHeading">COMMENTS & DOCUMENTS</div>
             <div class="sectionBodyText">
-              <div v-for='items in caseDetails.comments' :key='items.id'> 
-                
-                <div class="commentsMessage">{{items['message']}}</div>
-                <div class="commentsInfo">{{items.staffs.username}} • {{items.createdAt.replace('T', ' ').substring(0, 16)}}</div>
-                <br>
+              <div v-for="items in caseDetails.comments" :key="items.id">
+                <div class="commentsMessage">{{ items['message'] }}</div>
+                <div class="commentsInfo">
+                  {{ items.staffs.username }} •
+                  {{ items.createdAt.replace('T', ' ').substring(0, 16) }}
                 </div>
+                <br />
+              </div>
             </div>
 
             <br />
@@ -120,50 +138,66 @@
 
     <div class="right">
       <div class="sectionHeading">BENEFICIARY</div>
-        <div id="beneficiaryName">{{caseDetails.beneficiaryName}}</div>
-          <div class="sectionBody">
-            
-              <table id="sectionBodyTable">
-                <tbody>
-                  <tr>
-                    <td class="columnLeft">Phone</td>
-                    <td class="columnRight">{{caseDetails.beneficiaryPhone}}</td>
-                  </tr>
-                  <tr>
-                    <td class="columnLeft">Email</td>
-                    <td class="columnRight">{{caseDetails.beneficiaryEmail}}</td>
-                  </tr>
-                  <tr>
-                    <td class="columnLeft">Occupation</td>
-                    <td class="columnRight">{{caseDetails.beneficiaryOccupation}}</td>
-                  </tr>
-                  <tr>
-                    <td class="columnLeft">Household Income</td>
-                    <td class="columnRight">{{caseDetails.beneficiaryHouseholdIncome}}</td>
-                  </tr>
-                  <tr>
-                    <td class="columnLeft">Household Size</td>
-                    <td class="columnRight">{{caseDetails.beneficiaryHouseholdSize}}</td>
-                  </tr>
-                  <tr>
-                    <td class="columnLeft">Payment Type</td>
-                    <td class="columnRight">{{caseDetails.beneficiaryPaymentType}}</td>
-                  </tr>
-                </tbody>
-              </table>
-          </div>
+      <div id="beneficiaryName">{{ caseDetails.beneficiaryName }}</div>
+      <div class="sectionBody">
+        <table id="sectionBodyTable">
+          <tbody>
+            <tr>
+              <td class="columnLeft">Phone</td>
+              <td class="columnRight">{{ caseDetails.beneficiaryPhone }}</td>
+            </tr>
+            <tr>
+              <td class="columnLeft">Email</td>
+              <td class="columnRight">{{ caseDetails.beneficiaryEmail }}</td>
+            </tr>
+            <tr>
+              <td class="columnLeft">Occupation</td>
+              <td class="columnRight">
+                {{ caseDetails.beneficiaryOccupation }}
+              </td>
+            </tr>
+            <tr>
+              <td class="columnLeft">Household Income</td>
+              <td class="columnRight">
+                {{ caseDetails.beneficiaryHouseholdIncome }}
+              </td>
+            </tr>
+            <tr>
+              <td class="columnLeft">Household Size</td>
+              <td class="columnRight">
+                {{ caseDetails.beneficiaryHouseholdSize }}
+              </td>
+            </tr>
+            <tr>
+              <td class="columnLeft">Payment Type</td>
+              <td class="columnRight">
+                {{ caseDetails.beneficiaryPaymentType }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div class="sectionHeadingWhite">NOTES</div>
-        <div class="sectionBodyWhite">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
-        </div>
+      <div class="sectionBodyWhite">
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry.
+      </div>
       <br />
-      
-      <div class="sectionHeadingWhite">RELATED CASES ({{(caseDetails.relatedCases) ? caseDetails.relatedCases.length : 0 }})</div>
-        <div class="sectionBodyWhite" v-for='relatedCase in caseDetails.relatedCases' :key='relatedCase.id'>
-          <a v-on:click='goToCase(relatedCase)' ># {{relatedCase}}</a><br>
-        </div>
+
+      <div class="sectionHeadingWhite">
+        RELATED CASES ({{
+          caseDetails.relatedCases ? caseDetails.relatedCases.length : 0
+        }})
+      </div>
+      <div
+        class="sectionBodyWhite"
+        v-for="relatedCase in caseDetails.relatedCases"
+        :key="relatedCase.id"
+      >
+        <a v-on:click="goToCase(relatedCase)"># {{ relatedCase }}</a
+        ><br />
+      </div>
     </div>
   </div>
 </template>
@@ -323,12 +357,12 @@ export default {
 
 <style scoped>
 .parent {
-  background: #FAFAFC;
+  background: #fafafc;
   height: 100%;
   display: flex;
 }
 .border {
-  border: 1px solid #E6E6F0;
+  border: 1px solid #e6e6f0;
   border-bottom: none;
   border-left: none;
   border-right: none;
@@ -350,19 +384,18 @@ export default {
   margin: auto;
 }
 .blueButton {
-  background-color: #1E1ECC;
+  background-color: #1e1ecc;
   color: white;
   padding: 8px 17px 8px 17px;
   width: 142px;
   height: 40px;
   font-size: 16px;
-  border: 1px solid #1E1ECC;
+  border: 1px solid #1e1ecc;
   box-sizing: border-box;
   border-radius: 4px;
   float: right;
   margin-right: 10px;
 }
-
 
 /* left and body is for details, reference, reference status, requests and comments */
 .left {
@@ -384,7 +417,7 @@ export default {
   position: relative;
   min-height: calc(100vh);
   width: 70%;
-  border: 1px solid #E6E6F0;
+  border: 1px solid #e6e6f0;
   border-right: none;
   background-color: #fff;
 }
@@ -392,25 +425,25 @@ export default {
 /* placeholder is for "S$" in Amount Granted 
 input is for the input field in Amount Granted */
 .placeholder {
-    position: relative;
-    padding-left: 5px;
-    padding-right: 5px;
+  position: relative;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .placeholder::after {
-    position: absolute;
-    left: 15px;
-    top: 9px;
-    content: attr(data-placeholder);
-    opacity: 0.6;
-    font-size: 16px;
-    line-height: 24px;
+  position: absolute;
+  left: 15px;
+  top: 9px;
+  content: attr(data-placeholder);
+  opacity: 0.6;
+  font-size: 16px;
+  line-height: 24px;
 }
 .input {
   padding-left: 30px;
   font-family: Roboto;
   font-size: 16px;
   line-height: 24px;
-  color: #9292AD;
+  color: #9292ad;
 }
 /* select is for drop down in Reference Status */
 .select {
@@ -423,24 +456,24 @@ input is for the input field in Amount Granted */
 }
 
 /* commentsMessage and commentsInfo in Comments & Documents */
-.commentsMessage{
+.commentsMessage {
   font-family: Roboto;
   font-size: 14px;
   line-height: 20px;
-  color: #12121A;
+  color: #12121a;
 }
 .commentsInfo {
   font-family: Roboto;
   font-size: 12px;
   line-height: 18px;
-  color: #9292AD;
+  color: #9292ad;
 }
 
 .referenceStatusBorder {
   position: relative;
   top: 21px;
   width: 100%;
-  border: 1px solid #E6E6F0;
+  border: 1px solid #e6e6f0;
   border-bottom: none;
   border-left: none;
   border-right: none;
@@ -449,21 +482,19 @@ input is for the input field in Amount Granted */
   position: absolute;
   top: 442px;
   width: 100%;
-  border: 1px solid #E6E6F0;
+  border: 1px solid #e6e6f0;
   border-bottom: none;
   border-left: none;
   border-right: none;
 }
-
 
 /* right is for beneficiary, notes and related cases */
 .right {
   min-height: calc(100vh - 56px);
   width: 25%;
   background-color: #f2f2ff;
-  border-left: 1px solid #E6E6F0;
+  border-left: 1px solid #e6e6f0;
 }
-
 
 /* beneficiaryName is for beneficiary */
 #beneficiaryName {
@@ -478,7 +509,6 @@ input is for the input field in Amount Granted */
   color: #363636;
 }
 
-
 /* sectionHeading is headers that are capitalised, 
 sectionHeadingSub is for Reference Status, Amount Granted and Case Tags 
 sectionHeadingWhite is for Notes and Related Cases*/
@@ -486,7 +516,7 @@ sectionHeadingWhite is for Notes and Related Cases*/
   font-size: 14px;
   text-align: left;
   font-weight: 500;
-  color: #59596E;
+  color: #59596e;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   margin-left: 10px;
@@ -496,7 +526,7 @@ sectionHeadingWhite is for Notes and Related Cases*/
   font-size: 14px;
   text-align: left;
   text-transform: capitalize;
-  color: #12121A;
+  color: #12121a;
   margin-left: 10px;
   padding: 15px 10px 10px 10px;
 }
@@ -511,7 +541,7 @@ sectionHeadingWhite is for Notes and Related Cases*/
   margin: auto;
   vertical-align: middle;
   background-color: white;
-  color: #59596E;
+  color: #59596e;
 }
 .sectionBodyWhite {
   text-align: left;
@@ -520,9 +550,8 @@ sectionHeadingWhite is for Notes and Related Cases*/
   padding-top: 15px;
   width: 80%;
   margin: auto;
-  color: #12121A;
+  color: #12121a;
 }
-
 
 /* sectionBody is to contain the tables in details, reference and beneficiary 
 sectionBodyTable is the table in details, reference and beneficiary 
@@ -549,14 +578,14 @@ sectionBodyText is for Comments & Documents */
 #sectionBodyTable .columnLeft {
   text-align: right;
   width: 50%;
-  color: #59596E;
+  color: #59596e;
   padding-right: 5px;
   vertical-align: middle;
 }
 #sectionBodyTable .columnRight {
   text-align: left;
   width: 400px;
-  color: #12121A;
+  color: #12121a;
   padding-left: 5px;
   vertical-align: middle;
 }
@@ -570,10 +599,9 @@ sectionBodyText is for Comments & Documents */
   text-align: left;
 }
 
-
 a {
   font-size: 14px;
   line-height: 20px;
-  color: #1E1ECC;
+  color: #1e1ecc;
 }
 </style>
