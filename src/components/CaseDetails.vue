@@ -272,6 +272,24 @@
                 </div>
               </div>
 
+              <div>
+                <div class="control has-icons-left">
+                  <bwc-combobox
+                    ref="mcRef"
+                    :tags="mc.tags"
+                    tag-limit="6"
+                    multiple
+                    inpust-class="input"
+                    listid="multiple-ac"
+                    required
+                    :items="ac.items"
+                    v-model="ac.multipleValue"
+                    @search="(e) => autocomplete(e)"
+                    @select="selectTag"
+                  ></bwc-combobox>
+                </div>
+              </div>
+
               <!-- 
               <div class="form">
                 <div class="field is-horizontal">
@@ -315,7 +333,9 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
+import { VITE_API_URL } from '/config.js'
+import axios from 'axios'
 
 export default {
   name: 'Case Details',
@@ -327,6 +347,15 @@ export default {
     const caseDetailSearch = ref()
     const caseDetail = reactive(props.attrs.caseDetail)
     const caseDetails = ref([])
+    const mcRef = ref(null)
+    let tags = []
+    const mc = reactive({
+      tags: [],
+    })
+    const ac = reactive({
+      items: [],
+      multipleValue: [],
+    })
     const debounce = (callback, delay) => {
       let timeout = null
       return (...args) => {
@@ -334,6 +363,27 @@ export default {
         clearTimeout(timeout)
         timeout = setTimeout(next, delay)
       }
+    }
+
+    const autocomplete = (e) => {
+      const result = []
+      const len = tags.length < 8 ? tags.length : 8
+      for (let i = 0; i < len; i++) {
+        if (typeof tags[i] === 'string') {
+          if (tags[i].includes(e.detail)) {
+            result.push(tags[i])
+            console.log(result)
+          } else {
+            console.log(e.det)
+          }
+        }
+      }
+      ac.items = [...result]
+    }
+
+    const selectTag = (e) => {
+      mc.tags = e.detail.filter((item) => item !== '')
+      return e.detail.filter((item) => item !== '')
     }
 
     const autoComplete = debounce(async (e, col, _showForm) => {
@@ -349,12 +399,32 @@ export default {
       console.log(data)
     }, 500)
 
+    const fetchTags = async () => {
+      const res = await axios.get(`${VITE_API_URL}/v1/tags`)
+      const transformedTags = res.data.results.map((item) => {
+        return item.name
+      })
+      tags = transformedTags
+      ac.items = transformedTags
+    }
+
+    onMounted(async () => {
+      fetchTags()
+    })
+
     return {
       autoComplete,
       caseDetailSearch,
       caseDetail,
       caseDetails,
       showModal,
+      autocomplete,
+
+      mcRef,
+      mc,
+      ac,
+      tags,
+      selectTag,
     }
   },
 }

@@ -52,7 +52,6 @@ const template = document.createElement('template')
 template.innerHTML = /*html*/ `
 <input type="text" list="json-datalist" placeholder="search..." autocomplete="off">
 <span class="icon is-small is-left clear-btn" style="pointer-events: all; cursor:pointer;">
-  <i class="fas fa-times"></i>
 </span>
 <datalist id="json-datalist"></datalist>
 `
