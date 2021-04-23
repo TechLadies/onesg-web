@@ -19,13 +19,15 @@
         ><i class="fa fa-plus-square"></i>
         <span><div class="heading">New Case</div></span></a
       >
+    </div>
+    <div>
       <a @click="$router.push('/account')"
         ><i class="fa fa-user-circle-o"></i>
-        <span><div class="heading">Account</div></span></a
+        <span><div class="heading">Accounts</div></span></a
       >
       <a href="#" @click="logout"
         ><i class="fa fa-sign-out"></i>
-        <span><div class="heading">Log Out</div></span></a
+        <span><div class="heading">Logout</div></span></a
       >
     </div>
   </div>
@@ -56,20 +58,25 @@ export default {
 }
 .sidebar {
   height: 100%;
-  width: 80px;
+  min-width: 80px;
   position: fixed;
-  border-radius: 0px 8px 8px 0px;
   z-index: 1;
   top: 0;
   left: 0;
   background-color: #08134b;
-  overflow-x: scroll;
   padding-top: 16px;
+  display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  flex-direction: column;
+  justify-content: space-between;
+
 }
 .sidebar a {
-  padding: 8px 8px 8px 8px;
+  padding: 8px;
   text-decoration: none;
-  font-size: 14 px;
+  font-size: 14px;
   color: white;
   display: block;
   text-align: center;
@@ -80,6 +87,12 @@ export default {
 }
 .active {
   background-color: #4caf50; /* Add an active/current color */
+}
+.heading {
+  text-transform: capitalize;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: normal;
 }
 @media (max-width: 1000px) {
   .heading {

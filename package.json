@@ -14,11 +14,14 @@
     "axios": "^0.21.0",
     "bulma": "^0.9.1",
     "dayjs": "^1.9.6",
+    "sweetalert2": "^10.15.6",
+    "express": "^4.17.1",
+    "vite": "^1.0.0-rc.1",
     "vue": "^3.0.0-rc.1",
     "vue-router": "^4.0.0-beta.13",
-    "vuex": "^4.0.0-beta.4",
-    "vite": "^1.0.0-rc.1",
-    "express": "^4.17.1"
+    "vue-sweetalert2": "^4.2.1",
+    "vue-toastification": "^1.7.11",
+    "vuex": "^4.0.0-beta.4"
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.0-rc.1",
@@ -28,6 +31,5 @@
     "eslint-plugin-vue": "^7.0.0",
     "prettier": "^2.1.2",
     "serve-static": "^1.14.1"
-
   }
 }

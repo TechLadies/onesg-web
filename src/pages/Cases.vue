@@ -20,7 +20,7 @@
         @checked="checked"
         @triggered="triggered"
         @cmd="cmd"
-        @get-case.capture="caseDetails"
+        @get-case.capture="caseDetail"
         style="--bwc-table-height: calc(100vh - 360px); --bwc-table-width: 100%"
         class="sticky-header sticky-column"
       >
@@ -32,7 +32,7 @@
 <script>
 import { VITE_API_URL } from '/config.js'
 // ref when we change value
-import { onMounted, ref, reactive, onUpdated } from 'vue'
+import { onMounted, ref, reactive } from 'vue'
 //axios vue
 import axios from 'axios'
 //formatting for date
@@ -69,6 +69,8 @@ export default {
     const pageSize = ref(10)
     const state = reactive({ url: link.ALL })
     const pageSizeList = [5, 10, 15]
+    const sortKey = ref('caseNumber')
+    const sortDir = ref('desc')
 
     function selectActiveBtn(thisLink) {
       console.log(`thisLink in cases`, thisLink)
@@ -81,7 +83,8 @@ export default {
     const columns = reactive([
       {
         label: 'Beneficiary Name',
-        key: 'beneficiaryName',
+        key: 'beneficiary.name',
+        sort: true,
 
         render: (val, key, row) =>
           `<a class='button' onclick='this.dispatchEvent(new CustomEvent("get-case",
@@ -95,8 +98,9 @@ export default {
       },
       {
         label: 'Applied on',
-        key: 'applicationDate',
+        key: 'appliedOn',
         filter: true,
+        sort: true,
       },
       {
         label: 'POC',
@@ -145,7 +149,10 @@ export default {
       console.log('triggered', e.detail)
       page.value = e.detail.page
       pageSize.value = e.detail.pageSize
+      sortKey.value = e.detail.sortKey
+      sortDir.value = e.detail.sortDir
       console.log(page.value, pageSize.value)
+      fetchData()
       setItems()
     }
     const cmd = (e) => {
@@ -154,21 +161,23 @@ export default {
 
     const fetchData = async () => {
       console.log(`FetchingData`)
-      const res = await axios.get(`${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=5&sort=caseNumber:desc&include_entities=beneficiary,referee,request
+      const res = await axios.get(`${VITE_API_URL}/v1/cases?with_paging=true&page=1&per_page=10&sort=${
+        sortKey.value ? sortKey.value + ':' + sortDir.value : ''
+      }
+&include_entities=beneficiary,referee,request
 ${state.url}`)
+
       const fetchedData = res.data.results
-      console.log(`fetcheddata results`, fetchedData)
 
       // For each data, transform it to the desired shape
       const transformedData = fetchedData.map((data) => {
         console.log(`typeof:referee`, typeof data.referee)
-        console.log('is it null?', data.referee === null)
         if (data.referee === null) {
           return {
             id: data.caseId,
-            beneficiaryName: data.beneficiary.name || '',
+            'beneficiary.name': data.beneficiary.name || '',
             caseNumber: data.caseNumber || '',
-            applicationDate: dayjs(data.appliedOn).format('DD/MM/YYYY'),
+            appliedOn: dayjs(data.appliedOn).format('DD/MM/YYYY'),
             poc: data.pointOfContact || '',
             refereeName: '',
             organisation: '',
@@ -177,9 +186,9 @@ ${state.url}`)
         } else {
           return {
             id: data.caseId,
-            beneficiaryName: data.beneficiary.name || '',
+            'beneficiary.name': data.beneficiary.name || '',
             caseNumber: data.caseNumber || '',
-            applicationDate: dayjs(data.appliedOn).format('DD/MM/YYYY'),
+            appliedOn: dayjs(data.appliedOn).format('DD/MM/YYYY'),
             poc: data.pointOfContact || '',
             refereeName: data.referee.name || '',
             organisation: data.referee.organisation || '',
@@ -197,12 +206,12 @@ ${state.url}`)
       console.log('Dashboard mounted!')
       fetchData()
     })
-    const caseDetails = (e) => {
+    const caseDetail = (e) => {
       router.push('/details/' + e.detail.row.caseNumber)
     }
 
     return {
-      caseDetails,
+      caseDetail,
       page,
       pageSize,
       pageSizeList,
@@ -214,6 +223,8 @@ ${state.url}`)
       triggered,
       cmd,
       selectActiveBtn,
+      sortKey,
+      sortDir,
     }
   },
 }

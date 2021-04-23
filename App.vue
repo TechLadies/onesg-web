@@ -1,7 +1,17 @@
 <template>
   <component :is="$route.meta.layout || 'layout-public'"></component>
 </template>
-
+<style>
+#app {
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  /*margin-top: 60px;*/
+  font-weight: 400;
+}
+</style>
 <script>
 import { useStore } from 'vuex'
 import { onMounted, computed } from 'vue'

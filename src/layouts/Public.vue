@@ -7,7 +7,7 @@
         <div class="singapore">SINGAPORE</div>
       </div>
     </div>
-    <router-view></router-view>
+    <router-view :key="$route.fullPath"></router-view>
   </div>
 </template>
 
@@ -57,7 +57,7 @@
 }
 .sidebar {
   height: 100%;
-  width: 80px;
+  min-width: 80px;
   position: fixed;
   z-index: 1;
   top: 0;
