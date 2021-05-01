@@ -4,6 +4,7 @@ import router from './router.js'
 import store from './store.js'
 import './src/components/bwc-autocomplete.js'
 import './src/components/bwc-table.js'
+import './src/components/bwc-combobox.js'
 
 const app = createApp(App)
 app.use(router)

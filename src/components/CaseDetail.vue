@@ -158,6 +158,15 @@
           <i class="fa fa-plus-square"></i>
           <div class="words">ADD REQUEST</div>
         </button>
+        <hr />
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label label-tags">CASE TAGS</label>
+            <div class="  ">
+              <Multiselect v-model="ac.value" v-bind="ac" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -166,10 +175,14 @@
 <script>
 import { ref, reactive, onMounted, watch, watchEffect } from 'vue'
 import { VITE_API_URL } from '/config.js'
+import axios from 'axios'
+import Multiselect from '@vueform/multiselect'
 
 export default {
   name: 'Case Details',
-
+  components: {
+    Multiselect,
+  },
   setup(context, props) {
     console.log('props', props)
 
@@ -196,6 +209,24 @@ export default {
         description: '',
       },
     ]
+    const ac = reactive({
+      mode: 'tags',
+      value: null,
+      options: [],
+      searchable: true,
+      createTag: true,
+    })
+
+    const fetchTags = async () => {
+      const res = await axios.get(`${VITE_API_URL}/v1/tags`)
+      const transformedTags = res.data.results.map((item) => {
+        return {
+          value: item.id,
+          label: item.name,
+        }
+      })
+      ac.options = transformedTags
+    }
 
     async function fetchRequestTypes() {
       if (loading.value === true) return
@@ -245,6 +276,7 @@ export default {
     )
 
     onMounted(() => {
+      fetchTags()
       fetchRequestTypes()
       if (caseDetail.requests.length === 0) {
         caseDetail.requests = [...initialRequests]
@@ -301,6 +333,23 @@ export default {
       deleteRequest,
       saveRequestType,
       newRequestType,
+      ac,
+    }
+  },
+  async data() {
+    const res = await axios.get(`${VITE_API_URL}/v1/tags`)
+    const transformedTags = res.data.results.map((item) => {
+      return {
+        value: item.id,
+        label: item.name,
+      }
+    })
+    return {
+      mode: 'tags',
+      value: null,
+      options: transformedTags,
+      searchable: true,
+      createTag: true,
     }
   },
 }
@@ -314,4 +363,8 @@ export default {
 .input {
   padding: 5px 8px;
 }
+.label-tags {
+  float: left;
+}
 </style>
+<style src="@vueform/multiselect/themes/default.css"></style>
