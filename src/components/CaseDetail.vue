@@ -163,19 +163,7 @@
           <div class="field-label is-normal">
             <label class="label label-tags">CASE TAGS</label>
             <div class="  ">
-              <bwc-combobox
-                ref="mcRef"
-                :tags="mc.tags"
-                tag-limit="6"
-                multiple
-                inpust-class="input"
-                listid="multiple-ac"
-                required
-                :items="ac.items"
-                v-model="ac.multipleValue"
-                @search="(e) => autocomplete(e)"
-                @select="selectTag"
-              ></bwc-combobox>
+              <Multiselect v-model="ac.value" v-bind="ac" />
             </div>
           </div>
         </div>
@@ -188,10 +176,13 @@
 import { ref, reactive, onMounted, watch, watchEffect } from 'vue'
 import { VITE_API_URL } from '/config.js'
 import axios from 'axios'
+import Multiselect from '@vueform/multiselect'
 
 export default {
   name: 'Case Details',
-
+  components: {
+    Multiselect,
+  },
   setup(context, props) {
     console.log('props', props)
 
@@ -218,43 +209,23 @@ export default {
         description: '',
       },
     ]
-
-    const mcRef = ref(null)
-    let tags = []
-    const mc = reactive({
-      tags: [],
-    })
     const ac = reactive({
-      items: [],
-      multipleValue: [],
+      mode: 'tags',
+      value: null,
+      options: [],
+      searchable: true,
+      createTag: true,
     })
-    const autocomplete = (e) => {
-      const result = []
-      const len = tags.length < 8 ? tags.length : 8
-      for (let i = 0; i < len; i++) {
-        if (typeof tags[i] === 'string') {
-          if (tags[i].includes(e.detail)) {
-            result.push(tags[i])
-            console.log(result)
-          } else {
-            console.log(e.det)
-          }
-        }
-      }
-      ac.items = [...result]
-    }
 
     const fetchTags = async () => {
       const res = await axios.get(`${VITE_API_URL}/v1/tags`)
       const transformedTags = res.data.results.map((item) => {
-        return item.name
+        return {
+          value: item.id,
+          label: item.name,
+        }
       })
-      tags = transformedTags
-      ac.items = transformedTags
-    }
-    const selectTag = (e) => {
-      mc.tags = e.detail.filter((item) => item !== '')
-      return e.detail.filter((item) => item !== '')
+      ac.options = transformedTags
     }
 
     async function fetchRequestTypes() {
@@ -362,12 +333,23 @@ export default {
       deleteRequest,
       saveRequestType,
       newRequestType,
-      autocomplete,
-      mcRef,
-      mc,
       ac,
-      tags,
-      selectTag,
+    }
+  },
+  async data() {
+    const res = await axios.get(`${VITE_API_URL}/v1/tags`)
+    const transformedTags = res.data.results.map((item) => {
+      return {
+        value: item.id,
+        label: item.name,
+      }
+    })
+    return {
+      mode: 'tags',
+      value: null,
+      options: transformedTags,
+      searchable: true,
+      createTag: true,
     }
   },
 }
@@ -385,3 +367,4 @@ export default {
   float: left;
 }
 </style>
+<style src="@vueform/multiselect/themes/default.css"></style>
